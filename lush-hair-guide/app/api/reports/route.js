@@ -2,16 +2,33 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const dataFilePath = path.join(process.cwd(), 'data', 'reports.json');
+const isVercel = process.env.VERCEL || process.env.NOW_BUILDER;
+const localDataPath = path.join(process.cwd(), 'data', 'reports.json');
+const tempDataPath = path.join('/tmp', 'reports.json');
+const dataFilePath = isVercel ? tempDataPath : localDataPath;
 
 // Ensure database file and directory exist
 function ensureDatabase() {
-  const dir = path.dirname(dataFilePath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  if (!fs.existsSync(dataFilePath)) {
-    fs.writeFileSync(dataFilePath, JSON.stringify([]));
+  if (isVercel) {
+    if (!fs.existsSync(tempDataPath)) {
+      if (fs.existsSync(localDataPath)) {
+        try {
+          fs.copyFileSync(localDataPath, tempDataPath);
+        } catch (e) {
+          fs.writeFileSync(tempDataPath, JSON.stringify([]));
+        }
+      } else {
+        fs.writeFileSync(tempDataPath, JSON.stringify([]));
+      }
+    }
+  } else {
+    const dir = path.dirname(dataFilePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    if (!fs.existsSync(dataFilePath)) {
+      fs.writeFileSync(dataFilePath, JSON.stringify([]));
+    }
   }
 }
 
