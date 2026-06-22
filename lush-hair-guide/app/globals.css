@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+  --lush-black: #000000;
+  --lush-white: #ffffff;
+  --lush-gray-light: #f7f7f7;
+  --lush-gray-medium: #e5e5e5;
+  --lush-gray-dark: #222222;
+  --lush-green: #3d6b47;
+  --lush-green-light: #eaf0e9;
+  --lush-gold: #c8a84b;
+  --lush-gold-light: #fdf6e3;
+  --lush-red: #c0392b;
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-lush: 2px solid var(--lush-black);
+}
+
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: #000000;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--lush-white);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--lush-black);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lush-gray-dark);
+}
+
+/* Layout Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Stark LUSH Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+
+.sub-title {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Cards & Containers (LUSH Stark style) */
+.lush-card {
+  background: #ffffff;
+  border: 2px solid #000000;
+  padding: 24px;
+  transition: var(--transition-smooth);
+  box-shadow: 6px 6px 0px #000000;
+}
+.lush-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #000000;
+}
+
+/* Buttons (LUSH Stark style) */
+.lush-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #000000;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+.lush-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 #000000;
+}
+.lush-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.lush-btn-secondary {
+  background: #ffffff;
+  color: #000000;
+}
+.lush-btn-secondary:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Tab Active Styles */
+.tab-btn {
+  padding: 12px 20px;
+  border: none;
+  background: none;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition-smooth);
+  color: #666;
+}
+.tab-btn.active {
+  color: var(--lush-black);
+  border-bottom: 3px solid var(--lush-black);
+  font-weight: 800;
+}
+
+/* Interactive elements */
+.quiz-option {
+  border: 1px solid #e5e5e5;
+  padding: 16px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+}
+.quiz-option:hover {
+  border-color: #000000;
+  background: #f7f7f7;
+}
+.quiz-option.selected {
+  border: 2px solid #000000;
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Tag style */
+.lush-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--lush-black);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.lush-tag.green {
+  background-color: var(--lush-green-light);
+  color: var(--lush-green);
+  border-color: var(--lush-green);
+}
+.lush-tag.gold {
+  background-color: var(--lush-gold-light);
+  color: #8a6a00;
+  border-color: var(--lush-gold);
+}
+.lush-tag.dark {
+  background-color: var(--lush-black);
+  color: var(--lush-white);
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* Custom UI Layouts */
+.header {
+  border-bottom: var(--border-lush);
+  padding: 20px 0;
+  background: var(--lush-white);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.footer {
+  border-top: var(--border-lush);
+  padding: 40px 0;
+  background: var(--lush-black);
+  color: var(--lush-white);
+  margin-top: 60px;
+}

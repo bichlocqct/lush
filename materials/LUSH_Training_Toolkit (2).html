@@ -1,0 +1,2326 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUSH — Bộ Công Cụ Đào Tạo Nhân Viên Mới</title>
+<style>
+
+
+  :root {
+    --lush-black: #1a1a1a;
+    --lush-white: #fafaf7;
+    --lush-green: #3d6b47;
+    --lush-green-light: #6a9e6f;
+    --lush-green-pale: #e8f0e9;
+    --lush-gold: #c8a84b;
+    --lush-gold-pale: #fdf6e3;
+    --lush-red: #c0392b;
+    --lush-blue: #1e3a5f;
+    --lush-blue-pale: #eaf0f8;
+    --lush-gray: #f4f4f0;
+    --lush-border: #d8d8d0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--lush-white);
+    color: var(--lush-black);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ─── PRINT ─── */
+  @media print {
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    body { font-size: 11px; font-family: Arial, Helvetica, sans-serif; }
+    .section { break-inside: avoid; }
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    background: var(--lush-black);
+    color: var(--lush-white);
+    padding: 60px 50px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: var(--lush-green);
+    border-radius: 50%;
+    opacity: 0.15;
+  }
+  .cover::after {
+    content: '';
+    position: absolute; bottom: -40px; left: 100px;
+    width: 200px; height: 200px;
+    background: var(--lush-gold);
+    border-radius: 50%;
+    opacity: 0.10;
+  }
+  .cover-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--lush-gold);
+    margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 8px;
+  }
+  .cover h1 span { color: var(--lush-green-light); }
+  .cover-sub {
+    font-size: 15px;
+    font-weight: 400;
+    opacity: 0.75;
+    margin-bottom: 40px;
+  }
+  .cover-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pill {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 6px 16px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── NAV / TOC ─── */
+  .toc {
+    background: var(--lush-green-pale);
+    border-left: 4px solid var(--lush-green);
+    padding: 28px 36px;
+    margin: 0;
+  }
+  .toc h2 {
+    font-size: 18px;
+    color: var(--lush-green);
+    margin-bottom: 16px;
+  }
+  .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 24px; }
+  .toc-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500;
+    color: var(--lush-green);
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(61,107,71,0.25);
+  }
+  .toc-num {
+    background: var(--lush-green);
+    color: white;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ─── SECTION WRAPPER ─── */
+  .wrapper { padding: 0 40px; }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 28px 0 16px;
+    border-bottom: 2px solid var(--lush-black);
+    margin-bottom: 20px;
+  }
+  .section-badge {
+    background: var(--lush-black);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+  }
+  .section-badge.green { background: var(--lush-green); }
+  .section-badge.gold { background: var(--lush-gold); color: var(--lush-black); }
+  .section-badge.blue { background: var(--lush-blue); }
+  .section-badge.red { background: var(--lush-red); }
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .section-emoji { font-size: 28px; }
+
+  /* ─── CARDS ─── */
+  .cards { display: grid; gap: 12px; }
+  .cards-2 { grid-template-columns: 1fr 1fr; }
+  .cards-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cards-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--lush-gray);
+    border-radius: 10px;
+    padding: 16px 18px;
+    border: 1px solid var(--lush-border);
+  }
+  .card.green-card { background: var(--lush-green-pale); border-color: var(--lush-green-light); }
+  .card.gold-card { background: var(--lush-gold-pale); border-color: var(--lush-gold); }
+  .card.blue-card { background: var(--lush-blue-pale); border-color: #9ab0cc; }
+  .card.dark-card { background: var(--lush-black); color: white; border-color: var(--lush-black); }
+  .card.white-card { background: white; border-color: var(--lush-border); }
+
+  .card-icon { font-size: 22px; margin-bottom: 6px; }
+  .card-title {
+    font-size: 13px; font-weight: 700;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .card-title.green { color: var(--lush-green); }
+  .card-title.gold { color: var(--lush-gold); }
+  .card-title.blue { color: var(--lush-blue); }
+  .card p { font-size: 12px; line-height: 1.55; color: #444; }
+  .card.dark-card p { color: rgba(255,255,255,0.8); }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--lush-border);
+    font-size: 12.5px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 18px; height: 18px;
+    border: 2px solid var(--lush-green);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .check-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .tag-must { background: #fde8e8; color: var(--lush-red); }
+  .tag-day1 { background: #e8f5e9; color: var(--lush-green); }
+  .tag-day2 { background: #e3f2fd; color: var(--lush-blue); }
+  .tag-day3 { background: var(--lush-gold-pale); color: #8a6a00; }
+  .tag-week1 { background: #f3e5f5; color: #6a1b9a; }
+
+  /* ─── STEPS ─── */
+  .steps { position: relative; }
+  .step {
+    display: flex; gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--lush-border);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    background: var(--lush-black);
+    color: white;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-num.green { background: var(--lush-green); }
+  .step-num.gold { background: var(--lush-gold); color: var(--lush-black); }
+  .step-content { flex: 1; }
+  .step-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .step-title span { color: var(--lush-green); }
+  .step-detail { font-size: 12px; color: #555; }
+  .step-quote {
+    margin-top: 6px;
+    background: var(--lush-green-pale);
+    border-left: 3px solid var(--lush-green);
+    padding: 6px 10px;
+    font-size: 12px;
+    font-style: normal; color: var(--lush-green);
+    color: var(--lush-green);
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ─── TABLE ─── */
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+  th {
+    background: var(--lush-black);
+    color: white;
+    padding: 9px 12px;
+    font-size: 11px;
+    text-align: left;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--lush-border);
+    font-size: 12px;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: var(--lush-gray); }
+  td strong { color: var(--lush-green); }
+  td em { color: #777; font-style: normal; font-size: 11px; }
+
+  /* ─── TIMELINE ─── */
+  .timeline { position: relative; padding-left: 0; }
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 80px 14px 1fr;
+    gap: 0 12px;
+    align-items: start;
+    margin-bottom: 0;
+  }
+  .tl-time {
+    text-align: right;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--lush-green);
+    padding-top: 12px;
+  }
+  .tl-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .tl-dot {
+    width: 14px; height: 14px;
+    background: var(--lush-green);
+    border-radius: 50%;
+    border: 2px solid var(--lush-white);
+    outline: 2px solid var(--lush-green);
+    flex-shrink: 0;
+    margin-top: 13px;
+  }
+  .tl-connector {
+    width: 2px;
+    flex: 1;
+    background: var(--lush-border);
+    min-height: 20px;
+  }
+  .tl-box {
+    background: white;
+    border: 1px solid var(--lush-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 6px 0 6px 0;
+  }
+  .tl-box-title { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+  .tl-box-items { font-size: 11.5px; color: #555; }
+  .tl-box-items li { list-style: none; padding: 1px 0; }
+  .tl-box-items li::before { content: '→ '; color: var(--lush-green); font-weight: 700; }
+  .tl-box.highlight { background: var(--lush-green-pale); border-color: var(--lush-green); }
+  .tl-box.highlight .tl-box-title { color: var(--lush-green); }
+
+  /* ─── PRODUCT GRID ─── */
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .product-card {
+    border: 1px solid var(--lush-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+  }
+  .product-header {
+    background: var(--lush-green);
+    color: white;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .product-header.gold-h { background: var(--lush-gold); color: var(--lush-black); }
+  .product-header.blue-h { background: var(--lush-blue); }
+  .product-header.dark-h { background: #2c2c2c; }
+  .product-body { padding: 10px 12px; }
+  .product-name { font-weight: 700; font-size: 12px; color: var(--lush-black); margin: 4px 0 2px; }
+  .product-desc { font-size: 11px; color: #666; line-height: 1.4; }
+  .product-tip {
+    background: var(--lush-gold-pale);
+    border-top: 1px solid var(--lush-border);
+    padding: 6px 12px;
+    font-size: 10.5px;
+    color: #7a6000;
+  }
+  .product-tip::before { content: '💡 '; }
+
+  /* ─── ALERT / CALLOUT ─── */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .callout.warning { background: #fff8e1; border-left: 4px solid var(--lush-gold); }
+  .callout.success { background: var(--lush-green-pale); border-left: 4px solid var(--lush-green); }
+  .callout.info { background: var(--lush-blue-pale); border-left: 4px solid var(--lush-blue); }
+  .callout.danger { background: #fde8e8; border-left: 4px solid var(--lush-red); }
+  .callout-icon { font-size: 20px; flex-shrink: 0; }
+  .callout-text { font-size: 12.5px; line-height: 1.55; }
+  .callout-text strong { display: block; margin-bottom: 3px; font-size: 13px; }
+
+  /* ─── DIVIDER ─── */
+  .divider { height: 1px; background: var(--lush-border); margin: 24px 0; }
+  .divider.thick { height: 3px; background: var(--lush-black); margin: 32px 0; }
+
+  /* ─── SPACER ─── */
+  .spacer-sm { height: 12px; }
+  .spacer { height: 20px; }
+  .spacer-lg { height: 32px; }
+
+  /* ─── SCORE CARD ─── */
+  .score-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .score-item { text-align: center; }
+  .score-circle {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--lush-border);
+    margin: 0 auto 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #aaa;
+  }
+  .score-label { font-size: 10px; color: #777; text-align: center; line-height: 1.3; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--lush-black);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    margin-top: 40px;
+  }
+  footer strong { color: white; }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight-box {
+    background: var(--lush-black);
+    color: white;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 12px 0;
+  }
+  .highlight-box h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: var(--lush-gold);
+  }
+  .highlight-box ul { padding-left: 0; list-style: none; }
+  .highlight-box li {
+    padding: 5px 0;
+    font-size: 12.5px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex; gap: 8px;
+  }
+  .highlight-box li::before { content: '✓'; color: var(--lush-green-light); font-weight: 700; }
+
+  /* ─── TAG BADGES ─── */
+  .badge-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .badge {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--lush-gray);
+    border: 1px solid var(--lush-border);
+    color: #555;
+  }
+  .badge.green { background: var(--lush-green-pale); color: var(--lush-green); border-color: var(--lush-green-light); }
+  .badge.gold { background: var(--lush-gold-pale); color: #7a5a00; border-color: var(--lush-gold); }
+  .badge.blue { background: var(--lush-blue-pale); color: var(--lush-blue); border-color: #9ab0cc; }
+  .badge.red { background: #fde8e8; color: var(--lush-red); border-color: #e8a0a0; }
+
+  /* ─── MINI HEADER ─── */
+  .mini-header {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--lush-green);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--lush-green-light);
+  }
+
+  /* ─── ROLE PLAY SCENARIO ─── */
+  .scenario {
+    background: #f9f9f6;
+    border: 1px solid var(--lush-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  .scenario-header {
+    background: var(--lush-blue);
+    color: white;
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .scenario-body { padding: 12px 14px; }
+  .dialogue { margin: 5px 0; font-size: 12px; line-height: 1.5; }
+  .dialogue .who { font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .dialogue.customer .who { color: var(--lush-blue); }
+  .dialogue.staff .who { color: var(--lush-green); }
+  .dialogue .said { color: #333; }
+
+  /* ─── SELF-RATING ─── */
+  .rate-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--lush-border);
+    font-size: 12px;
+  }
+  .rate-label { flex: 1; }
+  .rate-boxes { display: flex; gap: 4px; }
+  .rate-box {
+    width: 22px; height: 22px;
+    border: 1.5px solid var(--lush-border);
+    border-radius: 3px;
+    font-size: 9px;
+    display: flex; align-items: center; justify-content: center;
+    color: #bbb;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- COVER -->
+<!-- ══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-label">Tài Liệu Thực Chiến · Dành Cho Nhân Viên Mới</div>
+  <h1>BỘ CÔNG CỤ<br><span>ĐÀO TẠO LUSH</span></h1>
+  <div class="cover-sub">Từ ngày đầu tiên → Tự tin tư vấn & vận hành cửa hàng</div>
+  <div class="cover-pills">
+    <span class="pill">🌿 Triết lý & Thương hiệu</span>
+    <span class="pill">✂️ Hair Care</span>
+    <span class="pill">🛁 Body Care</span>
+    <span class="pill">🌸 Fragrance</span>
+    <span class="pill">🎯 9 Bước Bán Hàng</span>
+    <span class="pill">✅ Checklist Vận Hành</span>
+    <span class="pill">📋 Tự Đánh Giá</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TOC -->
+<!-- ══════════════════════════════════════════ -->
+<div class="toc">
+  <h2>Mục lục tài liệu</h2>
+  <div class="toc-grid">
+    <div class="toc-item"><div class="toc-num">1</div> DNA của LUSH — Cần biết ngay</div>
+    <div class="toc-item"><div class="toc-num">2</div> Lộ trình 7 ngày thực chiến</div>
+    <div class="toc-item"><div class="toc-num">3</div> Checklist từng ngày</div>
+    <div class="toc-item"><div class="toc-num">4</div> Bản đồ sản phẩm nhanh</div>
+    <div class="toc-item"><div class="toc-num">5</div> 9 Bước bán hàng + kịch bản</div>
+    <div class="toc-item"><div class="toc-num">6</div> 4 Kiểu khách & cách xử lý</div>
+    <div class="toc-item"><div class="toc-num">7</div> Quy trình tư vấn "Vòng tròn"</div>
+    <div class="toc-item"><div class="toc-num">8</div> Checklist vận hành cửa hàng</div>
+    <div class="toc-item"><div class="toc-num">9</div> Phiếu tự đánh giá hàng ngày</div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 1: DNA LUSH -->
+<!-- ══════════════════════════════════════════ -->
+<div class="section-header">
+  <span class="section-emoji">🌿</span>
+  <div class="section-badge green">Phần 1</div>
+  <div class="section-title">DNA của LUSH — Hiểu trước, bán sau</div>
+</div>
+
+<div class="callout success">
+  <div class="callout-icon">💡</div>
+  <div class="callout-text">
+    <strong>Tại sao phải học DNA trước?</strong>
+    Khách hàng LUSH không mua mỹ phẩm — họ mua vào một triết lý sống. Khi bạn hiểu và yêu thương hiệu, bạn không cần "bán" nữa, bạn chỉ cần chia sẻ.
+  </div>
+</div>
+
+<div class="spacer-sm"></div>
+
+<div class="mini-header">7 Giá trị cốt lõi — Thuộc lòng trong ngày đầu</div>
+<div class="cards cards-3">
+  <div class="card green-card">
+    <div class="card-icon">🐰</div>
+    <div class="card-title green">Không thử nghiệm động vật</div>
+    <p>100% anti-animal testing. Logo thỏ chiến đấu = LUSH đang tích cực đấu tranh, không chỉ phản đối.</p>
+  </div>
+  <div class="card green-card">
+    <div class="card-icon">🥦</div>
+    <div class="card-title green">Nguyên liệu tươi & hữu cơ</div>
+    <p>Trái cây, rau củ tươi — dùng càng sớm càng tốt. "Use by" thay vì "Expiry date".</p>
+  </div>
+  <div class="card green-card">
+    <div class="card-icon">🧪</div>
+    <div class="card-title green">Ít/không chất bảo quản</div>
+    <p>Mỹ phẩm tươi & tự bảo quản. Sản phẩm được gửi trong vài ngày sau sản xuất.</p>
+  </div>
+  <div class="card green-card">
+    <div class="card-icon">🖐️</div>
+    <div class="card-title green">Làm thủ công</div>
+    <p>Người hạnh phúc tạo ra sản phẩm hạnh phúc. Mỗi sản phẩm được nặn/làm bằng tay.</p>
+  </div>
+  <div class="card green-card">
+    <div class="card-icon">♻️</div>
+    <div class="card-title green">Không/ít bao bì</div>
+    <p>Dòng Naked (không bao bì). Vòng tuần hoàn: trả 5 hũ → đổi 1 mặt nạ tươi miễn phí.</p>
+  </div>
+  <div class="card green-card">
+    <div class="card-icon">💚</div>
+    <div class="card-title green">Charity Pot</div>
+    <p>100% doanh thu Charity Pot → từ thiện. Chiến dịch quyên góp cho môi trường & động vật.</p>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+<div class="highlight-box">
+  <h3>"We Believe" — Câu nói cốt lõi của LUSH</h3>
+  <ul>
+    <li>Trái cây và rau củ quả tươi hữu cơ mang lại giá trị thật cho da và tóc</li>
+    <li>Không thử nghiệm trên động vật — và chúng tôi muốn cả ngành cùng quan điểm</li>
+    <li>"Tươi" & "Hữu cơ" sẽ mang giá trị thật chứ không phải để quảng cáo</li>
+    <li>Quyền được mắc lỗi, mất mát và bắt đầu lại</li>
+    <li>Giá trị tích cực, lắng nghe khách hàng</li>
+    <li>Quyền tự do hòa nhập và phát triển</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 2: LỘ TRÌNH 7 NGÀY -->
+<!-- ══════════════════════════════════════════ -->
+<div class="divider thick"></div>
+<div class="page-break"></div>
+
+<div class="section-header">
+  <span class="section-emoji">🗓️</span>
+  <div class="section-badge gold">Phần 2</div>
+  <div class="section-title">Lộ Trình 7 Ngày Thực Chiến</div>
+</div>
+
+<div class="callout warning">
+  <div class="callout-icon">⚡</div>
+  <div class="callout-text">
+    <strong>Nguyên tắc: Học ngay tại cửa hàng, không học trên giấy</strong>
+    Mỗi buổi học lý thuyết không quá 30 phút. Phần còn lại: cầm sản phẩm, demo, quan sát, thực hành.
+  </div>
+</div>
+
+<div class="spacer-sm"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:70px">Ngày</th>
+      <th style="width:140px">Trọng tâm</th>
+      <th>Buổi sáng (mở cửa hàng)</th>
+      <th>Buổi chiều (giờ cao điểm)</th>
+      <th style="width:140px">Bài tập cuối ngày</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Ngày 1</strong><br><em>Nạp nền</em></td>
+      <td><strong>DNA & Triết lý</strong></td>
+      <td>Đọc "We Believe" + 7 giá trị cốt lõi. Tham quan cửa hàng, nhận diện từng khu vực sản phẩm.</td>
+      <td>Cầm từng sản phẩm, ngửi mùi, đọc nhãn. Học phân biệt Fresh mask vs Regular mask.</td>
+      <td>Giải thích "Tại sao LUSH khác biệt?" bằng lời của mình — không nhìn tài liệu.</td>
+    </tr>
+    <tr>
+      <td><strong>Ngày 2</strong><br><em>Hair Care cơ bản</em></td>
+      <td><strong>Hair Care Routine</strong></td>
+      <td>Học nhận diện da đầu (khô/hỗn hợp/dầu) + độ xốp tóc (cao/TB/thấp). Học bảng "What does what?" cho tóc.</td>
+      <td>Cầm từng sản phẩm tóc: ngửi, đọc thành phần. Thử demo dầu gội vs shampoo bar. Quan sát đồng nghiệp tư vấn.</td>
+      <td>Chọn 3 sản phẩm Hair Care yêu thích, viết: thành phần nổi bật + phù hợp cho tóc/da đầu nào?</td>
+    </tr>
+    <tr>
+      <td><strong>Ngày 3</strong><br><em>Body Care</em></td>
+      <td><strong>Body Care Routine</strong></td>
+      <td>Học 3 dòng Body Care: Tắm bồn (Bath Bomb, Bubble Bar, Fun) / Shower / Body Lotion & Massage Bar.</td>
+      <td>Demo Bath Bomb — cầm lên, kể chuyện, giải thích hiệu ứng bồn tắm. Thử massage bar trên tay. Thực hành demo shower gel.</td>
+      <td>Viết 5 câu "chuyện kể" về sản phẩm Body Care yêu thích nhất hôm nay.</td>
+    </tr>
+    <tr>
+      <td><strong>Ngày 4</strong><br><em>Fragrance</em></td>
+      <td><strong>Nước Hoa & Body Spray</strong></td>
+      <td>Học 4 nhóm mùi hương: Citrus / Floral / Gourmand / Gỗ. Tập nhận diện mùi bằng que thử và trên da.</td>
+      <td>Thực hành tư vấn nước hoa: dùng 3 cách tiếp cận (Thành phần / Cảm xúc / Câu chuyện). Thử Fragrance Reading với đồng nghiệp.</td>
+      <td>Tập reset khứu giác đúng cách. Viết 1 "câu chuyện" cho 3 mùi nước hoa bằng lời của mình.</td>
+    </tr>
+    <tr>
+      <td><strong>Ngày 5</strong><br><em>Bán hàng</em></td>
+      <td><strong>9 Bước + Tiếp cận KH</strong></td>
+      <td>Học và nhớ 9 bước. Phân biệt 4 kiểu khách: Analytical / Expressives / Driver / Friend.</td>
+      <td>Roleplay 9 bước với đồng nghiệp. Đổi vai 3 lần, mỗi lần nhận 1 feedback.</td>
+      <td>Tự ghi lại: Bước nào mình tự tin nhất? Bước nào cần luyện thêm?</td>
+    </tr>
+    <tr>
+      <td><strong>Ngày 6</strong><br><em>Thực chiến có kèm</em></td>
+      <td><strong>Đứng bán dưới sự giám sát</strong></td>
+      <td>Tự tiếp cận khách hàng — người kèm đứng gần nhưng không can thiệp.</td>
+      <td>Xử lý ít nhất 3 khách hàng đến khi chốt sale. Ghi lại các tình huống khó.</td>
+      <td>Review với leader: 1 điểm mạnh + 1 điểm cần cải thiện.</td>
+    </tr>
+    <tr>
+      <td><strong>Ngày 7</strong><br><em>Độc lập</em></td>
+      <td><strong>Tự lập hoàn toàn</strong></td>
+      <td>Mở cửa hàng cùng team. Tự thực hiện checklist vận hành buổi sáng.</td>
+      <td>Bán hàng độc lập. Leader chỉ quan sát từ xa.</td>
+      <td>Điền phiếu tự đánh giá. Đặt mục tiêu cho tuần tiếp theo.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 3: CHECKLIST TỪNG NGÀY -->
+<!-- ══════════════════════════════════════════ -->
+<div class="divider thick"></div>
+<div class="page-break"></div>
+
+<div class="section-header">
+  <span class="section-emoji">✅</span>
+  <div class="section-badge">Phần 3</div>
+  <div class="section-title">Checklist Đào Tạo — Theo Dõi Tiến Độ</div>
+</div>
+
+<div class="two-col">
+<div>
+  <div class="mini-header">🌱 Ngày 1–2: Nền tảng thương hiệu</div>
+  <ul class="checklist">
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Thuộc 7 giá trị cốt lõi của LUSH</li>
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Giải thích được triết lý "Fresh & Self Preserving"</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day1">Ngày 1</span>Biết cách đọc nhãn "Use by" và giải thích cho khách</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day1">Ngày 1</span>Phân biệt được Mặt nạ Tươi vs Mặt nạ Thông thường</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day1">Ngày 1</span>Biết Eco Program: 5 hũ đổi 1 mặt nạ tươi miễn phí</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day2">Ngày 2</span>Giải thích được Charity Pot và cách dùng tiền</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day2">Ngày 2</span>Nhận diện được 4 nhóm nguyên liệu (What does what?)</li>
+  </ul>
+</div>
+<div>
+  <div class="mini-header">💚 Ngày 3–5: Sản phẩm 3 dòng trọng tâm</div>
+  <ul class="checklist">
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Demo được ít nhất 4 sản phẩm Hair Care (dầu gội, dầu xả, shampoo bar, treatment)</li>
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Demo được ít nhất 4 sản phẩm Body Care (Bath Bomb, Shower Gel, lotion, massage bar)</li>
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Tư vấn được ít nhất 2–3 mùi Fragrance theo nhóm (Citrus / Floral / Gourmand / Gỗ)</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day2">Ngày 3</span>Nhận diện được da đầu khô / hỗn hợp / dầu và gợi ý đúng dầu gội</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day2">Ngày 3</span>Giải thích được khác biệt Shampoo Bar vs Dầu gội thường (không bao bì, ~80 lần gội)</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day3">Ngày 4</span>Phân biệt Bath Bomb, Bubble Bar, Fun và biết cách demo Bath Bomb với khách mới</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day3">Ngày 5</span>Biết 4 nhóm mùi hương, gợi ý được ít nhất 2 mùi perfume/body spray theo sở thích khách</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Thực hiện được Fragrance Reading với bộ thẻ cảm xúc 5 bước</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Đã thử ít nhất 8 sản phẩm trên chính cơ thể mình để tư vấn bằng cảm nhận thật</li>
+  </ul>
+</div>
+</div>
+
+<div class="spacer"></div>
+
+<div class="two-col">
+<div>
+  <div class="mini-header">🎯 Ngày 5–6: Kỹ năng bán hàng</div>
+  <ul class="checklist">
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Thuộc và thực hiện đủ 9 bước bán hàng</li>
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Nhận diện được 4 kiểu khách hàng</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Áp dụng quy trình Demo 6 bước với khách thật</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Biết dùng mô hình RASA khi lắng nghe khách</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Thực hành Upsell / Link-sell / Cross-sell</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Biết giới thiệu sản phẩm add-on tại quầy tính tiền</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Xử lý được tình huống khách do dự không mua</li>
+  </ul>
+</div>
+<div>
+  <div class="mini-header">🏪 Vận hành cửa hàng</div>
+  <ul class="checklist">
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Biết quy trình mở cửa hàng buổi sáng</li>
+    <li><div class="check-box"></div><span class="check-tag tag-must">Bắt buộc</span>Biết vệ sinh khu vực demo và trưng bày</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day1">Ngày 1</span>Biết vị trí từng dòng sản phẩm trong cửa hàng</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day2">Ngày 2</span>Biết cách trưng bày sản phẩm và kiểm tra tươi mới</li>
+    <li><div class="check-box"></div><span class="check-tag tag-day3">Ngày 3</span>Biết quy trình đóng cửa hàng buổi tối</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Biết quy trình nhận hàng và kiểm tra lô mới</li>
+    <li><div class="check-box"></div><span class="check-tag tag-week1">Tuần 1</span>Biết xử lý sản phẩm gần hết hạn sử dụng</li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 4: BẢN ĐỒ SẢN PHẨM -->
+<!-- ══════════════════════════════════════════ -->
+<div class="divider thick"></div>
+
+<div class="section-header">
+  <span class="section-emoji">🗺️</span>
+  <div class="section-badge green">Phần 4</div>
+  <div class="section-title">Bản Đồ Sản Phẩm Theo Routine</div>
+</div>
+
+<div class="callout info">
+  <div class="callout-icon">📌</div>
+  <div class="callout-text">
+    <strong>Học theo Routine — không học theo danh sách:</strong>
+    Mỗi dòng sản phẩm được sắp xếp theo đúng thứ tự sử dụng. Học xong một routine = biết bán theo flow tự nhiên, link-sell dễ dàng hơn.
+  </div>
+</div>
+
+<div class="spacer-sm"></div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- HAIR CARE ROUTINE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div style="background:#8b5e3c;color:white;padding:10px 18px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:10px;margin-top:8px">
+  <span style="font-size:20px">✂️</span>
+  <span style="font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase">HAIR CARE ROUTINE</span>
+  <span style="opacity:.7;font-size:11px;margin-left:4px">Treatment → Shampoo → Conditioner → Dưỡng → Tạo kiểu</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(5,1fr);border:1px solid #c8926a;border-top:none;border-radius:0 0 8px 8px;overflow:hidden;margin-bottom:18px">
+
+  <!-- STEP 1: TREATMENT -->
+  <div style="border-right:1px solid #e8d0b8;background:#fdf5ee">
+    <div style="background:#6b4030;color:white;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 1<br>TREATMENT</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#6b4030;text-transform:uppercase;margin-bottom:6px">Scalp Treatment</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Roots</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Bạc hà + mật ong + hoa hồng. Dùng trước gội. Kích thích tuần hoàn máu da đầu, ngừa rụng tóc.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">SuperBalm</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:8px">Dưỡng da đầu chuyên sâu. Cho tóc rất khô/hư tổn.</div>
+      <div style="font-size:9px;font-weight:700;color:#6b4030;text-transform:uppercase;margin-bottom:6px">Hair Treatment</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">H'suan Wen Hua</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Trứng + dừa + thanh quế. Phục hồi protein. Tóc hư tổn nặng, nhuộm.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">New Hot Oil Treatment</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Bạc hà + thanh quế. Làm nóng trong lòng bàn tay trước khi dùng. Tóc xốp/hư.</div>
+    </div>
+    <div style="background:#fdf0e0;border-top:1px solid #e8d0b8;padding:6px 10px;font-size:10px;color:#7a4800">💡 Dùng 1–2 lần/tuần trước khi gội</div>
+  </div>
+
+  <!-- STEP 2: SHAMPOO -->
+  <div style="border-right:1px solid #e8d0b8;background:#fdf5ee">
+    <div style="background:#8b5e3c;color:white;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 2<br>SHAMPOO</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#8b5e3c;text-transform:uppercase;margin-bottom:6px">Dầu Gội</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Fairly Traded Honey</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Mật ong Zambian. Dưỡng ẩm + tạo phồng. All hair types. Bestseller #1.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Rehab Salty</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Muối biển + bạc hà + đu đủ. Làm sạch sâu. Da đầu dầu/bết.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Big / Squeak</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Muối biển, rong biển. Tạo phồng + sảng khoái. Tóc mềm yếu.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Soak and Float</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:8px">Cây bách xù gai. Cân bằng da đầu, giảm gàu.</div>
+      <div style="font-size:9px;font-weight:700;color:#8b5e3c;text-transform:uppercase;margin-bottom:6px">Shampoo Bar</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Honey I Washed My Hair</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Mật ong + hoa hồng. Mềm mượt. Bestseller bar.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">New Shampoo Bar</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Thanh quế + bạc hà. SCI không sulfate. Tóc hư/xốp.</div>
+    </div>
+    <div style="background:#fdf0e0;border-top:1px solid #e8d0b8;padding:6px 10px;font-size:10px;color:#7a4800">💡 Bar = ~80 lần gội, không bao bì</div>
+  </div>
+
+  <!-- STEP 3: CONDITIONER -->
+  <div style="border-right:1px solid #e8d0b8;background:#fdf5ee">
+    <div style="background:#a07050;color:white;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 3<br>CONDITIONER</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#a07050;text-transform:uppercase;margin-bottom:6px">Dầu Xả</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">American Cream</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Dâu + mật ong + hoa oải hương. Mềm mượt. All types. Bestseller.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Candy Rain</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Hạt brazil + dừa + tonka. Dưỡng sâu. Tóc khô/hư/uốn.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Veganese</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Argar agar + oải hương. Nhẹ. Tóc mỏng/bình thường.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Retread</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Dưa gang + olive + đậu nành. Phục hồi. Tóc hư tổn.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Power</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Hạnh nhân + syrup lá phong + khoai lang. Dày tóc, tóc mỏng yếu.</div>
+    </div>
+    <div style="background:#fdf0e0;border-top:1px solid #e8d0b8;padding:6px 10px;font-size:10px;color:#7a4800">💡 Chỉ dùng từ giữa đến đuôi tóc</div>
+  </div>
+
+  <!-- STEP 4: DƯỠNG -->
+  <div style="border-right:1px solid #e8d0b8;background:#fdf5ee">
+    <div style="background:#c8926a;color:white;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 4<br>DƯỠNG & PHỤC HỒI</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#c8926a;text-transform:uppercase;margin-bottom:6px">Hair & Scalp Oil</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Renee's Shea Soufflé</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Bơ shea. Dưỡng da đầu + dưỡng tóc. Dùng trên tóc ướt.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Avocado / Balance</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:8px">Bơ quả bơ. Cấp ẩm vật lý sợi tóc. Tóc khô/hư xốp.</div>
+      <div style="font-size:9px;font-weight:700;color:#c8926a;text-transform:uppercase;margin-bottom:6px">Leave-in</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Superhero Milk</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Liquid trong L.O.C method. Dưỡng nhẹ, để tóc ướt.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Curl Power</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Cream trong L.O.C. Định hình lọn xoăn tự nhiên.</div>
+    </div>
+    <div style="background:#fdf0e0;border-top:1px solid #e8d0b8;padding:6px 10px;font-size:10px;color:#7a4800">💡 LOC = Liquid→Oil→Cream cho tóc xoăn</div>
+  </div>
+
+  <!-- STEP 5: TẠO KIỂU -->
+  <div style="background:#fdf5ee">
+    <div style="background:#e8b48a;color:#3a1a00;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 5<br>TẠO KIỂU</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#e8b48a;text-transform:uppercase;margin-bottom:6px">Styling</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Wig</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Hoa hồng + sáp nhật bản. Giữ nếp mềm. Mọi kiểu tóc.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Dirty Styling</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Đàn hương + bơ illipe. Giữ nếp cứng. Tóc ngắn/tạo kiểu mạnh.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Infra Wig</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Olive + cam Brazil + vani. Style & tone màu tóc.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Sea Spray</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Bưởi + neroli. Beach waves tự nhiên. Tóc dày.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Goddess</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Yến mạch + olive + dừa + jojoba. Giữ nếp mềm, bóng.</div>
+    </div>
+    <div style="background:#fdf0e0;border-top:1px solid #e8d0b8;padding:6px 10px;font-size:10px;color:#7a4800">💡 Henna = nhuộm tự nhiên, giới thiệu riêng</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- BODY CARE ROUTINE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div style="background:#5d4e8a;color:white;padding:10px 18px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:10px;margin-top:4px">
+  <span style="font-size:20px">🛁</span>
+  <span style="font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase">BODY CARE ROUTINE</span>
+  <span style="opacity:.7;font-size:11px;margin-left:4px">Shower/Soap/Jelly → Scrub → Body Conditioner/Butter → Body Lotion</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #9b8ac4;border-top:none;border-radius:0 0 8px 8px;overflow:hidden;margin-bottom:18px">
+
+  <!-- STEP 1: SHOWER / SOAP / JELLY -->
+  <div style="border-right:1px solid #d0c8e8;background:#f5f2fc">
+    <div style="background:#3d2b6e;color:white;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 1<br>SHOWER / SOAP / JELLY</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#3d2b6e;text-transform:uppercase;margin-bottom:6px">Shower Gel</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Dirty Springwash</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:5px">Bạc hà + cỏ xạ hương + muối biển. Fresh/Woody. Unisex.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Honey I Washed the Kids</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:5px">Mật ong + cam Brazil. Gourmand. Tất cả loại da.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Happy Hippy</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:5px">Bưởi + bergamot. Citrus. Sảng khoái buổi sáng.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:5px">The Olive Branch</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:8px">Olive + hoa cam. Dịu nhẹ. Da nhạy cảm.</div>
+      <div style="font-size:9px;font-weight:700;color:#3d2b6e;text-transform:uppercase;margin-bottom:6px">Shower Jelly</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Twilight</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:5px">Oải hương + tonka + ngọc lan tây. Thư giãn. Bestseller.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:5px">Whoosh / Conga</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:8px">Citrus/Berry. Sảng khoái. Demo cắt đôi cho khách xem.</div>
+      <div style="font-size:9px;font-weight:700;color:#3d2b6e;text-transform:uppercase;margin-bottom:6px">Soap / Shower Bomb</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Sleepy / Comfort Zone</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Soap thủ công. Thư giãn / Berry-Citrus. Da nhạy cảm.</div>
+    </div>
+    <div style="background:#ece8f8;border-top:1px solid #d0c8e8;padding:6px 10px;font-size:10px;color:#3d2b6e">💡 Jelly = demo độc đáo, khách rất tò mò</div>
+  </div>
+
+  <!-- STEP 2: SCRUB -->
+  <div style="border-right:1px solid #d0c8e8;background:#f5f2fc">
+    <div style="background:#5d4e8a;color:white;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 2<br>SCRUB</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#5d4e8a;text-transform:uppercase;margin-bottom:6px">Body Scrub</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Scrubee</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Bơ cacao + mật ong + hạnh nhân + vỏ dừa. Scrub + dưỡng trong 1. Bestseller.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Buffy</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Hạnh nhân nghiền + bơ hạt mỡ + bơ cacao. Không cần dưỡng thêm sau.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Magic Crystal</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Muối + bạc hà + hương thảo. Fresh/Woody. Tẩy + sảng khoái.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Rub Rub Rub</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Muối + chanh + hoa nhài + mimosa. Floral nhẹ nhàng.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Orange</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Muối + nước ép cam + tinh dầu cam. Citrus tươi mát.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Sticky Date</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Đường + syrup chà là + bơ cacao + đàn hương. Gourmand ấm áp.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Co Mingle</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Thân tre + hạt tagua + oải hương. Nhẹ nhàng. Da nhạy cảm.</div>
+    </div>
+    <div style="background:#ece8f8;border-top:1px solid #d0c8e8;padding:6px 10px;font-size:10px;color:#3d2b6e">💡 Dùng 2–3 lần/tuần. Tẩy xong dưỡng thẩm thấu tốt hơn</div>
+  </div>
+
+  <!-- STEP 3: BODY CONDITIONER / BUTTER -->
+  <div style="border-right:1px solid #d0c8e8;background:#f5f2fc">
+    <div style="background:#7b68b0;color:white;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 3<br>BODY CONDITIONER / BUTTER</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#7b68b0;text-transform:uppercase;margin-bottom:6px">Body Conditioner — Dùng khi tắm</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Ro's Argan</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Bơ cacao + dầu hạnh nhân + argan + hoa hồng. Mềm mịn. Bestseller body conditioner.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Tingle</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:8px">Bơ cacao + murumuru + jojoba. Mát lạnh nhẹ. Cảm giác tươi tắn.</div>
+      <div style="font-size:9px;font-weight:700;color:#7b68b0;text-transform:uppercase;margin-bottom:6px">Body Butter / Massage Bar</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Each Peach Massage Bar</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Bơ cacao + bơ shea + tinh dầu cam. Tan chảy khi chạm da. Không rửa lại.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Coconut Drench Massage Bar</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Dừa + bơ shea + tonka. Dưỡng ẩm + massage. Mùi ngọt nhẹ.</div>
+    </div>
+    <div style="background:#ece8f8;border-top:1px solid #d0c8e8;padding:6px 10px;font-size:10px;color:#3d2b6e">💡 Body conditioner dùng trong buồng tắm, không cần rửa sạch hoàn toàn</div>
+  </div>
+
+  <!-- STEP 4: BODY LOTION -->
+  <div style="background:#f5f2fc">
+    <div style="background:#9b8ac4;color:white;padding:7px 10px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.5px">BƯỚC 4<br>BODY LOTION</div>
+    <div style="padding:10px 10px 0">
+      <div style="font-size:9px;font-weight:700;color:#9b8ac4;text-transform:uppercase;margin-bottom:6px">Body Lotion</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Dream Cream</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Yến mạch + hoa hồng + olive + cúc la mã. Da nhạy cảm/chàm. Bestseller #1.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Sleepy Body Lotion</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Oải hương + tonka + yến mạch. Thư giãn. Dùng trước ngủ. Bestseller.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Karma Kream</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Bơ cacao hữu cơ + patchouli + cam Brazil. Mùi đặc trưng LUSH nhất.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Silky Lingerie Dusting Powder</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:8px">Bột ngô + đất sét cao lanh. Da mềm mịn như lụa. Mùi hoa nhài nhẹ.</div>
+      <div style="font-size:9px;font-weight:700;color:#9b8ac4;text-transform:uppercase;margin-bottom:6px">Thêm vào đơn hàng</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">T'eo Deodorant</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:6px">Baking soda + tram trà + sả. Không bao bì. Khử mùi tự nhiên.</div>
+      <div style="font-weight:700;font-size:11px;margin-bottom:1px">Silky Lingerie / Foot Care</div>
+      <div style="font-size:10.5px;color:#666;margin-bottom:10px">Chăm sóc chuyên biệt theo nhu cầu.</div>
+    </div>
+    <div style="background:#ece8f8;border-top:1px solid #d0c8e8;padding:6px 10px;font-size:10px;color:#3d2b6e">💡 Dùng sau tắm khi da còn ẩm để thẩm thấu tốt nhất</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- FRAGRANCE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div style="background:#1e3a5f;color:white;padding:10px 18px;border-radius:8px 8px 0 0;display:flex;align-items:center;gap:10px;margin-top:4px">
+  <span style="font-size:20px">🌸</span>
+  <span style="font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase">FRAGRANCE — Nước Hoa & Body Spray</span>
+  <span style="opacity:.7;font-size:11px;margin-left:4px">4 nhóm mùi · Perfume · Body Spray · Fragrance Reading</span>
+</div>
+
+<div style="border:1px solid #9ab0cc;border-top:none;border-radius:0 0 8px 8px;overflow:hidden;margin-bottom:18px">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #9ab0cc">
+    <!-- CITRUS -->
+    <div style="border-right:1px solid #9ab0cc;padding:12px 12px 10px">
+      <div style="font-weight:700;font-size:12px;color:#c68000;margin-bottom:6px">🍊 CITRUS</div>
+      <div style="font-size:10.5px;color:#555;margin-bottom:4px"><strong>Thành phần:</strong> Cam, chanh, quýt, bưởi, bergamot</div>
+      <div style="font-size:10.5px;color:#555;margin-bottom:2px"><strong>Perfume:</strong> Sun, Pansy, Junk</div>
+      <div style="font-size:10.5px;color:#555"><strong>Body Spray:</strong> Happy Hippy, Big, Zesty, Avocado Co Wash</div>
+    </div>
+    <!-- FLORAL -->
+    <div style="border-right:1px solid #9ab0cc;padding:12px 12px 10px">
+      <div style="font-weight:700;font-size:12px;color:#ad1457;margin-bottom:6px">🌹 FLORAL</div>
+      <div style="font-size:10.5px;color:#555;margin-bottom:4px"><strong>Thành phần:</strong> Hoa hồng, ngọc lan tây, hoa cam</div>
+      <div style="font-size:10.5px;color:#555;margin-bottom:2px"><strong>Perfume:</strong> Lust, Rose Jam, The Bee's Knees</div>
+      <div style="font-size:10.5px;color:#555"><strong>Body Spray:</strong> Rose Jam, Twilight, Sakura, Pink Bomb</div>
+    </div>
+    <!-- GOURMAND -->
+    <div style="border-right:1px solid #9ab0cc;padding:12px 12px 10px">
+      <div style="font-weight:700;font-size:12px;color:#5d3a00;margin-bottom:6px">🍫 GOURMAND</div>
+      <div style="font-size:10.5px;color:#555;margin-bottom:4px"><strong>Thành phần:</strong> Vanilla, tonka, cacao, hạnh nhân</div>
+      <div style="font-size:10.5px;color:#555;margin-bottom:2px"><strong>Perfume:</strong> Vanillary, American Cream, Chelsea Morning</div>
+      <div style="font-size:10.5px;color:#555"><strong>Body Spray:</strong> Sticky Dates, The Comforter, Let the Good Time Roll</div>
+    </div>
+    <!-- GỖ -->
+    <div style="padding:12px 12px 10px">
+      <div style="font-weight:700;font-size:12px;color:#2e7d32;margin-bottom:6px">🪵 GỖ / WOODY</div>
+      <div style="font-size:10.5px;color:#555;margin-bottom:4px"><strong>Thành phần:</strong> Đàn hương, patchouli, tuyết tùng, cỏ hương bài</div>
+      <div style="font-size:10.5px;color:#555;margin-bottom:2px"><strong>Perfume:</strong> Karma, Dirty, Shade, Lord of Misrule, Breath of God</div>
+      <div style="font-size:10.5px;color:#555"><strong>Body Spray:</strong> Dirty, Salty, Guardian of the Forest, 4:20pm</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;background:#eaf0f8">
+    <div style="border-right:1px solid #9ab0cc;padding:10px 14px">
+      <div style="font-weight:700;font-size:11px;color:#1e3a5f;margin-bottom:6px">Tips tư vấn nước hoa</div>
+      <div style="font-size:11px;color:#444;line-height:1.6">
+        • Giới thiệu tối đa <strong>2–3 mùi</strong> mỗi lần, không quá tải<br>
+        • Dùng <strong>que thử mùi trước</strong>, rồi mới thử trên da<br>
+        • Da là "thành phần cuối cùng" — mùi trên da khác hũ<br>
+        • Reset khứu giác: ngửi cổ tay/khuỷu tay chính mình<br>
+        • Hạn chế xịt quá gần — có thể ố màu áo trắng<br>
+        • Cân nhắc giới thiệu cả <strong>Perfume + Body Spray</strong> cùng nhóm
+      </div>
+    </div>
+    <div style="padding:10px 14px">
+      <div style="font-weight:700;font-size:11px;color:#1e3a5f;margin-bottom:6px">3 Cách tiếp cận nước hoa</div>
+      <div style="font-size:11px;color:#444;line-height:1.7">
+        ① <strong>Thành phần:</strong> Nguyên liệu cao cấp, tự tìm nguồn, sản xuất tại xưởng riêng<br>
+        ② <strong>Cảm xúc:</strong> Liên kết với ký ức, cảm giác — "mùi này gợi nhớ..."<br>
+        ③ <strong>Câu chuyện:</strong> Mỗi nước hoa có tên + câu chuyện độc đáo riêng
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- LỘ TRÌNH THEO NGÀY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+
+<div class="divider thick"></div>
+<div class="page-break"></div>
+
+<div class="section-header">
+  <span class="section-emoji">🗓️</span>
+  <div class="section-badge gold">Phần 2</div>
+  <div class="section-title">Lộ Trình Đào Tạo — Chi Tiết Từng Ngày</div>
+</div>
+
+<div class="callout warning">
+  <div class="callout-icon">⚡</div>
+  <div class="callout-text">
+    <strong>Nguyên tắc vàng: Học tại cửa hàng, không học trên giấy</strong>
+    Lý thuyết tối đa 30 phút/buổi. Phần còn lại: cầm sản phẩm thật, demo, quan sát, roleplay ngay tại cửa hàng.
+  </div>
+</div>
+
+<div class="spacer-sm"></div>
+
+<!-- NGÀY 1 -->
+<div style="border:1px solid var(--lush-border);border-radius:8px;overflow:hidden;margin-bottom:12px">
+  <div style="background:#1a1a1a;color:white;padding:10px 18px;display:flex;align-items:center;gap:12px">
+    <div style="background:var(--lush-gold);color:#1a1a1a;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">1</div>
+    <div>
+      <div style="font-weight:700;font-size:14px">Ngày 1 — DNA & Thương Hiệu LUSH</div>
+      <div style="font-size:11px;opacity:.75">Mục tiêu: Hiểu và yêu thương hiệu trước khi bán</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-green);text-transform:uppercase;margin-bottom:8px">Buổi Sáng — Lý Thuyết (≤30 phút)</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Đọc và thảo luận "We Believe" — 8 giá trị</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">7 Giá trị cốt lõi — mỗi người chọn 1 chia sẻ tại sao</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Fresh &amp; Self Preserving — "Use by" là gì?</li>
+        <li style="font-size:12px;padding:3px 0">Charity Pot — tiền đi về đâu?</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-blue);text-transform:uppercase;margin-bottom:8px">Buổi Chiều — Thực Hành</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Tham quan cửa hàng — nhận diện từng khu vực sản phẩm</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Cầm 10 sản phẩm bất kỳ, đọc nhãn "Use by"</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Học Eco Program: 5 hũ → 1 mặt nạ miễn phí</li>
+        <li style="font-size:12px;padding:3px 0">Quan sát 2–3 ca bán hàng của đồng nghiệp</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;background:var(--lush-gold-pale)">
+      <div style="font-size:10px;font-weight:700;color:#8a6a00;text-transform:uppercase;margin-bottom:8px">Bài Tập Cuối Ngày</div>
+      <div style="font-size:12px;color:#555">Viết 3 câu giải thích <strong>"Tại sao LUSH khác biệt với các thương hiệu khác?"</strong> — không nhìn tài liệu. Nộp cho leader.</div>
+    </div>
+  </div>
+</div>
+
+<!-- NGÀY 2 -->
+<div style="border:1px solid var(--lush-border);border-radius:8px;overflow:hidden;margin-bottom:12px">
+  <div style="background:#3d6b47;color:white;padding:10px 18px;display:flex;align-items:center;gap:12px">
+    <div style="background:white;color:#3d6b47;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">2</div>
+    <div>
+      <div style="font-weight:700;font-size:14px">Ngày 2 — Hair Care Routine</div>
+      <div style="font-size:11px;opacity:.85">Mục tiêu: Nhận diện da đầu + nắm toàn bộ routine tóc</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-green);text-transform:uppercase;margin-bottom:8px">Buổi Sáng — Lý Thuyết (≤30 phút)</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Cấu tạo sợi tóc: biểu bì, lớp vỏ, tủy</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Độ xốp tóc: Cao / Trung bình / Thấp</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">3 loại da đầu: Khô / Hỗn hợp / Dầu</li>
+        <li style="font-size:12px;padding:3px 0">5 bước Routine Tóc — thứ tự sử dụng</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-blue);text-transform:uppercase;margin-bottom:8px">Buổi Chiều — Thực Hành</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Cầm và ngửi lần lượt: Roots → Shampoo → Conditioner → Oil</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Phân biệt Dầu gội vs Shampoo Bar — USP không bao bì</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Demo Fairly Traded Honey + American Cream trên tay</li>
+        <li style="font-size:12px;padding:3px 0">Roleplay: tư vấn cho khách "tóc khô, hư tổn do nhuộm"</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;background:var(--lush-gold-pale)">
+      <div style="font-size:10px;font-weight:700;color:#8a6a00;text-transform:uppercase;margin-bottom:8px">Bài Tập Cuối Ngày</div>
+      <div style="font-size:12px;color:#555">Chọn <strong>3 sản phẩm Hair Care</strong> yêu thích. Viết: thành phần nổi bật + phù hợp cho da đầu/tóc nào + 1 câu bán hàng.</div>
+    </div>
+  </div>
+</div>
+
+<!-- NGÀY 3 -->
+<div style="border:1px solid var(--lush-border);border-radius:8px;overflow:hidden;margin-bottom:12px">
+  <div style="background:#5d4e8a;color:white;padding:10px 18px;display:flex;align-items:center;gap:12px">
+    <div style="background:white;color:#5d4e8a;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">3</div>
+    <div>
+      <div style="font-weight:700;font-size:14px">Ngày 3 — Body Care Routine</div>
+      <div style="font-size:11px;opacity:.85">Mục tiêu: Nắm toàn bộ routine body + demo sản phẩm thật</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-green);text-transform:uppercase;margin-bottom:8px">Buổi Sáng — Lý Thuyết (≤30 phút)</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">4 bước Routine Body — thứ tự sử dụng</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Phân biệt Shower Gel / Jelly / Soap / Bomb</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Body Conditioner vs Body Lotion — khác nhau thế nào?</li>
+        <li style="font-size:12px;padding:3px 0">Lợi ích của việc tẩy tế bào chết body</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-blue);text-transform:uppercase;margin-bottom:8px">Buổi Chiều — Thực Hành</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Demo Shower Jelly: cắt đôi cho khách xem kết cấu</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Demo Scrubee và Rub Rub Rub trên bàn tay</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Demo Massage Bar: tan chảy = WOW MOMENT</li>
+        <li style="font-size:12px;padding:3px 0">Roleplay: tư vấn full routine body cho khách "da khô"</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;background:var(--lush-gold-pale)">
+      <div style="font-size:10px;font-weight:700;color:#8a6a00;text-transform:uppercase;margin-bottom:8px">Bài Tập Cuối Ngày</div>
+      <div style="font-size:12px;color:#555">Viết 1 routine body hoàn chỉnh (4 bước) cho 2 khách hàng khác nhau: <strong>da khô</strong> và <strong>da bình thường thích mùi hương</strong>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- NGÀY 4 -->
+<div style="border:1px solid var(--lush-border);border-radius:8px;overflow:hidden;margin-bottom:12px">
+  <div style="background:#1e3a5f;color:white;padding:10px 18px;display:flex;align-items:center;gap:12px">
+    <div style="background:white;color:#1e3a5f;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">4</div>
+    <div>
+      <div style="font-weight:700;font-size:14px">Ngày 4 — Fragrance</div>
+      <div style="font-size:11px;opacity:.85">Mục tiêu: Nhận diện 4 nhóm mùi + tư vấn bằng cảm xúc</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-green);text-transform:uppercase;margin-bottom:8px">Buổi Sáng — Lý Thuyết (≤30 phút)</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">4 nhóm mùi: Citrus / Floral / Gourmand / Gỗ</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">3 cách tiếp cận: Thành phần / Cảm xúc / Câu chuyện</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Hệ thống khứu giác và tại sao mùi gắn với cảm xúc</li>
+        <li style="font-size:12px;padding:3px 0">Perfume vs Body Spray — khi nào gợi ý cái nào?</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-blue);text-transform:uppercase;margin-bottom:8px">Buổi Chiều — Thực Hành</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Dùng que thử mùi: lần lượt ngửi từng nhóm Citrus→Floral→Gourmand→Gỗ</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Thực hành reset khứu giác bằng da mình</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Thực hành Fragrance Reading 5 bước với đồng nghiệp</li>
+        <li style="font-size:12px;padding:3px 0">Roleplay: tư vấn 2–3 mùi cho khách thích "mùi dễ chịu, không quá nồng"</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;background:var(--lush-gold-pale)">
+      <div style="font-size:10px;font-weight:700;color:#8a6a00;text-transform:uppercase;margin-bottom:8px">Bài Tập Cuối Ngày</div>
+      <div style="font-size:12px;color:#555">Viết "câu chuyện" cho <strong>3 mùi nước hoa</strong> theo 3 cách tiếp cận khác nhau (mỗi mùi 1 cách). Đọc lại cho đồng nghiệp nghe.</div>
+    </div>
+  </div>
+</div>
+
+<!-- NGÀY 5 -->
+<div style="border:1px solid var(--lush-border);border-radius:8px;overflow:hidden;margin-bottom:12px">
+  <div style="background:#c8a84b;color:#1a1a1a;padding:10px 18px;display:flex;align-items:center;gap:12px">
+    <div style="background:#1a1a1a;color:var(--lush-gold);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">5</div>
+    <div>
+      <div style="font-weight:700;font-size:14px">Ngày 5 — 9 Bước Bán Hàng + 4 Kiểu Khách</div>
+      <div style="font-size:11px;opacity:.8">Mục tiêu: Thuộc 9 bước, nhận diện khách, roleplay hoàn chỉnh</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-green);text-transform:uppercase;margin-bottom:8px">Buổi Sáng — Lý Thuyết (≤30 phút)</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">9 Bước Customer Experience — thứ tự và ý nghĩa</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">4 Kiểu khách: Analytical / Expressives / Driver / Friend</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Mô hình RASA khi lắng nghe khách</li>
+        <li style="font-size:12px;padding:3px 0">3 Cách tiếp cận: Service / Demo / Validation</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-blue);text-transform:uppercase;margin-bottom:8px">Buổi Chiều — Thực Hành</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Roleplay 9 bước đủ với đồng nghiệp — đổi vai 3 lần</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Nhận 1 feedback cụ thể sau mỗi lần</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Thực hành Upsell / Link-sell / Cross-sell (R.I.S.E)</li>
+        <li style="font-size:12px;padding:3px 0">Học quy trình quầy tính tiền: add-on, sample, Eco Program</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;background:var(--lush-gold-pale)">
+      <div style="font-size:10px;font-weight:700;color:#8a6a00;text-transform:uppercase;margin-bottom:8px">Bài Tập Cuối Ngày</div>
+      <div style="font-size:12px;color:#555">Tự ghi lại: <strong>Bước nào tự tin nhất? Bước nào cần luyện thêm?</strong> Viết 1 câu bán hàng cho từng bước khó nhất.</div>
+    </div>
+  </div>
+</div>
+
+<!-- NGÀY 6 -->
+<div style="border:1px solid var(--lush-border);border-radius:8px;overflow:hidden;margin-bottom:12px">
+  <div style="background:#2c7a4e;color:white;padding:10px 18px;display:flex;align-items:center;gap:12px">
+    <div style="background:white;color:#2c7a4e;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">6</div>
+    <div>
+      <div style="font-weight:700;font-size:14px">Ngày 6 — Thực Chiến Có Kèm</div>
+      <div style="font-size:11px;opacity:.85">Mục tiêu: Bán hàng thật với khách thật — có người kèm đứng gần</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-green);text-transform:uppercase;margin-bottom:8px">Buổi Sáng</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Hoàn thành checklist mở cửa hàng cùng team</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Tự tiếp cận khách hàng đầu tiên dưới sự quan sát</li>
+        <li style="font-size:12px;padding:3px 0">Người kèm: không can thiệp trừ khi thật sự cần</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-blue);text-transform:uppercase;margin-bottom:8px">Buổi Chiều</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Xử lý ít nhất 3 khách hàng từ chào đến checkout</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Ghi lại 3 tình huống khó gặp trong ngày</li>
+        <li style="font-size:12px;padding:3px 0">Review với leader: 1 điểm mạnh + 1 điểm cần cải thiện</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;background:var(--lush-gold-pale)">
+      <div style="font-size:10px;font-weight:700;color:#8a6a00;text-transform:uppercase;margin-bottom:8px">Bài Tập Cuối Ngày</div>
+      <div style="font-size:12px;color:#555">Điền phiếu tự đánh giá. Đặt <strong>1 mục tiêu cụ thể</strong> cho ngày 7: "Ngày mai tôi sẽ cải thiện [bước X] bằng cách [làm gì cụ thể]."</div>
+    </div>
+  </div>
+</div>
+
+<!-- NGÀY 7 -->
+<div style="border:1px solid var(--lush-border);border-radius:8px;overflow:hidden;margin-bottom:12px">
+  <div style="background:#c0392b;color:white;padding:10px 18px;display:flex;align-items:center;gap:12px">
+    <div style="background:white;color:#c0392b;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0">7</div>
+    <div>
+      <div style="font-weight:700;font-size:14px">Ngày 7 — Tự Lập Hoàn Toàn + Đánh Giá</div>
+      <div style="font-size:11px;opacity:.85">Mục tiêu: Bán độc lập — Leader chỉ quan sát từ xa và đánh giá tốt nghiệp</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-green);text-transform:uppercase;margin-bottom:8px">Buổi Sáng</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Tự hoàn thành checklist mở cửa hàng không cần nhắc</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Bán hàng độc lập hoàn toàn</li>
+        <li style="font-size:12px;padding:3px 0">Leader quan sát từ xa, ghi chép</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;border-right:1px solid var(--lush-border)">
+      <div style="font-size:10px;font-weight:700;color:var(--lush-blue);text-transform:uppercase;margin-bottom:8px">Buổi Chiều — Đánh Giá Tốt Nghiệp</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Leader roleplay "khách khó": hỏi nhiều, ngân sách thấp, do dự</li>
+        <li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">Nhân viên mới thực hiện đủ 9 bước tự nhiên</li>
+        <li style="font-size:12px;padding:3px 0">Đánh giá: Kiến thức sản phẩm / Kỹ năng / Tinh thần LUSH</li>
+      </ul>
+    </div>
+    <div style="padding:12px 16px;background:var(--lush-gold-pale)">
+      <div style="font-size:10px;font-weight:700;color:#8a6a00;text-transform:uppercase;margin-bottom:8px">Kết Thúc Tuần 1</div>
+      <div style="font-size:12px;color:#555">Điền phiếu tự đánh giá tuần. Nộp cho leader. Nhận <strong>mục tiêu tuần 2</strong> và kế hoạch phát triển tiếp theo.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 5: 9 BƯỚC BÁN HÀNG -->
+<!-- ══════════════════════════════════════════ -->
+<div class="divider thick"></div>
+<div class="page-break"></div>
+
+<div class="section-header">
+  <span class="section-emoji">🎯</span>
+  <div class="section-badge blue">Phần 5</div>
+  <div class="section-title">9 Bước Bán Hàng + Kịch Bản Mẫu</div>
+</div>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-num green">1</div>
+    <div class="step-content">
+      <div class="step-title">CHÀO <span>— Tạo ấn tượng đầu tiên</span></div>
+      <div class="step-detail">Mỉm cười, giao tiếp mắt tự nhiên. Không phải "Anh/chị cần tìm gì?" ngay mà cho khách 30 giây làm quen với cửa hàng.</div>
+      <div class="step-quote">"Chào anh/chị! Anh/chị cứ thoải mái tham quan, em ở đây nếu anh/chị cần hỗ trợ nhé ạ!"</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num green">2</div>
+    <div class="step-content">
+      <div class="step-title">TIẾP CẬN <span>— Chọn đúng thời điểm & cách</span></div>
+      <div class="step-detail">3 cách tiếp cận: <strong>(1)</strong> Service — khách đang tìm loại sản phẩm cụ thể. <strong>(2)</strong> Demo — khách nhìn chăm chú vào sản phẩm. <strong>(3)</strong> Validation — chú ý đặc điểm cá nhân của khách.</div>
+      <div class="step-quote">Demo approach: "Anh/chị đang thích sản phẩm này phải không ạ? Đây là Bath Bomb bestseller của bên em, để em thả vào nước cho anh/chị xem nhé!"</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num green">3</div>
+    <div class="step-content">
+      <div class="step-title">ĐẶT CÂU HỎI <span>— Dùng mô hình RASA</span></div>
+      <div class="step-detail"><strong>Receive</strong> (Tiếp nhận) → <strong>Appreciate</strong> (Cảm ơn) → <strong>Summary</strong> (Tổng hợp) → <strong>Ask</strong> (Hỏi thêm). Ưu tiên câu hỏi mở.</div>
+      <div class="step-quote">Câu hỏi mở: "Da anh/chị đang gặp vấn đề gì mà anh/chị muốn cải thiện nhất ạ?"<br>Câu hỏi đóng: "Anh/chị đã sử dụng mặt nạ tươi của Lush bao giờ chưa ạ?"</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num green">4</div>
+    <div class="step-content">
+      <div class="step-title">TRẢI NGHIỆM SẢN PHẨM <span>— Điểm khác biệt của LUSH</span></div>
+      <div class="step-detail">Đây là bước tạo WOW MOMENT. Không chỉ nói — phải để khách cầm, ngửi, thoa lên da. Theo quy trình demo 6 bước.</div>
+      <div class="step-quote">"Để em thoa thử lên tay anh/chị xem nhé. Anh/chị cảm nhận được mùi [tên nguyên liệu] không ạ? Em nhớ lại [kỷ niệm/cảm xúc] khi ngửi mùi này..."</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num green">5</div>
+    <div class="step-content">
+      <div class="step-title">XÁC NHẬN SẢN PHẨM <span>— Dùng quy trình tư vấn "Vòng tròn"</span></div>
+      <div class="step-detail">Kể chuyện (Story) → Đặc điểm (Feature) → Tính năng (Function) → Ưu điểm (Benefit) → Lợi ích cho khách (Advantage) → Kiến thức mỹ phẩm (Knowledge). Đưa ra 2–3 lựa chọn, không quá nhiều.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num green">6</div>
+    <div class="step-content">
+      <div class="step-title">CHỐT SALE <span>— Nhẹ nhàng, không áp lực</span></div>
+      <div class="step-detail">Hỏi xác nhận khi khách đã gật đầu hoặc cầm sản phẩm. Không hỏi "Anh/chị mua không?" mà hỏi hướng đến hành động tiếp theo.</div>
+      <div class="step-quote">"Anh/chị muốn lấy thêm mặt nạ Don't Look at Me hay thử thêm Rosy Cheeks ạ?"</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num gold">7</div>
+    <div class="step-content">
+      <div class="step-title">GIỎ HÀNG <span>— Bán thêm tăng doanh thu (R.I.S.E)</span></div>
+      <div class="step-detail"><strong>R</strong>outine — gợi ý sản phẩm hoàn thiện quy trình. <strong>I</strong>ngredients — bán thêm sản phẩm cùng thành phần. <strong>S</strong>cents — cùng nhóm mùi hương. <strong>E</strong>ffect — cùng mục tiêu của khách.<br><br>3 kỹ thuật: <strong>Upsell</strong> (size lớn hơn) · <strong>Link-sell</strong> (cùng dòng khác mùi) · <strong>Cross-sell</strong> (dòng sản phẩm khác)</div>
+      <div class="step-quote">Cross-sell: "Anh/chị vừa chọn shower gel, em thấy body lotion cùng mùi này dùng sau khi tắm sẽ giữ hương suốt ngày luôn đấy ạ!"</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num gold">8</div>
+    <div class="step-content">
+      <div class="step-title">QUẦY TÍNH TIỀN <span>— Tận dụng đến phút cuối</span></div>
+      <div class="step-detail">4 việc cần làm: <strong>(1)</strong> Bán thêm add-on (Knot wrap, Lokta wrap, phụ kiện). <strong>(2)</strong> Giới thiệu Eco Program (5 hũ → 1 mặt nạ miễn phí). <strong>(3)</strong> Gửi sample nếu có. <strong>(4)</strong> Gợi ý để lại Review Fanpage.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num gold">9</div>
+    <div class="step-content">
+      <div class="step-title">SỰ HÀI LÒNG <span>— Biến khách thành người quảng bá</span></div>
+      <div class="step-detail">2 mục tiêu: Tạo lý do để khách quay lại + Tạo hiệu ứng giới thiệu tích cực. Ghi nhớ tên khách quen — lần sau biết đâu bạn bán nhanh hơn.</div>
+      <div class="step-quote">"Cảm ơn anh/chị nhiều lắm! Lần sau ghé lại em để xem thêm về sản phẩm mới nhé ạ. Mình nhớ dùng thử Don't Look at Me tối nay ạ, da mịn lắm đó!"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 6: 4 KIỂU KHÁCH HÀNG -->
+<!-- ══════════════════════════════════════════ -->
+<div class="divider thick"></div>
+<div class="page-break"></div>
+
+<div class="section-header">
+  <span class="section-emoji">👥</span>
+  <div class="section-badge red">Phần 6</div>
+  <div class="section-title">4 Kiểu Khách Hàng & Cách Tiếp Cận</div>
+</div>
+
+<div class="cards cards-2">
+  <div class="card blue-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="card-title blue">🧐 ANALYTICAL — Thiếu tin tưởng</div>
+        <div class="badge-row"><span class="badge blue">Hướng nội</span><span class="badge blue">Kiên định</span><span class="badge blue">Logic</span></div>
+      </div>
+    </div>
+    <p style="margin-top:8px"><strong>Nhận diện:</strong> Hỏi nhiều về thành phần, đọc nhãn kỹ, chia sẻ kiến thức sản phẩm, muốn thông tin chính xác.</p>
+    <p style="margin-top:6px"><strong>Cách tiếp cận:</strong> Khách quan, chính xác. Tập trung vào thành phần và công dụng cụ thể. Chọn 2–3 thành phần nổi bật để nhấn mạnh. Tạo lòng tin trước khi bán.</p>
+    <div class="step-quote">Đừng nói: "Sản phẩm này tốt lắm!" — Hãy nói: "Ocean Salt có muối biển giúp tẩy TBC vật lý, kết hợp với nước ép chanh để làm sáng da, phù hợp với da dầu vì..."</div>
+  </div>
+
+  <div class="card" style="background:#fdf0fa;border-color:#d4a0c8">
+    <div>
+      <div class="card-title" style="color:#8b2fc9">💃 EXPRESSIVES — Thiếu quyết đoán</div>
+      <div class="badge-row"><span class="badge">Hướng nội</span><span class="badge">Vâng lời</span><span class="badge">Tò mò</span><span class="badge">Thích trải nghiệm</span></div>
+    </div>
+    <p style="margin-top:8px"><strong>Nhận diện:</strong> Đi dạo, quan sát, bị thu hút bởi demo, thích ngôn ngữ cơ thể, chủ động tìm sự trợ giúp từ nhân viên.</p>
+    <p style="margin-top:6px"><strong>Cách tiếp cận:</strong> Tạo lòng tin, hướng dẫn từng bước. Tiếp cận bằng câu hỏi mở. Trải nghiệm sản phẩm tập trung vào cảm xúc. Không đưa quá nhiều lựa chọn.</p>
+    <div class="step-quote" style="background:#fae8f8;border-color:#d4a0c8;color:#6a1a9a">"Mình đang tìm sản phẩm gì vậy anh/chị? Em thấy anh/chị đang thích sản phẩm Don't Look at Me này — để em demo cho anh/chị nhé, mùi rất hay đó ạ!"</div>
+  </div>
+
+  <div class="card" style="background:#fff8e1;border-color:#f0c040">
+    <div>
+      <div class="card-title" style="color:#c67c00">⚡ DRIVER — Quyền lực</div>
+      <div class="badge-row"><span class="badge gold">Hướng ngoại</span><span class="badge gold">Kiên định</span><span class="badge gold">Nhanh</span></div>
+    </div>
+    <p style="margin-top:8px"><strong>Nhận diện:</strong> Vào thẳng, biết mình cần gì, quyết định nhanh, thích được khen ngợi, không cần tư vấn nhiều.</p>
+    <p style="margin-top:6px"><strong>Cách tiếp cận:</strong> Tán thành tích cực. Quyết đoán, hướng ngoại. Gửi sample để họ quay lại. Ghi nhớ tên — lần sau chào bằng tên = thích ngay.</p>
+    <div class="step-quote" style="background:#fff3cd;border-color:#f0c040;color:#856404">"Anh/chị chọn đúng rồi! Đây đang là sản phẩm bestseller của bên em. Để em lấy thêm 1 sample [sản phẩm mới] cho anh/chị thử, lần sau ghé lại kể em nghe công dụng nhé!"</div>
+  </div>
+
+  <div class="card" style="background:#e8f5f0;border-color:#60b08a">
+    <div>
+      <div class="card-title" style="color:#1a7a50">😊 FRIEND — Thân thiện</div>
+      <div class="badge-row"><span class="badge green">Hướng ngoại</span><span class="badge green">Vâng lời</span><span class="badge green">Cởi mở</span></div>
+    </div>
+    <p style="margin-top:8px"><strong>Nhận diện:</strong> Hỏi nhiều không liên quan đến sản phẩm, muốn trò chuyện, chưa có ý định mua, dễ chấp thuận trải nghiệm, quan tâm khuyến mãi.</p>
+    <p style="margin-top:6px"><strong>Cách tiếp cận:</strong> Thân thiện, cởi mở. Tập trung vào cơ hội mua sắm. Giới thiệu bestseller và chương trình khuyến mãi. Đây là khách tiềm năng tương lai — đừng bỏ qua!</p>
+    <div class="step-quote" style="background:#d4eddf;border-color:#60b08a;color:#1a6040">"Ơ anh/chị hay ghé đây lắm mà em chưa kịp giới thiệu! Đây là mặt nạ mới về tuần này của bên em, để em thoa thử cho anh/chị cảm nhận nhé, mùi dễ chịu lắm ạ!"</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 7: QUY TRÌNH TƯ VẤN -->
+<!-- ══════════════════════════════════════════ -->
+<div class="divider thick"></div>
+<div class="page-break"></div>
+
+<div class="section-header">
+  <span class="section-emoji">🔄</span>
+  <div class="section-badge green">Phần 7</div>
+  <div class="section-title">Quy Trình Tư Vấn "Vòng Tròn" & Demo Sản Phẩm</div>
+</div>
+
+<div class="two-col">
+<div>
+  <div class="mini-header">6 Bước Tư Vấn "Vòng Tròn" (cho mỗi sản phẩm)</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num" style="background:#5d4e8a">1</div>
+      <div class="step-content">
+        <div class="step-title">KỂ CHUYỆN</div>
+        <div class="step-detail">Giới thiệu thương hiệu, thổi hồn vào sản phẩm, gọi tên để tạo sự gần gũi. VD: "Cái này tên là Don't Look at Me, nghe buồn cười không?"</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:#3d6b47">2</div>
+      <div class="step-content">
+        <div class="step-title">ĐẶC ĐIỂM NỔI BẬT</div>
+        <div class="step-detail">Giới thiệu "giá trị" sản phẩm — điều khiến nó đặc biệt so với thị trường.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:#1e3a5f">3</div>
+      <div class="step-content">
+        <div class="step-title">TÍNH NĂNG</div>
+        <div class="step-detail">Chi tiết, cụ thể hơn. Thành phần chính và tác dụng của từng thành phần.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:#c8a84b">4</div>
+      <div class="step-content">
+        <div class="step-title">ƯU ĐIỂM</div>
+        <div class="step-detail">Giải thích tại sao các tính năng đó lại quan trọng với khách hàng này cụ thể.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:#c0392b">5</div>
+      <div class="step-content">
+        <div class="step-title">LỢI ÍCH</div>
+        <div class="step-detail">Kết quả cụ thể khách sẽ nhận được. Liên kết với nhu cầu khách đã chia sẻ.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:#2c2c2c">6</div>
+      <div class="step-content">
+        <div class="step-title">KIẾN THỨC MỸ PHẨM</div>
+        <div class="step-detail">Chia sẻ kiến thức thêm để giúp khách hiểu rõ hơn và tạo sự tin tưởng chuyên môn.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="mini-header">6 Bước Demo Sản Phẩm — Quy trình chuẩn</div>
+  <div class="card white-card" style="padding:16px">
+    <div class="step" style="border-bottom:1px solid var(--lush-border)">
+      <div class="step-num green" style="width:26px;height:26px;font-size:12px">1</div>
+      <div class="step-content">
+        <div class="step-title" style="font-size:12px">NGỬI MÙI HƯƠNG</div>
+        <div class="step-detail">Mở sản phẩm, đưa nhẹ cho khách ngửi mùi đầu tiên</div>
+      </div>
+    </div>
+    <div class="step" style="border-bottom:1px solid var(--lush-border)">
+      <div class="step-num green" style="width:26px;height:26px;font-size:12px">2</div>
+      <div class="step-content">
+        <div class="step-title" style="font-size:12px">GỢI Ý THÁO PHỤ KIỆN</div>
+        <div class="step-detail">Nhẫn, đồng hồ — giúp trải nghiệm tốt hơn</div>
+      </div>
+    </div>
+    <div class="step" style="border-bottom:1px solid var(--lush-border)">
+      <div class="step-num green" style="width:26px;height:26px;font-size:12px">3</div>
+      <div class="step-content">
+        <div class="step-title" style="font-size:12px">DEMO SẢN PHẨM</div>
+        <div class="step-detail">Hướng dẫn sử dụng, áp dụng lên da tay của khách</div>
+      </div>
+    </div>
+    <div class="step" style="border-bottom:1px solid var(--lush-border)">
+      <div class="step-num gold" style="width:26px;height:26px;font-size:12px">4</div>
+      <div class="step-content">
+        <div class="step-title" style="font-size:12px">NGỬI LẠI TRÊN DA</div>
+        <div class="step-detail">Mùi hương trên da khác với trong hũ — thường tốt hơn nhiều</div>
+      </div>
+    </div>
+    <div class="step" style="border-bottom:1px solid var(--lush-border)">
+      <div class="step-num gold" style="width:26px;height:26px;font-size:12px">5</div>
+      <div class="step-content">
+        <div class="step-title" style="font-size:12px">RỬA & LÀM KHÔ</div>
+        <div class="step-detail">Rửa sạch tay, dùng khăn giấy thấm khô nhẹ nhàng</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num gold" style="width:26px;height:26px;font-size:12px">6</div>
+      <div class="step-content">
+        <div class="step-title" style="font-size:12px">NGỬI HƯƠNG LƯU LẠI</div>
+        <div class="step-detail">Để khách cảm nhận hương thơm còn lưu trên da — điểm kết thúc ấn tượng</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer-sm"></div>
+
+  <div class="mini-header">Tiếp cận bằng Cảm xúc (Scent selling)</div>
+  <div class="cards cards-3" style="gap:8px">
+    <div class="card" style="text-align:center;padding:14px 8px">
+      <div style="font-size:24px">🍫</div>
+      <div style="font-weight:700;font-size:11px;margin-top:4px">MÓN ĂN</div>
+      <div style="font-size:11px;color:#666">"Mùi này giống y hệt bánh..."</div>
+    </div>
+    <div class="card" style="text-align:center;padding:14px 8px">
+      <div style="font-size:24px">🎞️</div>
+      <div style="font-weight:700;font-size:11px;margin-top:4px">KÍ ỨC</div>
+      <div style="font-size:11px;color:#666">"Mùi này em nhớ lại..."</div>
+    </div>
+    <div class="card" style="text-align:center;padding:14px 8px">
+      <div style="font-size:24px">😌</div>
+      <div style="font-weight:700;font-size:11px;margin-top:4px">CẢM GIÁC</div>
+      <div style="font-size:11px;color:#666">"Ngửi mùi này em cảm thấy..."</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 8: VẬN HÀNH CỬA HÀNG -->
+<!-- ══════════════════════════════════════════ -->
+<div class="divider thick"></div>
+<div class="page-break"></div>
+
+<div class="section-header">
+  <span class="section-emoji">🏪</span>
+  <div class="section-badge">Phần 8</div>
+  <div class="section-title">Checklist Vận Hành Cửa Hàng Hàng Ngày</div>
+</div>
+
+<div class="two-col">
+<div>
+  <div class="mini-header">🌅 Checklist Buổi Sáng — Mở Cửa Hàng</div>
+  <ul class="checklist">
+    <li><div class="check-box"></div>Kiểm tra vệ sinh tổng thể cửa hàng</li>
+    <li><div class="check-box"></div>Kiểm tra và bổ sung sản phẩm trưng bày trên kệ</li>
+    <li><div class="check-box"></div>Kiểm tra ngày "Use by" các sản phẩm tươi (Fresh masks, scrubs)</li>
+    <li><div class="check-box"></div>Vệ sinh khu vực demo: bàn, bát, khăn giấy, nước</li>
+    <li><div class="check-box"></div>Kiểm tra tester sản phẩm — vệ sinh, còn đủ lượng không</li>
+    <li><div class="check-box"></div>Sắp xếp túi, giấy gói, hộp quà tại quầy thu ngân</li>
+    <li><div class="check-box"></div>Kiểm tra nhiệt độ bảo quản khu vực mặt nạ tươi</li>
+    <li><div class="check-box"></div>Bổ sung Knot wrap, Lokta wrap khu vực quầy tính tiền</li>
+    <li><div class="check-box"></div>Kiểm tra thông tin khuyến mãi/sản phẩm mới trong ngày</li>
+    <li><div class="check-box"></div>Họp ngắn team (nếu có) — nắm bắt target & tin tức mới</li>
+  </ul>
+</div>
+
+<div>
+  <div class="mini-header">🌆 Checklist Buổi Tối — Đóng Cửa Hàng</div>
+  <ul class="checklist">
+    <li><div class="check-box"></div>Thu dọn và vệ sinh toàn bộ khu vực demo</li>
+    <li><div class="check-box"></div>Kiểm tra lại sản phẩm sắp hết để báo cáo nhập thêm</li>
+    <li><div class="check-box"></div>Ghi chép các sản phẩm khách hỏi nhiều nhưng hết hàng</li>
+    <li><div class="check-box"></div>Bổ sung lại sản phẩm trưng bày từ kho</li>
+    <li><div class="check-box"></div>Vệ sinh quầy thu ngân và khu vực checkout</li>
+    <li><div class="check-box"></div>Thu gom mẫu thử đã sử dụng, sắp xếp gọn gàng</li>
+    <li><div class="check-box"></div>Kiểm tra hũ trả về Eco Program — đếm và lưu lại</li>
+    <li><div class="check-box"></div>Tổng kết doanh thu ca (nếu được phân công)</li>
+    <li><div class="check-box"></div>Ghi lại 3 tình huống khách hàng đáng học hỏi trong ngày</li>
+    <li><div class="check-box"></div>Báo cáo với leader nếu có vấn đề phát sinh</li>
+  </ul>
+</div>
+</div>
+
+<div class="spacer"></div>
+
+<div class="mini-header">⚠️ Những điều TUYỆT ĐỐI không làm tại cửa hàng LUSH</div>
+<div class="cards cards-2">
+  <div class="card" style="background:#fde8e8;border-color:#e8a0a0">
+    <div class="card-title" style="color:var(--lush-red)">❌ Về bán hàng</div>
+    <p>• Không nói "Anh/chị cần gì?" ngay khi khách vừa bước vào<br>
+    • Không đưa ra quá nhiều lựa chọn cùng lúc (dễ khiến khách bối rối)<br>
+    • Không áp đặt hoặc tiêu cực về da của khách<br>
+    • Không bỏ mặc khách khi họ đang cần tư vấn<br>
+    • Không nói xấu so sánh với thương hiệu khác</p>
+  </div>
+  <div class="card" style="background:#fde8e8;border-color:#e8a0a0">
+    <div class="card-title" style="color:var(--lush-red)">❌ Về sản phẩm & vận hành</div>
+    <p>• Không bán sản phẩm đã qua "Use by date"<br>
+    • Không để tester bẩn hoặc hết<br>
+    • Không giải thích sai thành phần hoặc công dụng<br>
+    • Không bỏ qua bước demo khi khách chưa biết sản phẩm<br>
+    • Không để khách ra về mà không gợi ý thêm ít nhất 1 sản phẩm</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- PHẦN 9: TỰ ĐÁNH GIÁ -->
+<!-- ══════════════════════════════════════════ -->
+<div class="divider thick"></div>
+<div class="page-break"></div>
+
+<div class="section-header">
+  <span class="section-emoji">📋</span>
+  <div class="section-badge gold">Phần 9</div>
+  <div class="section-title">Phiếu Tự Đánh Giá Hàng Ngày</div>
+</div>
+
+<div class="callout success">
+  <div class="callout-icon">🌱</div>
+  <div class="callout-text">Điền vào cuối mỗi ca làm việc. Nộp cho leader khi kết thúc tuần đầu tiên. <strong>Mục đích là tự nhận biết điểm mạnh/yếu của bản thân — không phải để bị chấm điểm.</strong></div>
+</div>
+
+<div class="spacer-sm"></div>
+
+<div style="border:2px solid var(--lush-black);border-radius:10px;padding:20px 24px">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px">
+    <div>
+      <div style="font-size:10px;color:#888;margin-bottom:4px">Tên nhân viên</div>
+      <div style="border-bottom:1px solid #ccc;height:24px"></div>
+    </div>
+    <div>
+      <div style="font-size:10px;color:#888;margin-bottom:4px">Ngày làm việc</div>
+      <div style="border-bottom:1px solid #ccc;height:24px"></div>
+    </div>
+    <div>
+      <div style="font-size:10px;color:#888;margin-bottom:4px">Tuần thứ</div>
+      <div style="border-bottom:1px solid #ccc;height:24px"></div>
+    </div>
+  </div>
+
+  <div class="mini-header">Tự đánh giá — Khoanh tròn: 1 (Chưa làm được) → 5 (Tự tin)</div>
+
+  <div class="rate-row">
+    <div class="rate-label"><strong>Kiến thức thương hiệu:</strong> Giải thích được "We Believe" và triết lý LUSH</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Kiến thức Hair Care:</strong> Nhận diện da đầu, tư vấn đúng dầu gội/xả/treatment</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Kiến thức Body Care:</strong> Demo Bath Bomb, Shower Gel, Massage Bar, Body Lotion</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Kiến thức Fragrance:</strong> Phân biệt 4 nhóm mùi, tư vấn theo cảm xúc & câu chuyện</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Bước 1–3:</strong> Chào, tiếp cận, đặt câu hỏi mở tự nhiên</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Bước 4–5:</strong> Demo sản phẩm đúng quy trình 6 bước</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Bước 6–7:</strong> Chốt sale và giỏ hàng / bán thêm (R.I.S.E)</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Bước 8–9:</strong> Quầy tính tiền và tạo lý do quay lại</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Nhận diện khách hàng:</strong> Biết điều chỉnh cách tiếp cận theo kiểu khách</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+  <div class="rate-row">
+    <div class="rate-label"><strong>Vận hành:</strong> Biết checklist mở/đóng cửa, vệ sinh khu demo</div>
+    <div class="rate-boxes">
+      <div class="rate-box">1</div><div class="rate-box">2</div><div class="rate-box">3</div><div class="rate-box">4</div><div class="rate-box">5</div>
+    </div>
+  </div>
+
+  <div style="height:16px"></div>
+  <div class="mini-header">Ghi chép cuối ngày</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;color:var(--lush-green)">🌟 Hôm nay tôi làm tốt nhất điều gì?</div>
+      <div style="border:1px solid var(--lush-border);border-radius:6px;height:70px;padding:8px;font-size:11px;color:#aaa">Viết vào đây...</div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;color:var(--lush-red)">🔧 Điều tôi muốn cải thiện ngày mai?</div>
+      <div style="border:1px solid var(--lush-border);border-radius:6px;height:70px;padding:8px;font-size:11px;color:#aaa">Viết vào đây...</div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;color:var(--lush-blue)">💬 Tình huống khách hàng đáng nhớ nhất hôm nay?</div>
+      <div style="border:1px solid var(--lush-border);border-radius:6px;height:70px;padding:8px;font-size:11px;color:#aaa">Viết vào đây...</div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;color:var(--lush-gold)">❓ Câu hỏi tôi cần hỏi leader?</div>
+      <div style="border:1px solid var(--lush-border);border-radius:6px;height:70px;padding:8px;font-size:11px;color:#aaa">Viết vào đây...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TIÊU CHUẨN TỐT NGHIỆP -->
+<!-- ══════════════════════════════════════════ -->
+<div class="spacer-lg"></div>
+
+<div class="highlight-box">
+  <h3>🏆 Tiêu Chuẩn "Sẵn Sàng Tự Lập" — Sau 7 Ngày</h3>
+  <ul>
+    <li>Giải thích được triết lý LUSH bằng lời của chính mình — không nhìn tài liệu</li>
+    <li>Nhận diện đúng loại da đầu và tư vấn được ít nhất 4 sản phẩm Hair Care phù hợp</li>
+    <li>Demo thành thạo ít nhất 4 sản phẩm Body Care: Bath Bomb, Shower Gel, Massage Bar, Body Lotion</li>
+    <li>Tư vấn Fragrance được theo 3 cách (Thành phần / Cảm xúc / Câu chuyện) và biết 4 nhóm mùi</li>
+    <li>Thực hiện đủ 9 bước bán hàng tự nhiên, không cứng nhắc</li>
+    <li>Áp dụng được ít nhất 1 kỹ thuật bán thêm (Upsell / Link-sell / Cross-sell)</li>
+    <li>Hoàn thành checklist vận hành buổi sáng và buổi tối không cần nhắc nhở</li>
+    <li>Không có phàn nàn từ khách hàng trong 7 ngày đầu làm việc</li>
+  </ul>
+</div>
+
+</div><!-- /wrapper -->
+
+<footer>
+  <strong>LUSH Vietnam — Bộ Công Cụ Đào Tạo Nhân Viên Mới</strong><br>
+  Tài liệu này được tổng hợp từ chương trình đào tạo chính thức 4 ngày của LUSH · Dành cho sử dụng nội bộ cửa hàng<br>
+  <span style="color:#555;font-size:10px">In tài liệu này để sử dụng tại cửa hàng · Cập nhật nội dung theo từng mùa sản phẩm mới</span>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- PANEL CHỈNH SỬA TRỰC TIẾP — chỉ hiển thị khi click nút Edit -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<style>
+  #edit-fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: #3d6b47; color: white; border: none; cursor: pointer;
+    font-size: 22px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  #edit-fab:hover { background: #2d5237; }
+  #edit-fab.active { background: #c0392b; }
+
+  #edit-panel {
+    display: none;
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: 380px; z-index: 9998;
+    background: #fff; border-left: 2px solid #3d6b47;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.13);
+    overflow-y: auto; font-family: Arial, sans-serif; font-size: 13px;
+  }
+  #edit-panel.open { display: block; }
+
+  .ep-header {
+    background: #1a1a1a; color: white; padding: 16px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 1;
+  }
+  .ep-header h2 { font-size: 14px; font-weight: 700; margin: 0; letter-spacing: 0.5px; }
+  .ep-header span { font-size: 11px; opacity: 0.6; }
+
+  .ep-tabs {
+    display: flex; overflow-x: auto; background: #f4f4f0;
+    border-bottom: 1px solid #d8d8d0; gap: 0;
+  }
+  .ep-tab {
+    flex-shrink: 0; padding: 9px 14px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.3px; text-transform: uppercase; cursor: pointer;
+    border: none; background: transparent; color: #888; border-bottom: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .ep-tab:hover { color: #3d6b47; background: #e8f0e9; }
+  .ep-tab.active { color: #3d6b47; border-bottom-color: #3d6b47; background: white; }
+
+  .ep-body { padding: 16px 18px; }
+  .ep-section { display: none; }
+  .ep-section.active { display: block; }
+
+  .ep-label { font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: #888; margin-bottom: 4px; margin-top: 14px; display: block; }
+  .ep-label:first-child { margin-top: 0; }
+  .ep-input, .ep-textarea {
+    width: 100%; padding: 7px 10px; border: 1px solid #d8d8d0;
+    border-radius: 5px; font-size: 12.5px; font-family: Arial, sans-serif;
+    color: #1a1a1a; background: #fafaf7; box-sizing: border-box;
+    transition: border-color 0.15s;
+  }
+  .ep-input:focus, .ep-textarea:focus { outline: none; border-color: #3d6b47; background: white; }
+  .ep-textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+  .ep-select {
+    width: 100%; padding: 7px 10px; border: 1px solid #d8d8d0;
+    border-radius: 5px; font-size: 12.5px; background: #fafaf7;
+    color: #1a1a1a; cursor: pointer;
+  }
+  .ep-divider { border: none; border-top: 1px dashed #d8d8d0; margin: 16px 0; }
+  .ep-section-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: #3d6b47; padding: 8px 0 6px;
+    border-bottom: 1px solid #e8f0e9; margin-bottom: 12px;
+  }
+  .ep-btn {
+    display: inline-block; padding: 9px 18px; border-radius: 5px;
+    font-size: 12px; font-weight: 700; cursor: pointer; border: none;
+    letter-spacing: 0.5px; transition: background 0.15s;
+  }
+  .ep-btn-primary { background: #3d6b47; color: white; width: 100%; text-align: center; }
+  .ep-btn-primary:hover { background: #2d5237; }
+  .ep-btn-danger { background: #c0392b; color: white; }
+  .ep-btn-danger:hover { background: #922b21; }
+  .ep-success {
+    background: #e8f0e9; color: #3d6b47; padding: 8px 12px;
+    border-radius: 5px; font-size: 12px; font-weight: 600;
+    margin-top: 10px; display: none; text-align: center;
+  }
+  .ep-note {
+    background: #fdf6e3; border-left: 3px solid #c8a84b;
+    padding: 8px 10px; font-size: 11px; color: #7a5a00;
+    border-radius: 0 4px 4px 0; margin: 10px 0;
+  }
+  .day-block { background: #f4f4f0; border-radius: 6px; padding: 12px; margin-bottom: 10px; }
+  .day-block-title { font-size: 11px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .ep-download-btn {
+    display: block; width: 100%; padding: 11px; background: #1a1a1a;
+    color: white; text-align: center; border-radius: 5px; font-size: 12px;
+    font-weight: 700; cursor: pointer; border: none; margin-top: 14px;
+    letter-spacing: 0.5px;
+  }
+  .ep-download-btn:hover { background: #333; }
+</style>
+
+<!-- NÚT EDIT NỔI -->
+<button id="edit-fab" onclick="toggleEditPanel()" title="Chỉnh sửa tài liệu">✏️</button>
+
+<!-- PANEL CHỈNH SỬA -->
+<div id="edit-panel">
+  <div class="ep-header">
+    <div>
+      <h2>✏️ Chỉnh Sửa Tài Liệu</h2>
+      <span>Sửa trực tiếp — không cần biết code</span>
+    </div>
+    <button onclick="toggleEditPanel()" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;padding:0">×</button>
+  </div>
+
+  <div class="ep-tabs">
+    <button class="ep-tab active" onclick="epTab('bìa')">Trang Bìa</button>
+    <button class="ep-tab" onclick="epTab('lộtrình')">Lộ Trình</button>
+    <button class="ep-tab" onclick="epTab('giátrị')">Giá Trị</button>
+    <button class="ep-tab" onclick="epTab('sảnphẩm')">Sản Phẩm</button>
+    <button class="ep-tab" onclick="epTab('lưu')">💾 Lưu</button>
+  </div>
+
+  <div class="ep-body">
+
+    <!-- TAB: TRANG BÌA -->
+    <div id="ep-bìa" class="ep-section active">
+      <div class="ep-section-title">Trang Bìa</div>
+      <label class="ep-label">Nhãn nhỏ phía trên</label>
+      <input class="ep-input" id="f-cover-label" value="Tài Liệu Thực Chiến · Dành Cho Nhân Viên Mới" />
+      <label class="ep-label">Tiêu đề dòng 1</label>
+      <input class="ep-input" id="f-cover-line1" value="BỘ CÔNG CỤ" />
+      <label class="ep-label">Tiêu đề dòng 2 (màu xanh)</label>
+      <input class="ep-input" id="f-cover-line2" value="ĐÀO TẠO LUSH" />
+      <label class="ep-label">Phụ đề</label>
+      <input class="ep-input" id="f-cover-sub" value="Từ ngày đầu tiên → Tự tin tư vấn & vận hành cửa hàng" />
+      <hr class="ep-divider">
+      <div class="ep-section-title">Footer tài liệu</div>
+      <label class="ep-label">Tên thương hiệu / cửa hàng</label>
+      <input class="ep-input" id="f-footer-brand" value="LUSH Vietnam — Bộ Công Cụ Đào Tạo Nhân Viên Mới" />
+      <label class="ep-label">Dòng mô tả footer</label>
+      <input class="ep-input" id="f-footer-desc" value="Tài liệu này được tổng hợp từ chương trình đào tạo chính thức 4 ngày của LUSH · Dành cho sử dụng nội bộ cửa hàng" />
+      <div style="margin-top:14px">
+        <button class="ep-btn ep-btn-primary" onclick="applyBia()">Áp dụng thay đổi</button>
+        <div id="ok-bia" class="ep-success">✓ Đã cập nhật trang bìa!</div>
+      </div>
+    </div>
+
+    <!-- TAB: LỘ TRÌNH -->
+    <div id="ep-lộtrình" class="ep-section">
+      <div class="ep-section-title">Lộ Trình 7 Ngày</div>
+      <div class="ep-note">Chọn ngày, chỉnh nội dung rồi nhấn "Áp dụng".</div>
+      <label class="ep-label">Chọn ngày</label>
+      <select class="ep-select" id="rm-select" onchange="loadRoadmapDay()">
+        <option value="1">Ngày 1</option><option value="2">Ngày 2</option>
+        <option value="3">Ngày 3</option><option value="4">Ngày 4</option>
+        <option value="5">Ngày 5</option><option value="6">Ngày 6</option>
+        <option value="7">Ngày 7</option>
+      </select>
+      <label class="ep-label">Tiêu đề ngày</label>
+      <input class="ep-input" id="rm-title" />
+      <label class="ep-label">Mục tiêu</label>
+      <input class="ep-input" id="rm-goal" />
+      <label class="ep-label">Buổi sáng — Lý thuyết</label>
+      <textarea class="ep-textarea" id="rm-morning" rows="4"></textarea>
+      <label class="ep-label">Buổi chiều — Thực hành</label>
+      <textarea class="ep-textarea" id="rm-afternoon" rows="4"></textarea>
+      <label class="ep-label">Bài tập cuối ngày</label>
+      <textarea class="ep-textarea" id="rm-homework" rows="3"></textarea>
+      <div style="margin-top:14px">
+        <button class="ep-btn ep-btn-primary" onclick="applyRoadmap()">Áp dụng ngày này</button>
+        <div id="ok-rm" class="ep-success">✓ Đã cập nhật lộ trình!</div>
+      </div>
+    </div>
+
+    <!-- TAB: GIÁ TRỊ CỐT LÕI -->
+    <div id="ep-giátrị" class="ep-section">
+      <div class="ep-section-title">7 Giá Trị Cốt Lõi</div>
+      <div class="ep-note">Chỉnh sửa từng giá trị, nhấn "Áp dụng tất cả" khi xong.</div>
+      <div id="values-fields"></div>
+      <div style="margin-top:14px">
+        <button class="ep-btn ep-btn-primary" onclick="applyValues()">Áp dụng tất cả giá trị</button>
+        <div id="ok-val" class="ep-success">✓ Đã cập nhật giá trị cốt lõi!</div>
+      </div>
+    </div>
+
+    <!-- TAB: SẢN PHẨM -->
+    <div id="ep-sảnphẩm" class="ep-section">
+      <div class="ep-section-title">Sản phẩm nổi bật — Callout & Bestseller</div>
+      <div class="ep-note">Chỉnh các thông tin sản phẩm thường được cập nhật theo mùa.</div>
+
+      <div class="day-block">
+        <div class="day-block-title">Hair Care — Bestseller Shampoo</div>
+        <label class="ep-label">Tên sản phẩm #1</label>
+        <input class="ep-input" id="p-hair1-name" value="Fairly Traded Honey" />
+        <label class="ep-label">Mô tả</label>
+        <textarea class="ep-textarea" id="p-hair1-desc" rows="2">Mật ong Zambian. Dưỡng ẩm + tạo phồng. All hair types. Bestseller #1.</textarea>
+        <label class="ep-label">Tên sản phẩm #2</label>
+        <input class="ep-input" id="p-hair2-name" value="Honey I Washed My Hair" />
+        <label class="ep-label">Mô tả</label>
+        <textarea class="ep-textarea" id="p-hair2-desc" rows="2">Mật ong + hoa hồng. Mềm mượt. Bestseller bar.</textarea>
+      </div>
+
+      <div class="day-block">
+        <div class="day-block-title">Body Care — Bestseller Lotion</div>
+        <label class="ep-label">Tên sản phẩm #1</label>
+        <input class="ep-input" id="p-body1-name" value="Dream Cream" />
+        <label class="ep-label">Mô tả</label>
+        <textarea class="ep-textarea" id="p-body1-desc" rows="2">Yến mạch + hoa hồng + olive + cúc la mã. Da nhạy cảm/chàm. Bestseller #1.</textarea>
+        <label class="ep-label">Tên sản phẩm #2</label>
+        <input class="ep-input" id="p-body2-name" value="Sleepy Body Lotion" />
+        <label class="ep-label">Mô tả</label>
+        <textarea class="ep-textarea" id="p-body2-desc" rows="2">Oải hương + tonka + yến mạch. Thư giãn. Dùng trước ngủ. Bestseller.</textarea>
+      </div>
+
+      <div class="day-block">
+        <div class="day-block-title">Body Care — Bestseller Scrub</div>
+        <label class="ep-label">Tên sản phẩm #1</label>
+        <input class="ep-input" id="p-scrub1-name" value="Scrubee" />
+        <label class="ep-label">Mô tả</label>
+        <textarea class="ep-textarea" id="p-scrub1-desc" rows="2">Bơ cacao + mật ong + hạnh nhân + vỏ dừa. Scrub + dưỡng trong 1. Bestseller.</textarea>
+      </div>
+
+      <div style="margin-top:14px">
+        <button class="ep-btn ep-btn-primary" onclick="applyProducts()">Áp dụng thay đổi sản phẩm</button>
+        <div id="ok-prod" class="ep-success">✓ Đã cập nhật sản phẩm!</div>
+      </div>
+    </div>
+
+    <!-- TAB: LƯU FILE -->
+    <div id="ep-lưu" class="ep-section">
+      <div class="ep-section-title">Lưu & Tải File</div>
+      <div class="ep-note">Sau khi chỉnh sửa xong tất cả các phần, tải file HTML về máy để lưu lại vĩnh viễn.</div>
+      <p style="font-size:12px;color:#555;line-height:1.6;margin:0 0 12px">
+        Mọi thay đổi bạn áp dụng ở các tab trên sẽ được lưu vào file này ngay lập tức. Nhấn nút bên dưới để tải file đã chỉnh sửa về máy.
+      </p>
+      <button class="ep-download-btn" onclick="downloadFile()">⬇ Tải file HTML đã chỉnh sửa</button>
+      <hr class="ep-divider">
+      <div class="ep-section-title" style="color:#c0392b">Đặt lại tất cả</div>
+      <p style="font-size:12px;color:#888;margin:0 0 10px">Tải lại trang để hủy toàn bộ thay đổi chưa lưu.</p>
+      <button class="ep-btn ep-btn-danger" onclick="if(confirm('Hủy tất cả thay đổi chưa lưu?'))location.reload()">Hủy thay đổi & tải lại trang</button>
+    </div>
+
+  </div><!-- /ep-body -->
+</div><!-- /edit-panel -->
+
+<script>
+// ─── DATA: Lộ trình 7 ngày ───
+var roadmapData = {
+  1: {
+    title: "Ngày 1 — DNA & Triết Lý LUSH",
+    goal: "Mục tiêu: Hiểu triết lý LUSH, nhận diện sản phẩm toàn cửa hàng",
+    morning: ["Đọc \"We Believe\" + 7 giá trị cốt lõi", "Tham quan cửa hàng, nhận diện từng khu vực sản phẩm", "Học cách đọc nhãn \"Use by\" và giải thích cho khách", "Eco Program: 5 hũ đổi 1 mặt nạ tươi miễn phí"],
+    afternoon: ["Cầm từng sản phẩm, ngửi mùi, đọc nhãn", "Học phân biệt Fresh mask vs Regular mask", "Giải thích Charity Pot cho đồng nghiệp nghe thử"],
+    homework: "Giải thích \"Tại sao LUSH khác biệt?\" bằng lời của mình — không nhìn tài liệu. Viết 3 câu nộp cho leader."
+  },
+  2: {
+    title: "Ngày 2 — Hair Care Routine",
+    goal: "Mục tiêu: Nhận diện da đầu + nắm toàn bộ routine tóc",
+    morning: ["Cấu tạo sợi tóc: biểu bì, lớp vỏ, tủy", "Độ xốp tóc: Cao / Trung bình / Thấp", "3 loại da đầu: Khô / Hỗn hợp / Dầu", "5 bước Routine Tóc — thứ tự sử dụng"],
+    afternoon: ["Cầm và ngửi lần lượt: Roots → Shampoo → Conditioner → Oil", "Phân biệt Dầu gội vs Shampoo Bar — USP không bao bì", "Demo Fairly Traded Honey + American Cream trên tay", "Roleplay: tư vấn cho khách \"tóc khô, hư tổn do nhuộm\""],
+    homework: "Chọn 3 sản phẩm Hair Care yêu thích. Viết: thành phần nổi bật + phù hợp cho da đầu/tóc nào + 1 câu bán hàng."
+  },
+  3: {
+    title: "Ngày 3 — Body Care Routine",
+    goal: "Mục tiêu: Nắm toàn bộ routine body + demo sản phẩm thật",
+    morning: ["4 bước Routine Body — thứ tự sử dụng", "Phân biệt Shower Gel / Jelly / Soap / Bomb", "Body Conditioner vs Body Lotion — khác nhau thế nào?", "Lợi ích của việc tẩy tế bào chết body"],
+    afternoon: ["Demo Shower Jelly: cắt đôi cho khách xem kết cấu", "Demo Scrubee và Rub Rub Rub trên bàn tay", "Demo Massage Bar: tan chảy = WOW MOMENT", "Roleplay: tư vấn full routine body cho khách \"da khô\""],
+    homework: "Viết 1 routine body hoàn chỉnh (4 bước) cho 2 khách hàng khác nhau: da khô và da bình thường thích mùi hương."
+  },
+  4: {
+    title: "Ngày 4 — Fragrance",
+    goal: "Mục tiêu: Nhận diện 4 nhóm mùi + tư vấn bằng cảm xúc",
+    morning: ["4 nhóm mùi: Citrus / Floral / Gourmand / Gỗ", "3 cách tiếp cận: Thành phần / Cảm xúc / Câu chuyện", "Hệ thống khứu giác và tại sao mùi gắn với cảm xúc", "Perfume vs Body Spray — khi nào gợi ý cái nào?"],
+    afternoon: ["Dùng que thử mùi: lần lượt ngửi từng nhóm Citrus→Floral→Gourmand→Gỗ", "Thực hành reset khứu giác bằng da mình", "Thực hành Fragrance Reading 5 bước với đồng nghiệp", "Roleplay: tư vấn 2–3 mùi cho khách thích \"mùi dễ chịu, không quá nồng\""],
+    homework: "Viết \"câu chuyện\" cho 3 mùi nước hoa theo 3 cách tiếp cận khác nhau (mỗi mùi 1 cách). Đọc lại cho đồng nghiệp nghe."
+  },
+  5: {
+    title: "Ngày 5 — 9 Bước Bán Hàng + 4 Kiểu Khách",
+    goal: "Mục tiêu: Thuộc 9 bước, nhận diện khách, roleplay hoàn chỉnh",
+    morning: ["9 Bước Customer Experience — thứ tự và ý nghĩa", "4 Kiểu khách: Analytical / Expressives / Driver / Friend", "Mô hình RASA khi lắng nghe khách", "3 Cách tiếp cận: Service / Demo / Validation"],
+    afternoon: ["Roleplay 9 bước đủ với đồng nghiệp — đổi vai 3 lần", "Nhận 1 feedback cụ thể sau mỗi lần", "Thực hành Upsell / Link-sell / Cross-sell (R.I.S.E)", "Học quy trình quầy tính tiền: add-on, sample, Eco Program"],
+    homework: "Tự ghi lại: Bước nào tự tin nhất? Bước nào cần luyện thêm? Viết 1 câu bán hàng cho từng bước khó nhất."
+  },
+  6: {
+    title: "Ngày 6 — Thực Chiến Có Kèm",
+    goal: "Mục tiêu: Bán hàng thật với khách thật — có người kèm đứng gần",
+    morning: ["Hoàn thành checklist mở cửa hàng cùng team", "Tự tiếp cận khách hàng đầu tiên dưới sự quan sát", "Người kèm: không can thiệp trừ khi thật sự cần"],
+    afternoon: ["Xử lý ít nhất 3 khách hàng từ chào đến checkout", "Ghi lại 3 tình huống khó gặp trong ngày", "Review với leader: 1 điểm mạnh + 1 điểm cần cải thiện"],
+    homework: "Điền phiếu tự đánh giá. Đặt 1 mục tiêu cụ thể cho ngày 7: \"Ngày mai tôi sẽ cải thiện [bước X] bằng cách [làm gì cụ thể].\""
+  },
+  7: {
+    title: "Ngày 7 — Tự Lập Hoàn Toàn + Đánh Giá",
+    goal: "Mục tiêu: Bán độc lập — Leader chỉ quan sát từ xa và đánh giá tốt nghiệp",
+    morning: ["Tự hoàn thành checklist mở cửa hàng không cần nhắc", "Bán hàng độc lập hoàn toàn", "Leader quan sát từ xa, ghi chép"],
+    afternoon: ["Leader roleplay \"khách khó\": hỏi nhiều, ngân sách thấp, do dự", "Nhân viên mới thực hiện đủ 9 bước tự nhiên", "Đánh giá: Kiến thức sản phẩm / Kỹ năng / Tinh thần LUSH"],
+    homework: "Điền phiếu tự đánh giá tuần. Nộp cho leader. Nhận mục tiêu tuần 2 và kế hoạch phát triển tiếp theo."
+  }
+};
+
+// ─── DATA: Giá trị cốt lõi ───
+var valuesData = [
+  { icon: "🐰", title: "Không thử nghiệm động vật", desc: "100% anti-animal testing. Logo thỏ chiến đấu = LUSH đang tích cực đấu tranh, không chỉ phản đối." },
+  { icon: "🥦", title: "Nguyên liệu tươi & hữu cơ", desc: "Trái cây, rau củ tươi — dùng càng sớm càng tốt. \"Use by\" thay vì \"Expiry date\"." },
+  { icon: "🧪", title: "Ít/không chất bảo quản", desc: "Mỹ phẩm tươi & tự bảo quản. Sản phẩm được gửi trong vài ngày sau sản xuất." },
+  { icon: "🖐️", title: "Làm thủ công", desc: "Người hạnh phúc tạo ra sản phẩm hạnh phúc. Mỗi sản phẩm được nặn/làm bằng tay." },
+  { icon: "♻️", title: "Không/ít bao bì", desc: "Dòng Naked (không bao bì). Vòng tuần hoàn: trả 5 hũ → đổi 1 mặt nạ tươi miễn phí." },
+  { icon: "💚", title: "Charity Pot", desc: "100% doanh thu Charity Pot → từ thiện. Chiến dịch quyên góp cho môi trường & động vật." }
+];
+
+// ─── TOGGLE PANEL ───
+function toggleEditPanel() {
+  var panel = document.getElementById('edit-panel');
+  var fab = document.getElementById('edit-fab');
+  panel.classList.toggle('open');
+  fab.classList.toggle('active');
+  fab.textContent = panel.classList.contains('open') ? '×' : '✏️';
+}
+
+// ─── SWITCH TABS ───
+function epTab(name) {
+  document.querySelectorAll('.ep-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.ep-section').forEach(function(s){ s.classList.remove('active'); });
+  event.target.classList.add('active');
+  document.getElementById('ep-' + name).classList.add('active');
+  if (name === 'giátrị') buildValuesFields();
+  if (name === 'lộtrình') loadRoadmapDay();
+}
+
+// ─── BÌA ───
+function applyBia() {
+  var label = document.getElementById('f-cover-label').value;
+  var line1 = document.getElementById('f-cover-line1').value;
+  var line2 = document.getElementById('f-cover-line2').value;
+  var sub = document.getElementById('f-cover-sub').value;
+  var brand = document.getElementById('f-footer-brand').value;
+  var fdesc = document.getElementById('f-footer-desc').value;
+
+  var coverLabel = document.querySelector('.cover-label');
+  if (coverLabel) coverLabel.textContent = label;
+
+  var h1 = document.querySelector('.cover h1');
+  if (h1) h1.innerHTML = line1 + '<br><span>' + line2 + '</span>';
+
+  var covSub = document.querySelector('.cover-sub');
+  if (covSub) covSub.textContent = sub;
+
+  var footer = document.querySelector('footer');
+  if (footer) {
+    var lines = footer.innerHTML.split('<br>');
+    lines[0] = '<strong>' + brand + '</strong>';
+    lines[1] = fdesc;
+    footer.innerHTML = lines.join('<br>');
+  }
+
+  showOk('ok-bia');
+}
+
+// ─── LỘ TRÌNH ───
+function loadRoadmapDay() {
+  var day = parseInt(document.getElementById('rm-select').value);
+  var d = roadmapData[day];
+  document.getElementById('rm-title').value = d.title;
+  document.getElementById('rm-goal').value = d.goal;
+  document.getElementById('rm-morning').value = d.morning.join('\n');
+  document.getElementById('rm-afternoon').value = d.afternoon.join('\n');
+  document.getElementById('rm-homework').value = d.homework;
+}
+
+function applyRoadmap() {
+  var day = parseInt(document.getElementById('rm-select').value);
+  var title = document.getElementById('rm-title').value;
+  var goal = document.getElementById('rm-goal').value;
+  var morning = document.getElementById('rm-morning').value.split('\n').filter(function(l){ return l.trim(); });
+  var afternoon = document.getElementById('rm-afternoon').value.split('\n').filter(function(l){ return l.trim(); });
+  var homework = document.getElementById('rm-homework').value;
+
+  roadmapData[day] = { title: title, goal: goal, morning: morning, afternoon: afternoon, homework: homework };
+
+  // Update the day block in the DOM
+  var dayBlocks = document.querySelectorAll('[style*="border:1px solid var(--lush-border);border-radius:8px;overflow:hidden;margin-bottom:12px"]');
+  var block = dayBlocks[day - 1];
+  if (block) {
+    // Title row
+    var titleEl = block.querySelector('div[style*="font-weight:700;font-size:14px"]');
+    if (titleEl) titleEl.textContent = title;
+    var goalEl = block.querySelector('div[style*="font-size:11px;opacity"]');
+    if (goalEl) goalEl.textContent = goal;
+
+    // Morning list
+    var cols = block.querySelectorAll('ul[style*="list-style:none"]');
+    if (cols[0]) {
+      cols[0].innerHTML = morning.map(function(li){ return '<li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">' + li + '</li>'; }).join('');
+      var last = cols[0].querySelector('li:last-child');
+      if (last) last.style.borderBottom = 'none';
+    }
+    // Afternoon list
+    if (cols[1]) {
+      cols[1].innerHTML = afternoon.map(function(li){ return '<li style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--lush-border)">' + li + '</li>'; }).join('');
+      var last2 = cols[1].querySelector('li:last-child');
+      if (last2) last2.style.borderBottom = 'none';
+    }
+    // Homework
+    var hwEl = block.querySelector('div[style*="background:var(--lush-gold-pale)"] div[style*="font-size:12px"]');
+    if (hwEl) hwEl.innerHTML = homework;
+  }
+
+  // Also update table in Section 2
+  var tableRows = document.querySelectorAll('table tbody tr');
+  if (tableRows[day - 1]) {
+    var cells = tableRows[day - 1].querySelectorAll('td');
+    if (cells[1]) cells[1].innerHTML = '<strong>' + title.split('—')[1].trim() + '</strong>';
+    if (cells[4]) cells[4].textContent = homework;
+  }
+
+  showOk('ok-rm');
+}
+
+// ─── GIÁ TRỊ CỐT LÕI ───
+function buildValuesFields() {
+  var container = document.getElementById('values-fields');
+  container.innerHTML = valuesData.map(function(v, i) {
+    return '<div class="day-block">' +
+      '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">' +
+        '<input class="ep-input" id="v-icon-' + i + '" value="' + v.icon + '" style="width:52px;text-align:center;font-size:16px" />' +
+        '<input class="ep-input" id="v-title-' + i + '" value="' + v.title + '" style="flex:1" />' +
+      '</div>' +
+      '<textarea class="ep-textarea" id="v-desc-' + i + '" rows="2">' + v.desc + '</textarea>' +
+    '</div>';
+  }).join('');
+}
+
+function applyValues() {
+  var cards = document.querySelectorAll('.card.green-card');
+  valuesData.forEach(function(v, i) {
+    v.icon = document.getElementById('v-icon-' + i).value;
+    v.title = document.getElementById('v-title-' + i).value;
+    v.desc = document.getElementById('v-desc-' + i).value;
+    var card = cards[i];
+    if (card) {
+      var iconEl = card.querySelector('.card-icon');
+      var titleEl = card.querySelector('.card-title');
+      var descEl = card.querySelector('p');
+      if (iconEl) iconEl.textContent = v.icon;
+      if (titleEl) titleEl.textContent = v.title;
+      if (descEl) descEl.textContent = v.desc;
+    }
+  });
+  showOk('ok-val');
+}
+
+// ─── SẢN PHẨM ───
+function applyProducts() {
+  // Hair 1
+  var h1n = document.getElementById('p-hair1-name').value;
+  var h1d = document.getElementById('p-hair1-desc').value;
+  var h2n = document.getElementById('p-hair2-name').value;
+  var h2d = document.getElementById('p-hair2-desc').value;
+  // Body 1 & 2
+  var b1n = document.getElementById('p-body1-name').value;
+  var b1d = document.getElementById('p-body1-desc').value;
+  var b2n = document.getElementById('p-body2-name').value;
+  var b2d = document.getElementById('p-body2-desc').value;
+  var s1n = document.getElementById('p-scrub1-name').value;
+  var s1d = document.getElementById('p-scrub1-desc').value;
+
+  function updateProduct(nameVal, descVal, nth) {
+    var all = document.querySelectorAll('div[style*="font-weight:700;font-size:11px;margin-bottom:1px"]');
+    var found = Array.from(all).filter(function(el){ return el.textContent.trim() === nth; });
+    found.forEach(function(el) {
+      el.textContent = nameVal;
+      var next = el.nextElementSibling;
+      if (next) next.textContent = descVal;
+    });
+  }
+
+  updateProduct(h1n, h1d, "Fairly Traded Honey");
+  updateProduct(h2n, h2d, "Honey I Washed My Hair");
+  updateProduct(b1n, b1d, "Dream Cream");
+  updateProduct(b2n, b2d, "Sleepy Body Lotion");
+  updateProduct(s1n, s1d, "Scrubee");
+
+  showOk('ok-prod');
+}
+
+// ─── DOWNLOAD FILE ───
+function downloadFile() {
+  var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'LUSH_Training_Toolkit_updated.html';
+  a.click();
+}
+
+// ─── HELPER ───
+function showOk(id) {
+  var el = document.getElementById(id);
+  el.style.display = 'block';
+  setTimeout(function(){ el.style.display = 'none'; }, 2500);
+}
+
+// Init
+loadRoadmapDay();
+</script>
+
+</body>
+</html>
