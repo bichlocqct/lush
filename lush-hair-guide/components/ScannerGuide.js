@@ -22,7 +22,8 @@ export default function ScannerGuide() {
     {
       title: "Bước 3: Cắm Nguồn Sạc",
       desc: "Gắn phần dây của đầu sạc vào phần dây điện màu đỏ của màn hình. Hãy cẩn thận cắm đúng khớp nối màu đỏ để tránh hỏng linh kiện.",
-      image: "/assembly_diagram.png"
+      image: "/connect_power.png",
+      isPhoto: true
     }
   ];
 
