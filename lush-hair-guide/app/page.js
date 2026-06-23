@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import ScannerGuide from "../components/ScannerGuide";
 import ScalpClassifier from "../components/ScalpClassifier";
 import ProductCatalog from "../components/ProductCatalog";
@@ -16,14 +17,20 @@ export default function Home() {
       <header className="header">
         <div className="container header-container">
           <div>
-            <span className="sub-title" style={{ color: "#666" }}>LUSH Cửa Hàng & Đào Tạo</span>
-            <h1 style={{ fontSize: "2rem", margin: "4px 0 0", color: "#000", fontWeight: "900", letterSpacing: "-1px" }}>
-              LUSH — HAIR READING
+            <h1 style={{ display: "flex", alignItems: "center", margin: 0 }}>
+              <Image 
+                src="/lush_logo.png" 
+                alt="LUSH" 
+                width={240} 
+                height={60} 
+                style={{ height: "60px", width: "auto", objectFit: "contain" }} 
+                priority
+              />
             </h1>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div className="lush-tag dark" style={{ fontWeight: "800" }}>SCALP SCANNER GUIDE</div>
-            <div style={{ fontSize: "0.75rem", fontWeight: "600", marginTop: "4px", textTransform: "uppercase" }}>Tài liệu huấn luyện nội bộ</div>
+            <div className="lush-tag dark" style={{ fontWeight: "800" }}>LUSH HAIR WORKSHOP GUIDELINE</div>
+            <div style={{ fontSize: "0.75rem", fontWeight: "600", marginTop: "4px", textTransform: "uppercase" }}>Tài liệu nội bộ</div>
           </div>
         </div>
       </header>
