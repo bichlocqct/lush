@@ -37,7 +37,9 @@ export default function ScannerGuide() {
     {
       title: "Bước 2: Khởi Động Máy",
       desc: "Ấn nút nguồn (nút đầu tiên từ trái sang) trên màn hình hiển thị để mở máy. Màn hình LUSH / Meiboyi sẽ sáng lên sau 2-3 giây.",
-      image: "/scalp_scanner_diagram.png"
+      image: "/power_switch.jpg",
+      isPhoto: true,
+      objectFit: "contain"
     },
     {
       title: "Bước 3: Chọn Chức Năng Soi",
@@ -160,7 +162,7 @@ export default function ScannerGuide() {
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               style={{ 
-                objectFit: currentStepData.isPhoto ? "cover" : "contain", 
+                objectFit: currentStepData.objectFit || (currentStepData.isPhoto ? "cover" : "contain"), 
                 filter: currentStepData.isPhoto ? "none" : "grayscale(100%)" 
               }}
             />
