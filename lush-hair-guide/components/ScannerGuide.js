@@ -16,7 +16,8 @@ export default function ScannerGuide() {
     {
       title: "Bước 2: Kết Nối Đầu Soi",
       desc: "Dùng dây cắm ở phần đầu soi da gắn vào dây màu trắng đi cùng với màn hình. Đẩy nhẹ và vặn nắp bảo vệ nếu có để kết nối chắc chắn.",
-      image: "/scalp_scanner_diagram.png"
+      image: "/connect_scanner.jpg",
+      isPhoto: true
     },
     {
       title: "Bước 3: Cắm Nguồn Sạc",
