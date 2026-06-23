@@ -58,7 +58,9 @@ export default function ScannerGuide() {
     {
       title: "Bước 5: Chụp Ảnh Màn Hình",
       desc: "Nút nhỏ phía dưới sau nút điều khiển dùng để chụp ảnh màn hình. Nhấn nút này khi tìm thấy vùng da đầu có dấu hiệu cần lưu ý để chụp lại và tư vấn cho khách.",
-      image: "/scalp_scanner_diagram.png"
+      image: "/capture_button.jpg",
+      isPhoto: true,
+      objectFit: "contain"
     }
   ];
 
