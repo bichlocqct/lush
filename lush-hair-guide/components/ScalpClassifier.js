@@ -144,9 +144,9 @@ export default function ScalpClassifier() {
           },
           {
             step: "Bước 2: Shampoo",
-            name: "Rehab / Big",
-            desc: "Dầu gội Rehab chứa đu đủ tươi, bạc hà làm sạch sâu kiềm dầu. Hoặc Big chứa muối biển thô giúp tẩy tế bào chết da đầu, tạo phồng tóc cực tốt.",
-            usage: "Lấy một lượng vừa đủ, gội kỹ phần chân tóc để làm sạch dầu bã nhờn."
+            name: "Rehab / Big / Wasabi Shan Kui",
+            desc: "Dầu gội Rehab hoặc Big giúp làm sạch sâu kiềm dầu, tẩy tế bào chết chân tóc. Hoặc dùng Wasabi Shan Kui (best-seller kiềm dầu & kích thích mọc tóc cực tốt).",
+            usage: "Lấy một lượng vừa đủ, gội kỹ phần chân tóc để làm sạch dầu bã nhờn, massage da đầu nhẹ nhàng."
           },
           {
             step: "Bước 3: Conditioner",
@@ -591,7 +591,7 @@ export default function ScalpClassifier() {
               </div>
               <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
                 <strong style={{ color: "#2980b9", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
-                Kiềm dầu bằng mặt nạ da đầu bạc hà <strong>Roots</strong>, làm sạch sâu bằng dầu gội muối biển <strong>Big</strong> hoặc gội chứa enzym đu đủ <strong>Rehab</strong>.
+                Kiềm dầu bằng mặt nạ da đầu bạc hà <strong>Roots</strong>, làm sạch sâu kiềm dầu bằng dầu gội muối biển <strong>Big</strong>, <strong>Rehab</strong> hoặc dầu gội kích mọc kiềm dầu <strong>Wasabi Shan Kui</strong>.
               </div>
             </div>
 

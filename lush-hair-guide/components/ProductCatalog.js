@@ -10,8 +10,8 @@ export default function ProductCatalog() {
     {
       condition: "Da Đầu Dầu & Bết Dính",
       icon: "💧",
-      routine: "Roots (Ủ da đầu) → Rehab / Big (Dầu gội) → Veganese (Dầu xả mỏng nhẹ)",
-      usage: "1. Thoa Roots lên da đầu khô vùng đỉnh trước gội 15 phút, massage nhẹ.\n2. Gội sạch toàn bộ da đầu bằng Rehab hoặc Big (tẩy tế bào chết vật lý).\n3. Dùng Veganese xả nhẹ ngọn tóc, tránh tuyệt đối thoa sát da đầu dầu.",
+      routine: "Roots (Ủ da đầu) → Rehab / Big / Wasabi Shan Kui (Dầu gội) → Veganese (Dầu xả mỏng nhẹ)",
+      usage: "1. Thoa Roots lên da đầu khô vùng đỉnh trước gội 15 phút, massage nhẹ.\n2. Gội sạch toàn bộ da đầu bằng Rehab, Big hoặc dầu gội kiềm dầu kích thích mọc tóc Wasabi Shan Kui.\n3. Dùng Veganese xả nhẹ ngọn tóc, tránh tuyệt đối thoa sát da đầu dầu.",
       allergyWarning: "Roots chứa lượng bạc hà đậm đặc tạo cảm giác mát lạnh mạnh. Hạn chế dùng khi da đầu đang trầy xước.",
       patchTest: "Thoa một lớp mỏng Roots sau tai khách trong 10 phút để kiểm tra độ kích ứng do bạc hà mát lạnh."
     },
@@ -236,6 +236,15 @@ export default function ProductCatalog() {
       desc: "Dầu xả phục hồi chuyên sâu chứa Aquafaba và Protein lúa mì giúp làm đầy các lỗ hổng trên biểu bì tóc, khóa ẩm và bảo vệ tóc hư tổn tối đa.",
       tip: "Dành cho tóc xốp cao (Tóc Chìm), tóc đã qua xử lý hóa chất nhiều lần, giòn dễ gãy rụng.",
       usage: "Thoa một lượng vừa đủ lên ngọn tóc ướt sau khi gội sạch, massage nhẹ để dưỡng chất bao bọc sợi tóc rồi xả sạch."
+    },
+    {
+      name: "Wasabi Shan Kui",
+      category: "shampoo",
+      type: "Dầu Gội Kích Thích Mọc Tóc & Kiềm Dầu",
+      ingredients: "Wasabi tươi + củ cải ngựa + muối biển + tinh thể bạc hà + caffeine",
+      desc: "Dầu gội kích thích mọc tóc bán chạy nhất (best-seller) của LUSH. Sự kết hợp giữa wasabi, củ cải ngựa và tinh chất caffeine giúp đánh thức nang tóc, thúc đẩy tuần hoàn da đầu, cùng với muối biển kiềm dầu hiệu quả và tạo độ phồng bồng bềnh.",
+      tip: "Lựa chọn số 1 cho da đầu đổ dầu nhiều, bết tóc nhanh, tóc mỏng thưa, yếu rụng cần kích thích mọc.",
+      usage: "Lấy một lượng nhỏ xoa đều để tạo bọt, massage kỹ lên da đầu để cảm nhận cảm giác mát lạnh sảng khoái của bạc hà và wasabi, sau đó xả sạch."
     }
   ];
 
