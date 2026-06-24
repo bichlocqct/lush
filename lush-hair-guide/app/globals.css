@@ -203,8 +203,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Custom UI Layouts */
 .header {
   border-bottom: var(--border-lush);
-  padding: 20px 0;
-  background: var(--lush-white);
+  padding: 10px 0;
+  background: var(--lush-black);
   position: sticky;
   top: 0;
   z-index: 100;

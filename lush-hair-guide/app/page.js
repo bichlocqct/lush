@@ -18,7 +18,7 @@ export default function Home() {
           <div>
             <h1 style={{ display: "flex", alignItems: "center", margin: 0 }}>
               <Image 
-                src="/lush_logo.png" 
+                src="/lush_logo_white.png" 
                 alt="LUSH" 
                 width={240} 
                 height={60} 
@@ -28,8 +28,8 @@ export default function Home() {
             </h1>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div className="lush-tag dark" style={{ fontWeight: "800" }}>LUSH HAIR WORKSHOP GUIDELINE</div>
-            <div style={{ fontSize: "0.75rem", fontWeight: "600", marginTop: "4px", textTransform: "uppercase" }}>Tài liệu nội bộ</div>
+            <div className="lush-tag dark" style={{ fontWeight: "800", borderColor: "#ffffff", color: "#ffffff" }}>LUSH HAIR WORKSHOP GUIDELINE</div>
+            <div style={{ fontSize: "0.75rem", fontWeight: "600", marginTop: "4px", textTransform: "uppercase", color: "#ffffff" }}>Tài liệu nội bộ</div>
           </div>
         </div>
       </header>
