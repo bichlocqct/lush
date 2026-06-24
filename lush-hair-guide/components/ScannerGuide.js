@@ -211,40 +211,42 @@ export default function ScannerGuide() {
         <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
           
           {/* Step Graphic Illustration */}
-          <div style={{ 
-            border: "2px solid var(--lush-black)", 
-            padding: "20px", 
-            background: "var(--lush-gray-light)",
-            display: "flex", 
-            justifyContent: "center", 
-            alignItems: "center",
-            height: "300px",
-            position: "relative"
-          }}>
-            <Image 
-              src={currentStepData.image} 
-              alt={currentStepData.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              style={{ 
-                objectFit: currentStepData.objectFit || (currentStepData.isPhoto ? "cover" : "contain"), 
-                filter: currentStepData.isPhoto ? "none" : "grayscale(100%)" 
-              }}
-            />
+          {(activeSubTab === "assembly" || activeSubTab === "usage") && (
             <div style={{ 
-              position: "absolute", 
-              bottom: "10px", 
-              right: "10px", 
-              fontSize: "0.7rem", 
-              fontWeight: "bold",
-              textTransform: "uppercase",
-              background: "#000",
-              color: "#fff",
-              padding: "4px 8px"
+              border: "2px solid var(--lush-black)", 
+              padding: "20px", 
+              background: "var(--lush-gray-light)",
+              display: "flex", 
+              justifyContent: "center", 
+              alignItems: "center",
+              height: "300px",
+              position: "relative"
             }}>
-              Minh Họa Bước {activeStep + 1}
+              <Image 
+                src={currentStepData.image} 
+                alt={currentStepData.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ 
+                  objectFit: currentStepData.objectFit || (currentStepData.isPhoto ? "cover" : "contain"), 
+                  filter: currentStepData.isPhoto ? "none" : "grayscale(100%)" 
+                }}
+              />
+              <div style={{ 
+                position: "absolute", 
+                bottom: "10px", 
+                right: "10px", 
+                fontSize: "0.7rem", 
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                background: "#000",
+                color: "#fff",
+                padding: "4px 8px"
+              }}>
+                Minh Họa Bước {activeStep + 1}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Real video player block */}
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
