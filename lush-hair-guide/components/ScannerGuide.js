@@ -150,7 +150,7 @@ export default function ScannerGuide() {
         </button>
       </div>
 
-      <div className="grid-split">
+      <div className={activeSubTab === "assembly" || activeSubTab === "usage" ? "grid-split" : ""}>
         
         {/* Left column: Step Content */}
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
@@ -208,10 +208,10 @@ export default function ScannerGuide() {
         </div>
 
         {/* Right column: Graphic & Video Player */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-          
-          {/* Step Graphic Illustration */}
-          {(activeSubTab === "assembly" || activeSubTab === "usage") && (
+        {(activeSubTab === "assembly" || activeSubTab === "usage") && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
+            
+            {/* Step Graphic Illustration */}
             <div style={{ 
               border: "2px solid var(--lush-black)", 
               padding: "20px", 
@@ -246,33 +246,33 @@ export default function ScannerGuide() {
                 Minh Họa Bước {activeStep + 1}
               </div>
             </div>
-          )}
 
-          {/* Real video player block */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase", display: "flex", alignItems: "center", gap: "8px" }}>
-              <span>🎥</span> Video Hướng Dẫn Vận Hành Máy
-            </h3>
-            <div style={{ 
-              border: "3px solid var(--lush-black)", 
-              boxShadow: "6px 6px 0 var(--lush-black)",
-              background: "#000",
-              position: "relative",
-              aspectRatio: "16/9",
-              overflow: "hidden"
-            }}>
-              <video 
-                src="/video_soi_da.mp4" 
-                controls 
-                style={{ width: "100%", height: "100%", objectFit: "contain" }}
-              />
+            {/* Real video player block */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase", display: "flex", alignItems: "center", gap: "8px" }}>
+                <span>🎥</span> Video Hướng Dẫn Vận Hành Máy
+              </h3>
+              <div style={{ 
+                border: "3px solid var(--lush-black)", 
+                boxShadow: "6px 6px 0 var(--lush-black)",
+                background: "#000",
+                position: "relative",
+                aspectRatio: "16/9",
+                overflow: "hidden"
+              }}>
+                <video 
+                  src="/video_soi_da.mp4" 
+                  controls 
+                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                />
+              </div>
+              <span style={{ fontSize: "0.75rem", color: "#666", fontStyle: "italic" }}>
+                💡 Mẹo: Nhân viên mới bắt buộc xem hết video này trước khi thực hành soi da đầu cho khách hàng.
+              </span>
             </div>
-            <span style={{ fontSize: "0.75rem", color: "#666", fontStyle: "italic" }}>
-              💡 Mẹo: Nhân viên mới bắt buộc xem hết video này trước khi thực hành soi da đầu cho khách hàng.
-            </span>
-          </div>
 
-        </div>
+          </div>
+        )}
 
       </div>
 
