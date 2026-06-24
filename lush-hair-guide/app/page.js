@@ -66,7 +66,7 @@ export default function Home() {
               onClick={() => setActiveTab("report")}
               style={{ fontSize: "0.95rem" }}
             >
-              📊 Báo Cáo Chiến Dịch
+              📋 Phiếu Khách Hàng
             </button>
           </div>
 

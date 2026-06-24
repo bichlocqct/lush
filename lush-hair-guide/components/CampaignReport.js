@@ -7,13 +7,14 @@ export default function CampaignReport() {
   const [submitting, setSubmitting] = useState(false);
 
   // Form fields
-  const [staffName, setStaffName] = useState("");
+  const [customerName, setCustomerName] = useState("");
   const [store, setStore] = useState("Lush Saigon Center");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [scansCount, setScansCount] = useState("");
-  const [routinesCount, setRoutinesCount] = useState("");
-  const [bestSeller, setBestSeller] = useState("Fairly Traded Honey");
+  const [symptoms, setSymptoms] = useState([]);
+  const [routine, setRoutine] = useState("");
+  const [purchased, setPurchased] = useState(true); // true = Đã mua, false = Không mua
   const [feedback, setFeedback] = useState("");
+  const [staffName, setStaffName] = useState("");
 
   const storesList = [
     "Lush Saigon Center",
@@ -24,19 +25,14 @@ export default function CampaignReport() {
     "Lush Aeon Hà Đông",
     "Cửa hàng khác"
   ];
-  const productsList = [
-    "Fairly Traded Honey",
-    "Rehab",
-    "Big",
-    "Soak and Float",
-    "New Shampoo Bar",
-    "Roots",
-    "SuperBalm",
-    "American Cream",
-    "Candy Rain",
-    "Veganese",
-    "Renee's Shea Soufflé",
-    "Superhero Milk"
+
+  const symptomsList = [
+    { id: "oily", label: "Tóc bết nhanh, da đầu tiết bóng dầu nhiều" },
+    { id: "redness", label: "Da đầu ửng đỏ, có đốm hồng, dễ rát ngứa" },
+    { id: "dry_flakes", label: "Có vảy bong tróc nhỏ màu trắng, da đầu khô căng" },
+    { id: "thick_flakes", label: "Gàu vảy dày, bám thành mảng, ngứa dữ dội" },
+    { id: "hair_loss", label: "Tóc rụng nhiều (>100 sợi/ngày), nang tóc yếu/thưa" },
+    { id: "normal", label: "Da đầu sạch, không đỏ, ẩm mượt vừa phải, tóc khỏe" }
   ];
 
   // Fetch reports on mount
@@ -88,22 +84,42 @@ export default function CampaignReport() {
     fetchReports();
   }, []);
 
+  const handleSymptomToggle = (id) => {
+    if (id === "normal") {
+      if (symptoms.includes("normal")) {
+        setSymptoms([]);
+      } else {
+        setSymptoms(["normal"]);
+      }
+      return;
+    }
+
+    let updated = [...symptoms].filter(s => s !== "normal");
+    if (updated.includes(id)) {
+      updated = updated.filter(s => s !== id);
+    } else {
+      updated.push(id);
+    }
+    setSymptoms(updated);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!staffName.trim()) {
-      alert("Vui lòng điền tên nhân viên báo cáo!");
+    if (!customerName.trim()) {
+      alert("Vui lòng điền họ và tên khách hàng!");
       return;
     }
 
     setSubmitting(true);
     const newReport = {
-      staffName,
+      customerName,
       store,
       date,
-      scansCount: parseInt(scansCount, 10) || 0,
-      routinesCount: parseInt(routinesCount, 10) || 0,
-      bestSeller,
-      feedback
+      symptoms,
+      routine,
+      purchased,
+      feedback,
+      staffName
     };
 
     try {
@@ -134,13 +150,14 @@ export default function CampaignReport() {
       }
 
       // Clear fields
-      setStaffName("");
-      setScansCount("");
-      setRoutinesCount("");
+      setCustomerName("");
+      setSymptoms([]);
+      setRoutine("");
+      setPurchased(true);
       setFeedback("");
       // Reload list
       await fetchReports();
-      alert("Gửi báo cáo kết quả thành công!");
+      alert("Lưu phiếu thông tin khách hàng thành công!");
     } catch (err) {
       console.error(err);
       // Even if network request fails, save it locally!
@@ -154,19 +171,20 @@ export default function CampaignReport() {
       localReports.push(savedReport);
       localStorage.setItem("lush_campaign_reports", JSON.stringify(localReports));
 
-      setStaffName("");
-      setScansCount("");
-      setRoutinesCount("");
+      setCustomerName("");
+      setSymptoms([]);
+      setRoutine("");
+      setPurchased(true);
       setFeedback("");
       await fetchReports();
-      alert("Gửi báo cáo kết quả thành công! (Lưu cục bộ trên trình duyệt)");
+      alert("Lưu phiếu thành công! (Lưu cục bộ trên trình duyệt do lỗi mạng)");
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("Bạn có chắc chắn muốn xóa báo cáo này?")) {
+    if (!confirm("Bạn có chắc chắn muốn xóa phiếu thông tin này?")) {
       return;
     }
 
@@ -193,70 +211,54 @@ export default function CampaignReport() {
     await fetchReports();
   };
 
-  // Aggregated KPIs
-  const totalScans = reports.reduce((sum, r) => sum + (r.scansCount || 0), 0);
-  const totalRoutines = reports.reduce((sum, r) => sum + (r.routinesCount || 0), 0);
-  
-  // Best seller product in the campaign based on reports
-  const getCampaignBestSeller = () => {
-    if (reports.length === 0) return "N/A";
-    const counts = {};
-    reports.forEach(r => {
-      if (r.bestSeller && r.bestSeller !== "N/A") {
-        counts[r.bestSeller] = (counts[r.bestSeller] || 0) + 1;
-      }
-    });
-    let maxProd = "N/A";
-    let maxVal = 0;
-    Object.entries(counts).forEach(([prod, val]) => {
-      if (val > maxVal) {
-        maxVal = val;
-        maxProd = prod;
-      }
-    });
-    return maxProd;
+  const getSymptomLabel = (id) => {
+    const found = symptomsList.find(s => s.id === id);
+    return found ? found.label : id;
   };
+
+  // Aggregated KPIs
+  const totalCustomers = reports.length;
+  const totalRoutines = reports.filter(r => r.routine && r.routine.trim() !== "").length;
+  const totalPurchased = reports.filter(r => r.purchased === true || r.purchased === "true" || r.purchased === "yes").length;
 
   return (
     <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       
       {/* Header */}
       <div style={{ borderBottom: "1px solid var(--lush-gray-medium)", paddingBottom: "12px" }}>
-        <h2 style={{ fontSize: "1.5rem" }}>Báo Cáo Kết Quả Chiến Dịch Soi Da</h2>
+        <h2 style={{ fontSize: "1.5rem" }}>Phiếu Thông Tin Khách Hàng Soi Da</h2>
         <p style={{ color: "#666", fontSize: "0.9rem" }}>
-          Nhập kết quả hàng ngày và theo dõi tổng thể thành tích hoạt động của chiến dịch Workshop soi da đầu cho khách hàng tại các cửa hàng.
+          Nhập thông tin khách hàng tham gia workshop soi da và quản lý kết quả tư vấn sản phẩm LUSH tại các cửa hàng.
         </p>
       </div>
 
       {/* KPI Dashboard */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
         
-        {/* KPI 1: Scans */}
+        {/* KPI 1: Total Customers */}
         <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "8px", background: "#fcfcfc" }}>
-          <span className="sub-title" style={{ color: "#666" }}>Tổng số ca soi da đầu</span>
-          <div style={{ fontSize: "2.2rem", fontWeight: "800" }}>{totalScans}</div>
+          <span className="sub-title" style={{ color: "#666" }}>Tổng số khách đã tham gia</span>
+          <div style={{ fontSize: "2.2rem", fontWeight: "800" }}>{totalCustomers}</div>
           <span style={{ fontSize: "0.75rem", color: "var(--lush-green)", background: "var(--lush-green-light)", padding: "4px 8px", alignSelf: "flex-start", fontWeight: "600" }}>
-            👥 Khách hàng trải nghiệm
+            👥 Khách trải nghiệm soi da
           </span>
         </div>
 
-        {/* KPI 2: Routines */}
+        {/* KPI 2: Total Routines Advised */}
         <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "8px", background: "#fcfcfc" }}>
-          <span className="sub-title" style={{ color: "#666" }}>Tổng số Routine đã tư vấn</span>
+          <span className="sub-title" style={{ color: "#666" }}>Tổng số bộ routine đã tư vấn</span>
           <div style={{ fontSize: "2.2rem", fontWeight: "800" }}>{totalRoutines}</div>
           <span style={{ fontSize: "0.75rem", color: "#8a6a00", background: "var(--lush-gold-light)", padding: "4px 8px", alignSelf: "flex-start", fontWeight: "600" }}>
-            🌿 Giải pháp được thiết kế
+            🌿 Giải pháp routine chăm sóc
           </span>
         </div>
 
-        {/* KPI 3: Bestseller */}
+        {/* KPI 3: Total Purchased */}
         <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "8px", background: "#fcfcfc" }}>
-          <span className="sub-title" style={{ color: "#666" }}>Sản phẩm bán chạy nhất chiến dịch</span>
-          <div style={{ fontSize: "1.4rem", fontWeight: "800", textTransform: "uppercase", marginTop: "12px", minHeight: "44px" }}>
-            {getCampaignBestSeller()}
-          </div>
-          <span className="lush-tag dark" style={{ alignSelf: "flex-start", fontSize: "0.65rem" }}>
-            🔥 Bestseller hôm nay
+          <span className="sub-title" style={{ color: "#666" }}>Tổng số khách hàng đã mua</span>
+          <div style={{ fontSize: "2.2rem", fontWeight: "800" }}>{totalPurchased}</div>
+          <span className="lush-tag green" style={{ alignSelf: "flex-start", fontSize: "0.65rem", background: "#e1f5fe", color: "#0288d1", borderColor: "#0288d1" }}>
+            🛒 Tỷ lệ mua: {totalCustomers > 0 ? Math.round((totalPurchased / totalCustomers) * 100) : 0}%
           </span>
         </div>
 
@@ -267,21 +269,23 @@ export default function CampaignReport() {
         {/* Left Column: Input Form */}
         <form onSubmit={handleSubmit} className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase", borderBottom: "2px solid #000", paddingBottom: "8px" }}>
-            📝 Điền Báo Cáo Ca Mới
+            📝 Tạo Phiếu Khách Hàng Mới
           </h3>
 
+          {/* Customer Name */}
           <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Tên nhân viên báo cáo *</label>
+            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Họ và Tên khách hàng *</label>
             <input 
               type="text" 
-              value={staffName} 
-              onChange={(e) => setStaffName(e.target.value)} 
-              placeholder="Nhập tên của bạn..."
+              value={customerName} 
+              onChange={(e) => setCustomerName(e.target.value)} 
+              placeholder="Nhập tên khách hàng..."
               required
               style={{ padding: "10px", border: "2px solid #000", fontSize: "0.9rem", outline: "none" }}
             />
           </div>
 
+          {/* Store & Date */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
               <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Cửa hàng *</label>
@@ -295,7 +299,7 @@ export default function CampaignReport() {
             </div>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Ngày báo cáo *</label>
+              <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Ngày tư vấn *</label>
               <input 
                 type="date" 
                 value={date} 
@@ -306,50 +310,99 @@ export default function CampaignReport() {
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Số ca soi da đầu</label>
-              <input 
-                type="number" 
-                min="0"
-                value={scansCount} 
-                onChange={(e) => setScansCount(e.target.value)} 
-                placeholder="Ví dụ: 12"
-                style={{ padding: "10px", border: "2px solid #000", fontSize: "0.9rem", outline: "none" }}
-              />
-            </div>
-            
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Số routine tư vấn</label>
-              <input 
-                type="number" 
-                min="0"
-                value={routinesCount} 
-                onChange={(e) => setRoutinesCount(e.target.value)} 
-                placeholder="Ví dụ: 8"
-                style={{ padding: "10px", border: "2px solid #000", fontSize: "0.9rem", outline: "none" }}
-              />
+          {/* Scalp Symptoms Checkboxes (Same structure as ScalpClassifier) */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Tình trạng da đầu gặp phải (Chọn nhiều triệu chứng)</label>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", background: "var(--lush-gray-light)", padding: "12px", border: "1px solid var(--lush-gray-medium)" }}>
+              {symptomsList.map((sym) => {
+                const isChecked = symptoms.includes(sym.id);
+                return (
+                  <label 
+                    key={sym.id}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      cursor: "pointer",
+                      fontSize: "0.85rem",
+                      fontWeight: isChecked ? "bold" : "normal",
+                      padding: "2px 0",
+                      userSelect: "none"
+                    }}
+                  >
+                    <input 
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => handleSymptomToggle(sym.id)}
+                      style={{ accentColor: "#000", width: "16px", height: "16px" }}
+                    />
+                    <span>{sym.label}</span>
+                  </label>
+                );
+              })}
             </div>
           </div>
 
+          {/* Recommended Routine */}
           <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Sản phẩm bán chạy nhất ca</label>
-            <select 
-              value={bestSeller} 
-              onChange={(e) => setBestSeller(e.target.value)}
-              style={{ padding: "10px", border: "2px solid #000", fontSize: "0.9rem", cursor: "pointer", outline: "none" }}
-            >
-              {productsList.map(prod => <option key={prod} value={prod}>{prod}</option>)}
-            </select>
+            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Bộ routine đã tư vấn cho khách hàng *</label>
+            <textarea 
+              value={routine} 
+              onChange={(e) => setRoutine(e.target.value)} 
+              placeholder="Ví dụ: SuperBalm + Soak & Float + Veganese..."
+              rows="2"
+              required
+              style={{ padding: "10px", border: "2px solid #000", fontSize: "0.9rem", outline: "none", resize: "vertical" }}
+            />
           </div>
 
+          {/* Purchased Option */}
           <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Ý kiến khách hàng & Ghi chú</label>
+            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Trạng thái mua hàng *</label>
+            <div style={{ display: "flex", gap: "24px", padding: "8px 0" }}>
+              <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "0.9rem", fontWeight: "700" }}>
+                <input 
+                  type="radio" 
+                  name="purchased"
+                  checked={purchased === true}
+                  onChange={() => setPurchased(true)}
+                  style={{ accentColor: "#000", width: "18px", height: "18px" }}
+                />
+                🟢 Đã mua hàng
+              </label>
+              <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "0.9rem", fontWeight: "700" }}>
+                <input 
+                  type="radio" 
+                  name="purchased"
+                  checked={purchased === false}
+                  onChange={() => setPurchased(false)}
+                  style={{ accentColor: "#000", width: "18px", height: "18px" }}
+                />
+                🔴 Không mua
+              </label>
+            </div>
+          </div>
+
+          {/* Advisor Name (Staff) */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Nhân viên tư vấn (Không bắt buộc)</label>
+            <input 
+              type="text" 
+              value={staffName} 
+              onChange={(e) => setStaffName(e.target.value)} 
+              placeholder="Nhập tên nhân viên..."
+              style={{ padding: "10px", border: "2px solid #000", fontSize: "0.9rem", outline: "none" }}
+            />
+          </div>
+
+          {/* Customer Feedback */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Phản ánh của khách hàng & Ghi chú</label>
             <textarea 
               value={feedback} 
               onChange={(e) => setFeedback(e.target.value)} 
-              placeholder="Khách phản hồi về da đầu, hương thơm sản phẩm..."
-              rows="3"
+              placeholder="Khách thích mùi gì, cảm nhận khi test thử hoặc lí do chưa mua..."
+              rows="2"
               style={{ padding: "10px", border: "2px solid #000", fontSize: "0.9rem", outline: "none", resize: "vertical" }}
             />
           </div>
@@ -360,82 +413,142 @@ export default function CampaignReport() {
             disabled={submitting} 
             style={{ width: "100%", marginTop: "8px" }}
           >
-            {submitting ? "Đang gửi báo cáo..." : "Gửi Báo Cáo Kết Quả"}
+            {submitting ? "Đang lưu thông tin..." : "Lưu Phiếu Khách Hàng"}
           </button>
         </form>
 
         {/* Right Column: History List */}
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase", paddingBottom: "4px" }}>
-            📜 Lịch Sử Gửi Báo Cáo
+            📜 Danh Sách Phiếu Khách Hàng ({reports.length})
           </h3>
           
           {loading ? (
             <div style={{ padding: "40px", textAlign: "center", color: "#888" }}>
-              Đang tải danh sách báo cáo...
+              Đang tải danh sách phiếu khách hàng...
             </div>
           ) : reports.length > 0 ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxHeight: "650px", overflowY: "auto", paddingRight: "8px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxHeight: "850px", overflowY: "auto", paddingRight: "8px" }}>
               {reports.map((report) => (
                 <div 
                   key={report.id}
                   className="lush-card"
                   style={{
-                    padding: "18px",
-                    borderWidth: "1.5px"
+                    padding: "20px",
+                    borderWidth: "2px",
+                    borderColor: "#000",
+                    position: "relative"
                   }}
                 >
+                  {/* Top info and delete button */}
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", flexWrap: "wrap", gap: "8px" }}>
                     <div>
                       <span className="lush-tag dark" style={{ fontSize: "0.65rem", padding: "2px 6px" }}>{report.store}</span>
-                      <h4 style={{ fontSize: "1.1rem", marginTop: "4px" }}>{report.staffName}</h4>
+                      <h4 style={{ fontSize: "1.2rem", marginTop: "6px", textTransform: "none", fontFamily: "var(--font-sans)", fontWeight: "800" }}>
+                        👤 {report.customerName || report.staffName || "Khách hàng ẩn danh"}
+                      </h4>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <span style={{ fontSize: "0.8rem", color: "#666", fontWeight: "600" }}>{report.date}</span>
+                      <span style={{ fontSize: "0.8rem", color: "#666", fontWeight: "700" }}>{report.date}</span>
                       <button 
                         onClick={() => handleDelete(report.id)}
-                        title="Xóa báo cáo"
+                        title="Xóa phiếu thông tin"
                         style={{
                           background: "none",
                           border: "none",
                           cursor: "pointer",
-                          fontSize: "0.95rem",
+                          fontSize: "1rem",
                           padding: "2px 4px",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          opacity: 0.7,
+                          opacity: 0.6,
                           transition: "opacity 0.2s"
                         }}
                         onMouseEnter={(e) => e.target.style.opacity = 1}
-                        onMouseLeave={(e) => e.target.style.opacity = 0.7}
+                        onMouseLeave={(e) => e.target.style.opacity = 0.6}
                       >
                         🗑️
                       </button>
                     </div>
                   </div>
 
-                  <div style={{ 
-                    display: "grid", 
-                    gridTemplateColumns: "1fr 1fr", 
-                    gap: "12px", 
-                    margin: "12px 0 8px",
-                    padding: "10px", 
-                    background: "var(--lush-gray-light)",
-                    fontSize: "0.85rem"
-                  }}>
-                    <div>👥 <strong>Số ca soi:</strong> {report.scansCount} ca</div>
-                    <div>🌿 <strong>Số routine:</strong> {report.routinesCount} bộ</div>
-                    <div style={{ gridColumn: "1 / -1" }}>
-                      🔥 <strong>Bán chạy nhất:</strong> {report.bestSeller}
+                  {/* Diagnosed scalp symptoms */}
+                  <div style={{ marginTop: "12px" }}>
+                    <span style={{ fontSize: "0.75rem", textTransform: "uppercase", fontWeight: "800", color: "#666", display: "block" }}>Tình trạng da đầu:</span>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "4px" }}>
+                      {report.symptoms && report.symptoms.length > 0 ? (
+                        report.symptoms.map((symId, index) => (
+                          <span 
+                            key={index} 
+                            className="lush-tag" 
+                            style={{ 
+                              fontSize: "0.7rem", 
+                              padding: "2px 6px",
+                              borderColor: symId === "normal" ? "var(--lush-green)" : "#e57373",
+                              color: symId === "normal" ? "var(--lush-green)" : "#c62828",
+                              background: symId === "normal" ? "var(--lush-green-light)" : "#ffebee",
+                              textTransform: "none",
+                              fontWeight: "600"
+                            }}
+                          >
+                            {getSymptomLabel(symId)}
+                          </span>
+                        ))
+                      ) : (
+                        <span style={{ fontSize: "0.85rem", color: "#888", fontStyle: "italic" }}>Chưa ghi nhận triệu chứng</span>
+                      )}
                     </div>
                   </div>
 
-                  {report.feedback && (
-                    <p style={{ fontSize: "0.85rem", color: "#444", borderTop: "1px dashed #e5e5e5", paddingTop: "8px", marginTop: "8px", fontStyle: "italic" }}>
-                      💬 "{report.feedback}"
-                    </p>
-                  )}
+                  {/* Recommended Routine */}
+                  <div style={{ 
+                    margin: "12px 0 8px",
+                    padding: "12px", 
+                    background: "var(--lush-gray-light)",
+                    border: "1px solid var(--lush-gray-medium)",
+                    fontSize: "0.85rem"
+                  }}>
+                    <div style={{ marginBottom: "6px" }}>
+                      <strong>🌿 Routine tư vấn:</strong>
+                      <p style={{ marginTop: "2px", fontWeight: "600", color: "var(--lush-green)" }}>
+                        {report.routine || "Chưa đề xuất"}
+                      </p>
+                    </div>
+                    {report.staffName && report.customerName && (
+                      <div style={{ fontSize: "0.75rem", color: "#666", borderTop: "1px dashed #e5e5e5", paddingTop: "6px", marginTop: "6px" }}>
+                        👤 <strong>Nhân viên tư vấn:</strong> {report.staffName}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bottom Purchased Status & Feedback */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px dashed #e5e5e5", paddingTop: "10px", marginTop: "10px" }}>
+                    <div style={{ fontSize: "0.85rem" }}>
+                      {report.feedback ? (
+                        <span style={{ fontStyle: "italic", color: "#444" }}>
+                          💬 "{report.feedback}"
+                        </span>
+                      ) : (
+                        <span style={{ color: "#aaa", fontStyle: "italic" }}>Không có phản ánh</span>
+                      )}
+                    </div>
+
+                    <span 
+                      className={`lush-tag ${report.purchased === true || report.purchased === "true" || report.purchased === "yes" ? "green" : "dark"}`}
+                      style={{ 
+                        fontSize: "0.7rem", 
+                        padding: "4px 8px",
+                        background: report.purchased === true || report.purchased === "true" || report.purchased === "yes" ? "var(--lush-green-light)" : "#f5f5f5",
+                        color: report.purchased === true || report.purchased === "true" || report.purchased === "yes" ? "var(--lush-green)" : "#757575",
+                        borderColor: report.purchased === true || report.purchased === "true" || report.purchased === "yes" ? "var(--lush-green)" : "#bdbdbd",
+                        fontWeight: "800"
+                      }}
+                    >
+                      {report.purchased === true || report.purchased === "true" || report.purchased === "yes" ? "✓ ĐÃ MUA HÀNG" : "✗ KHÔNG MUA"}
+                    </span>
+                  </div>
+
                 </div>
               ))}
             </div>
@@ -446,7 +559,7 @@ export default function CampaignReport() {
               textAlign: "center",
               color: "#888"
             }}>
-              Chưa có báo cáo nào được gửi. Hãy là người đầu tiên nhập báo cáo!
+              Chưa có phiếu thông tin khách hàng nào được tạo.
             </div>
           )}
         </div>

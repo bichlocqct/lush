@@ -50,21 +50,22 @@ export async function POST(request) {
     const body = await request.json();
     
     // Simple validation
-    const { staffName, store, date, scansCount, routinesCount, bestSeller, feedback } = body;
-    if (!staffName || !store || !date) {
+    const { customerName, store, date, symptoms, routine, purchased, feedback, staffName } = body;
+    if (!customerName || !store || !date) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const newReport = {
       id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
       createdAt: new Date().toISOString(),
-      staffName,
+      customerName,
       store,
       date,
-      scansCount: parseInt(scansCount, 10) || 0,
-      routinesCount: parseInt(routinesCount, 10) || 0,
-      bestSeller: bestSeller || 'N/A',
-      feedback: feedback || ''
+      symptoms: symptoms || [],
+      routine: routine || '',
+      purchased: !!purchased,
+      feedback: feedback || '',
+      staffName: staffName || ''
     };
 
     const fileContent = fs.readFileSync(dataFilePath, 'utf8');
