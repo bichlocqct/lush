@@ -725,6 +725,149 @@ export default function ScalpClassifier() {
           </div>
         </div>
 
+        {/* HAIR POROSITY & FLOAT TEST SECTION */}
+        <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "24px", marginTop: "16px" }}>
+          <div style={{ borderBottom: "3px solid var(--lush-black)", paddingBottom: "16px", textAlign: "center" }}>
+            <span className="sub-title" style={{ color: "#666" }}>Bài kiểm tra độ xốp tóc (Float Test)</span>
+            <h2 style={{ fontSize: "1.6rem", marginTop: "8px", fontFamily: "var(--font-serif)" }}>
+              🍯 Kiểm tra độ xốp tóc & Giải pháp phục hồi
+            </h2>
+          </div>
+          
+          <div style={{ background: "var(--lush-gold-light)", borderLeft: "6px solid var(--lush-gold)", padding: "16px", fontSize: "0.85rem", lineHeight: "1.6" }}>
+            <strong>Xác định độ xốp của tóc thông qua Hướng dẫn Float Test (Bài kiểm tra độ xốp):</strong>
+            <p style={{ marginTop: "4px", color: "#333" }}>
+              Thả sợi tóc sạch vào ly nước ấm. Quan sát vị trí của sợi tóc sau vài phút để xác định tóc thuộc nhóm Nổi, Lơ lửng hay Chim:
+            </p>
+            <ul style={{ marginLeft: "20px", marginTop: "8px", color: "#333" }}>
+              <li><strong>Nổi (Độ xốp thấp):</strong> Sợi tóc nổi trên bề mặt nước.</li>
+              <li><strong>Lơ lửng (Độ xốp trung bình):</strong> Sợi tóc lơ lửng ở giữa ly nước.</li>
+              <li><strong>Chìm (Độ xốp cao):</strong> Sợi tóc chìm xuống đáy ly nước.</li>
+            </ul>
+          </div>
+
+          <div style={{ 
+            display: "grid", 
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", 
+            gap: "24px" 
+          }}>
+            {/* Low Porosity */}
+            <div style={{ border: "2px solid #000", padding: "20px", display: "flex", flexDirection: "column", gap: "12px", background: "#ffffff" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #eee", paddingBottom: "10px" }}>
+                <h4 style={{ fontSize: "1.05rem", margin: 0, fontFamily: "var(--font-sans)", fontWeight: "800", color: "var(--lush-green)" }}>
+                  TÓC NỔI (Độ xốp thấp)
+                </h4>
+                <span style={{ fontSize: "1.4rem" }}>🥛 Nổi</span>
+              </div>
+              
+              <div style={{ fontSize: "0.85rem", lineHeight: "1.5" }}>
+                <strong>Biểu bì xếp khít (Closed):</strong>
+                <p style={{ color: "#444", marginTop: "4px" }}>
+                  Cấu trúc biểu bì khít nhau khiến nước và dưỡng chất khó thẩm thấu vào bên trong sợi tóc.
+                </p>
+              </div>
+
+              <div style={{ background: "#f9f9f9", padding: "10px", borderLeft: "3px solid var(--lush-green)", fontSize: "0.8rem" }}>
+                <strong style={{ color: "var(--lush-green)", display: "block", marginBottom: "4px" }}>🔑 LÀM SẠCH NHẸ & MỞ BIỂU BÌ:</strong>
+                Cần sử dụng hơi nước hoặc nhiệt độ ấm để mở lớp biểu bì, giúp dưỡng chất Moisture đi sâu vào làm mềm tóc.
+              </div>
+
+              <div style={{ fontSize: "0.8rem", color: "#333" }}>
+                <strong>🌱 Thành phần chính:</strong> Jojoba, Mật ong, hạnh nhân, bơ quả bơ, chanh. Giúp dưỡng ẩm, thẩm thấu vào thân tóc giúp tóc ẩm và đàn hồi.
+              </div>
+
+              <div style={{ borderTop: "1px dashed #ddd", paddingTop: "12px", marginTop: "auto" }}>
+                <strong style={{ color: "var(--lush-green)", display: "block", marginBottom: "8px", fontSize: "0.8rem" }}>🛍️ SẢN PHẨM KHUYÊN DÙNG:</strong>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                  <span className="lush-tag green" style={{ fontSize: "0.7rem" }}>Super Milk</span>
+                  <span className="lush-tag green" style={{ fontSize: "0.7rem" }}>Balance</span>
+                  <span className="lush-tag green" style={{ fontSize: "0.7rem" }}>Glory</span>
+                </div>
+                <p style={{ fontSize: "0.75rem", color: "#666", marginTop: "6px", fontStyle: "italic" }}>
+                  Các sản phẩm giàu dưỡng chất giúp tóc giúp cân bằng độ ẩm và bảo vệ tóc suốt cả ngày.
+                </p>
+              </div>
+            </div>
+
+            {/* Medium Porosity */}
+            <div style={{ border: "2px solid #000", padding: "20px", display: "flex", flexDirection: "column", gap: "12px", background: "#ffffff" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #eee", paddingBottom: "10px" }}>
+                <h4 style={{ fontSize: "1.05rem", margin: 0, fontFamily: "var(--font-sans)", fontWeight: "800", color: "var(--lush-gold)" }}>
+                  TÓC LƠ LỬNG (Độ xốp TB)
+                </h4>
+                <span style={{ fontSize: "1.4rem" }}>🥛 Lơ lửng</span>
+              </div>
+              
+              <div style={{ fontSize: "0.85rem", lineHeight: "1.5" }}>
+                <strong>Biểu bì mở nhẹ (Slightly raised):</strong>
+                <p style={{ color: "#444", marginTop: "4px" }}>
+                  Đây là trạng thái lý tưởng khi lớp biểu bì có độ mở vừa phải, dễ dàng hấp thụ và giữ được độ ẩm cần thiết.
+                </p>
+              </div>
+
+              <div style={{ background: "#f9f9f9", padding: "10px", borderLeft: "3px solid var(--lush-gold)", fontSize: "0.8rem" }}>
+                <strong style={{ color: "var(--lush-gold)", display: "block", marginBottom: "4px" }}>🔑 DUY TRÌ SỰ CÂN BẰNG:</strong>
+                Sử dụng các sản phẩm chống tĩnh điện (Condition) để giữ biểu bì phẳng mịn, ngăn ngừa rối và khô xơ do tác động môi trường.
+              </div>
+
+              <div style={{ fontSize: "0.8rem", color: "#333" }}>
+                <strong>🌱 Thành phần chính:</strong> Dầu olive, Dầu bơ, Oải hương, các gốc chống tĩnh điện. Sự kết hợp hoàn hảo để nuôi dưỡng và duy trì độ bóng khỏe tự nhiên.
+              </div>
+
+              <div style={{ borderTop: "1px dashed #ddd", paddingTop: "12px", marginTop: "auto" }}>
+                <strong style={{ color: "var(--lush-gold)", display: "block", marginBottom: "8px", fontSize: "0.8rem" }}>🛍️ SẢN PHẨM KHUYÊN DÙNG:</strong>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                  <span className="lush-tag gold" style={{ fontSize: "0.7rem" }}>Veganese</span>
+                  <span className="lush-tag gold" style={{ fontSize: "0.7rem" }}>Happy Happy Joy Joy</span>
+                  <span className="lush-tag gold" style={{ fontSize: "0.7rem" }}>Super Milk</span>
+                </div>
+                <p style={{ fontSize: "0.75rem", color: "#666", marginTop: "6px", fontStyle: "italic" }}>
+                  Dầu xả kết cấu nhẹ, giúp tóc mềm mượt và dễ chải mà vẫn giữ được độ phồng tự nhiên.
+                </p>
+              </div>
+            </div>
+
+            {/* High Porosity */}
+            <div style={{ border: "2px solid #000", padding: "20px", display: "flex", flexDirection: "column", gap: "12px", background: "#ffffff" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #eee", paddingBottom: "10px" }}>
+                <h4 style={{ fontSize: "1.05rem", margin: 0, fontFamily: "var(--font-sans)", fontWeight: "800", color: "var(--lush-red)" }}>
+                  TÓC CHÌM (Độ xốp cao)
+                </h4>
+                <span style={{ fontSize: "1.4rem" }}>🥛 Chìm</span>
+              </div>
+              
+              <div style={{ fontSize: "0.85rem", lineHeight: "1.5" }}>
+                <strong>Biểu bì hở rộng/đứt gãy (Highly raised/Damaged):</strong>
+                <p style={{ color: "#444", marginTop: "4px" }}>
+                  Lớp biểu bì bị hở hoặc đứt gãy (thường do uốn, nhuộm nhiều) khiến tóc hút nước nhanh nhưng cũng mất độ ẩm tức thì.
+                </p>
+              </div>
+
+              <div style={{ background: "#f9f9f9", padding: "10px", borderLeft: "3px solid var(--lush-red)", fontSize: "0.8rem" }}>
+                <strong style={{ color: "var(--lush-red)", display: "block", marginBottom: "4px" }}>🔑 PHỤC HỒI PROTEIN & KHÓA ẨM:</strong>
+                Cần lấp đầy các lỗ hổng cấu trúc bằng Protein và kết hợp các dầu dưỡng để "khóa" dưỡng chất lại bên trong.
+              </div>
+
+              <div style={{ fontSize: "0.8rem", color: "#333" }}>
+                <strong>🌱 Thành phần chính:</strong> Lúa mì thủy phân, nước đậu gà (Aquafaba), tofu, dầu olive, hạnh nhân, yến mạch. Các "vật liệu xây dựng" tự nhiên giúp tái cấu trúc sợi tóc.
+              </div>
+
+              <div style={{ borderTop: "1px dashed #ddd", paddingTop: "12px", marginTop: "auto" }}>
+                <strong style={{ color: "var(--lush-red)", display: "block", marginBottom: "8px", fontSize: "0.8rem" }}>🛍️ SẢN PHẨM KHUYÊN DÙNG:</strong>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+                  <span className="lush-tag dark" style={{ fontSize: "0.7rem", background: "var(--lush-red)", borderColor: "var(--lush-red)" }}>Power</span>
+                  <span className="lush-tag dark" style={{ fontSize: "0.7rem", background: "var(--lush-red)", borderColor: "var(--lush-red)" }}>Tofu</span>
+                  <span className="lush-tag dark" style={{ fontSize: "0.7rem", background: "var(--lush-red)", borderColor: "var(--lush-red)" }}>Super Milk Shampoo</span>
+                  <span className="lush-tag dark" style={{ fontSize: "0.7rem", background: "var(--lush-red)", borderColor: "var(--lush-red)" }}>Valkyrie</span>
+                </div>
+                <p style={{ fontSize: "0.75rem", color: "#666", marginTop: "6px", fontStyle: "italic" }}>
+                  Các liệu pháp đặc trị giàu protein và dưỡng chất để phục hồi tận gốc mái tóc hư tổn.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Row 3: Restoration & Herbs */}
         <div className="grid-split">
           

@@ -165,6 +165,69 @@ export default function ProductCatalog() {
       desc: "Xịt dưỡng mỏng nhẹ giúp cấp ẩm tức thì, bảo vệ biểu bì tóc khỏi nhiệt độ máy sấy và tác hại tia UV ngoại cảnh.",
       tip: "Dành cho mọi loại tóc, xịt bảo vệ tóc hàng ngày sau khi gội đầu.",
       usage: "Xịt đều lên tóc ẩm hoặc tóc khô từ khoảng cách 20cm, chải nhẹ để dưỡng chất thấm đều, không cần xả lại."
+    },
+    {
+      name: "Balance",
+      category: "leavein",
+      type: "Kem Dưỡng Tóc (Leave-in)",
+      ingredients: "Bơ bơ + dầu olive + dầu jojoba + sữa yến mạch",
+      desc: "Kem dưỡng tóc leave-in siêu giàu dưỡng chất giúp định hình lọn tóc xoăn, khóa ẩm, bảo vệ sợi tóc khỏi gãy rụng và nuôi dưỡng tóc xốp hiệu quả.",
+      tip: "Phù hợp cho tóc xốp thấp (Tóc Nổi), tóc xoăn tự nhiên, tóc khô sơ thiếu nước cần khóa ẩm.",
+      usage: "Thoa một lượng nhỏ lên tóc ẩm sau khi gội hoặc tóc khô để cấp ẩm, định hình nếp tóc và tạo độ bóng mượt."
+    },
+    {
+      name: "Glory",
+      category: "conditioner",
+      type: "Dầu Xả Phục Hồi Chuyên Sâu",
+      ingredients: "Gel đậu bắp tươi + kem dừa + dầu olive + dầu thầu dầu",
+      desc: "Dầu xả siêu đậm đặc giúp gỡ rối tức thì, cung cấp độ ẩm tối ưu và dưỡng chất béo để bảo vệ và phục hồi các mái tóc hư tổn nặng, khô xơ hoặc tóc xoăn.",
+      tip: "Dành riêng cho tóc xốp thấp (Tóc Nổi) cần dưỡng chất sâu, hoặc tóc khô, xơ rối, tóc xoăn tự nhiên.",
+      usage: "Sau khi gội đầu, thoa đều dầu xả lên thân và ngọn tóc, vuốt nhẹ để gỡ rối, ủ từ 3-5 phút rồi xả sạch."
+    },
+    {
+      name: "Happy Happy Joy Joy",
+      category: "conditioner",
+      type: "Dầu Xả Nước Hoa Mỏng Nhẹ",
+      ingredients: "Nước hoa hồng + nước hoa cam + sữa hạnh nhân + dầu jojoba",
+      desc: "Dầu xả hương nước hoa quý phái Neroli và bưởi chùm, cung cấp độ ẩm mỏng nhẹ, mang lại mái tóc bóng mượt bồng bềnh mà không gây bết nặng tóc.",
+      tip: "Lý tưởng cho tóc xốp trung bình (Tóc Lơ Lửng) và mọi loại tóc cần độ phồng tự nhiên, lưu hương dài lâu.",
+      usage: "Thoa đều lên tóc sau khi gội, tập trung vào ngọn tóc, lưu lại trên tóc 1-2 phút rồi xả sạch."
+    },
+    {
+      name: "Power",
+      category: "conditioner",
+      type: "Dầu Xả Phục Hồi Protein",
+      ingredients: "Khoai lang nghiền + si rô phong + protein lúa mì thủy phân",
+      desc: "Dầu xả giàu protein giúp tái cấu trúc sợi tóc hư tổn, tăng cường độ đàn hồi, ngăn ngừa chẻ ngọn và phục hồi sức sống cho mái tóc yếu do tẩy nhuộm.",
+      tip: "Dành cho tóc xốp cao (Tóc Chìm) cần bổ sung protein và khóa ẩm sâu, tóc bị tổn hại bởi hóa chất.",
+      usage: "Thoa đều từ thân đến ngọn tóc ẩm sau khi gội, massage nhẹ để protein hấp thụ, ủ khoảng 3 phút rồi xả sạch."
+    },
+    {
+      name: "Tofu",
+      category: "shampoo",
+      type: "Dầu Gội Kem Phục Hồi Protein",
+      ingredients: "Đậu hũ non hữu cơ (20%) + si rô agave + giấm gạo + chiết xuất nước nho",
+      desc: "Dầu gội dạng kem không chứa SLS, cung cấp hàm lượng protein thực vật cực cao từ đậu hũ để tái thiết cấu trúc lõi tóc hư tổn, mang lại vẻ bóng mượt và chắc khỏe.",
+      tip: "Đặc trị cho tóc xốp cao (Tóc Chìm), tóc tẩy, nhuộm, hư tổn nặng cần phục hồi cấu trúc.",
+      usage: "Lấy một lượng nhỏ xoa đều với nước để tạo bọt mịn, massage nhẹ nhàng lên da đầu và tóc ướt rồi xả sạch. Lưu ý đậy kín nắp sau dùng."
+    },
+    {
+      name: "Super Milk Shampoo",
+      category: "shampoo",
+      type: "Dầu Gội Dưỡng Ẩm & Phục Hồi",
+      ingredients: "Đậu hũ non + sữa yến mạch + sữa hạnh nhân + giấm gạo",
+      desc: "Dầu gội dịu nhẹ giàu protein và độ ẩm, kế thừa mùi hương thơm ngọt ngào của Super Milk xịt dưỡng, giúp làm sạch nhẹ nhàng và bảo vệ tóc hư tổn.",
+      tip: "Dành cho tóc xốp cao (Tóc Chìm), tóc hư tổn do nhiệt và hóa chất cần làm sạch nhẹ nhàng.",
+      usage: "Thoa đều lên tóc ướt, tạo bọt kỹ ở chân tóc và xoa nhẹ phần ngọn tóc, sau đó xả sạch."
+    },
+    {
+      name: "Valkyrie",
+      category: "conditioner",
+      type: "Dầu Xả Priming Phục Hồi Protein",
+      ingredients: "Aquafaba (nước đậu gà) + gluten lúa mì thủy phân + dầu olive + tinh chất hoa hồng",
+      desc: "Dầu xả phục hồi chuyên sâu chứa Aquafaba và Protein lúa mì giúp làm đầy các lỗ hổng trên biểu bì tóc, khóa ẩm và bảo vệ tóc hư tổn tối đa.",
+      tip: "Dành cho tóc xốp cao (Tóc Chìm), tóc đã qua xử lý hóa chất nhiều lần, giòn dễ gãy rụng.",
+      usage: "Thoa một lượng vừa đủ lên ngọn tóc ướt sau khi gội sạch, massage nhẹ để dưỡng chất bao bọc sợi tóc rồi xả sạch."
     }
   ];
 
