@@ -16,6 +16,7 @@ export default function CampaignReport() {
   const [purchased, setPurchased] = useState(true); // true = Đã mua, false = Không mua
   const [feedback, setFeedback] = useState("");
   const [staffName, setStaffName] = useState("");
+  const [consentNghiDinh13, setConsentNghiDinh13] = useState(false);
 
   const storesList = [
     "Lush Saigon Center",
@@ -110,6 +111,10 @@ export default function CampaignReport() {
       alert("Vui lòng điền họ và tên khách hàng!");
       return;
     }
+    if (!consentNghiDinh13) {
+      alert("Khách hàng cần đồng ý điều khoản thu thập dữ liệu theo Nghị định 13/2023 trước khi lưu phiếu!");
+      return;
+    }
 
     setSubmitting(true);
     const newReport = {
@@ -120,7 +125,8 @@ export default function CampaignReport() {
       routine,
       purchased,
       feedback,
-      staffName
+      staffName,
+      consentNghiDinh13
     };
 
     try {
@@ -156,6 +162,7 @@ export default function CampaignReport() {
       setRoutine("");
       setPurchased(true);
       setFeedback("");
+      setConsentNghiDinh13(false);
       // Reload list
       await fetchReports();
       alert("Lưu phiếu thông tin khách hàng thành công!");
@@ -177,6 +184,7 @@ export default function CampaignReport() {
       setRoutine("");
       setPurchased(true);
       setFeedback("");
+      setConsentNghiDinh13(false);
       await fetchReports();
       alert("Lưu phiếu thành công! (Lưu cục bộ trên trình duyệt do lỗi mạng)");
     } finally {
@@ -409,14 +417,33 @@ export default function CampaignReport() {
             />
           </div>
 
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
+            <label style={{ display: "flex", alignItems: "start", gap: "10px", cursor: "pointer", fontSize: "0.82rem", lineHeight: "1.4" }}>
+              <input 
+                type="checkbox"
+                checked={consentNghiDinh13}
+                onChange={(e) => setConsentNghiDinh13(e.target.checked)}
+                required
+                style={{ accentColor: "#000", width: "16px", height: "16px", marginTop: "2px", flexShrink: 0 }}
+              />
+              <span>
+                <strong>Đồng ý thu thập dữ liệu (Nghị định 13/2023/NĐ-CP):</strong> Khách hàng đồng ý cho phép cửa hàng thu thập và lưu trữ thông tin, hình ảnh soi da đầu phục vụ cho mục đích tư vấn sản phẩm LUSH. *
+              </span>
+            </label>
+          </div>
+
           <button 
             type="submit" 
             className="lush-btn" 
             disabled={submitting} 
-            style={{ width: "100%", marginTop: "8px" }}
+            style={{ width: "100%", marginTop: "4px" }}
           >
             {submitting ? "Đang lưu thông tin..." : "Lưu Phiếu Khách Hàng"}
           </button>
+          
+          <span style={{ fontSize: "0.75rem", color: "#666", textAlign: "center", display: "block", marginTop: "6px", fontStyle: "italic", lineHeight: "1.3" }}>
+            ⚠️ Tuyên bố miễn trừ trách nhiệm (Disclaimer): Hoạt động này là tư vấn mỹ phẩm chăm sóc da đầu & tóc, không có giá trị thay thế khám bệnh hoặc chẩn đoán y tế.
+          </span>
         </form>
 
         {/* Right Column: History List */}
@@ -446,6 +473,9 @@ export default function CampaignReport() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", flexWrap: "wrap", gap: "8px" }}>
                     <div>
                       <span className="lush-tag dark" style={{ fontSize: "0.65rem", padding: "2px 6px" }}>{report.store}</span>
+                      {report.consentNghiDinh13 && (
+                        <span className="lush-tag green" style={{ fontSize: "0.65rem", padding: "2px 6px", marginLeft: "6px" }}>✓ ĐÃ ĐỒNG Ý NĐ13</span>
+                      )}
                       <h4 style={{ fontSize: "1.2rem", marginTop: "6px", textTransform: "none", fontFamily: "var(--font-sans)", fontWeight: "800" }}>
                         👤 {report.customerName || report.staffName || "Khách hàng ẩn danh"}
                       </h4>
@@ -682,6 +712,9 @@ export default function CampaignReport() {
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
                           <span style={{ fontWeight: "800", fontSize: "0.95rem" }}>
                             👤 {report.customerName || "Khách hàng ẩn danh"}
+                            {report.consentNghiDinh13 && (
+                              <span className="lush-tag green" style={{ fontSize: "0.6rem", padding: "1px 4px", marginLeft: "8px", verticalAlign: "middle" }}>✓ NĐ13</span>
+                            )}
                           </span>
                           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <span style={{ fontSize: "0.8rem", color: "#666" }}>{report.date}</span>

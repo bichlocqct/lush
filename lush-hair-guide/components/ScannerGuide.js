@@ -49,8 +49,8 @@ export default function ScannerGuide() {
       objectFit: "contain"
     },
     {
-      title: "Bước 4: Soi & Đánh Giá",
-      desc: "Từ từ đưa máy đến vùng da cần soi và bắt đầu soi từng chi tiết, đánh giá tình trạng da đầu của khách hàng để chẩn đoán đúng routine.",
+      title: "Bước 4: Soi & Đánh Giá (Chọn Độ Phóng Đại)",
+      desc: "Từ từ đưa máy đến sát vùng da đầu cần soi. Sử dụng nút zoom/xoay tiêu cự trên thân đầu soi để chọn độ phóng đại phù hợp:\n\n• Độ phóng đại 50x: Thích hợp xem tổng thể mật độ tóc (dày/thưa), độ khỏe của thân tóc, và lượng bã nhờn bết dính diện rộng.\n• Độ phóng đại 200x: Thích hợp soi sâu phễu nang tóc, phát hiện các nút sừng tắc nghẽn, mao mạch ửng đỏ (nhạy cảm) hoặc vảy nấm chân tóc.",
       image: "/scanner_screen.jpg",
       isPhoto: true,
       objectFit: "contain"
@@ -64,7 +64,54 @@ export default function ScannerGuide() {
     }
   ];
 
-  const steps = activeSubTab === "assembly" ? assemblySteps : usageSteps;
+  const hygieneSteps = [
+    {
+      title: "Quy trình 1: Khử Trùng Đầu Soi Giữa Mỗi Khách",
+      desc: "Trước và sau mỗi lần soi da đầu cho khách hàng, nhân viên bắt buộc dùng cồn y tế 70 độ thấm vào bông cotton hoặc khăn giấy sạch để lau nhẹ bề mặt thấu kính và thân đầu soi. Hãy đợi 30 giây cho cồn bay hơi hoàn toàn trước khi tiếp xúc với da đầu khách tiếp theo.\n\n• Tuyệt đối không xịt trực tiếp cồn lên thấu kính để tránh chập mạch đèn led.\n• Chỉ dùng khăn lau thấu kính chuyên dụng/bông mềm để tránh trầy xước lớp phủ chống lóa.",
+      image: "/connect_scanner.jpg",
+      isPhoto: true
+    },
+    {
+      title: "Quy trình 2: Sử Dụng Đầu Bọc Dùng Một Lần",
+      desc: "Đối với trường hợp khách hàng có tình trạng gàu ẩm bết dính nặng hoặc có biểu hiện viêm đỏ nhạy cảm/trầy xước, nhân viên nên sử dụng đầu bọc nhựa/silicon dùng một lần lắp bên ngoài đầu soi da đầu. Điều này đảm bảo ngăn chặn tối đa sự lây chéo của các vi khuẩn hoặc nấm da đầu giữa các khách hàng.",
+      image: "/scanner_screen.jpg",
+      isPhoto: true
+    },
+    {
+      title: "Quy trình 3: Bảo Quản & Cất Máy Sau Ca",
+      desc: "Kết thúc ca làm việc, nhân viên tiến hành tắt màn hình bằng cách giữ nút nguồn 3 giây. Rút phích cắm sạc khỏi ổ điện.\n\n• Cuộn dây kết nối đầu soi và dây nguồn nhẹ nhàng theo vòng tròn rộng, tránh gấp khúc gập gãy làm đứt cáp tín hiệu ngầm.\n• Đặt màn hình và đầu soi ngay ngắn vào đế đỡ hoặc hộp đựng bảo quản chuyên dụng.\n• Tránh đặt máy ở nơi ẩm ướt hoặc trực tiếp dưới ánh nắng mặt trời.",
+      image: "/device_back.png",
+      isPhoto: true
+    }
+  ];
+
+  const troubleSteps = [
+    {
+      title: "Sự cố 1: Hình Ảnh Bị Mờ/Không Nét",
+      desc: "Khi quan sát thấy hình ảnh hiển thị trên màn hình bị mờ nhòe, không nhìn rõ lỗ chân lông:\n\n• Nguyên nhân: Thấu kính bị bám bụi/dầu thừa từ tóc khách trước, hoặc tiêu cự chưa khớp.\n• Khắc phục: Dùng vòng xoay tiêu cự (focus ring) màu đen trên thân đầu soi, xoay từ từ sang trái hoặc phải để điều chỉnh tiêu cự cho đến khi hiển thị rõ nét nhất. Đồng thời, lau nhẹ ống kính bằng khăn giấy tẩm cồn y tế.",
+      image: "/probe_button.jpg",
+      isPhoto: true
+    },
+    {
+      title: "Sự cố 2: Mất Kết Nối / Báo Lỗi Không Lên Hình",
+      desc: "Khi màn hình bị đen hoặc hiển thị thông báo mất tín hiệu dù đèn led đầu soi vẫn sáng:\n\n• Nguyên nhân: Lỏng cáp tín hiệu.\n• Khắc phục: Kiểm tra khớp nối dây cắm ở phần đầu soi với dây nối của màn hình (dây trắng). Hãy rút cáp ra, vệ sinh bụi cổng cắm và cắm lại chắc chắn, xoay chặt ren bảo vệ phía ngoài để cố định đầu nối.",
+      image: "/connect_scanner.jpg",
+      isPhoto: true
+    },
+    {
+      title: "Sự cố 3: Màn Hình Không Lên Nguồn",
+      desc: "Nhấn nút nguồn nhưng màn hình tối đen và không phản hồi:\n\n• Nguyên nhân: Cạn pin màn hình, hoặc hỏng adapter sạc.\n• Khắc phục: Cắm sạc nguồn (dây đỏ) vào ổ điện và cắm vào máy. Kiểm tra xem đèn báo sạc cạnh màn hình có sáng đỏ (đang sạc) hoặc xanh (đầy) không. Nhấn giữ nút nguồn từ 3-5 giây. Nếu vẫn không hoạt động, hãy liên hệ bộ phận kỹ thuật để thay adapter sạc.",
+      image: "/connect_power.png",
+      isPhoto: true
+    }
+  ];
+
+  const steps = 
+    activeSubTab === "assembly" ? assemblySteps : 
+    activeSubTab === "usage" ? usageSteps : 
+    activeSubTab === "hygiene" ? hygieneSteps : 
+    troubleSteps;
+
   const currentStepData = steps[activeStep] || steps[0];
 
   const handleSubTabChange = (tab) => {
@@ -88,6 +135,18 @@ export default function ScannerGuide() {
           onClick={() => handleSubTabChange("usage")}
         >
           2. Hướng Dẫn Sử Dụng
+        </button>
+        <button 
+          className={`tab-btn ${activeSubTab === "hygiene" ? "active" : ""}`}
+          onClick={() => handleSubTabChange("hygiene")}
+        >
+          3. Vệ Sinh & Bảo Quản
+        </button>
+        <button 
+          className={`tab-btn ${activeSubTab === "trouble" ? "active" : ""}`}
+          onClick={() => handleSubTabChange("trouble")}
+        >
+          4. Xử Lý Sự Cố
         </button>
       </div>
 

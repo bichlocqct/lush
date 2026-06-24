@@ -5,6 +5,7 @@ import ScannerGuide from "../components/ScannerGuide";
 import ScalpClassifier from "../components/ScalpClassifier";
 import ProductCatalog from "../components/ProductCatalog";
 import CampaignReport from "../components/CampaignReport";
+import SopConsulting from "../components/SopConsulting";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("scanner");
@@ -68,6 +69,13 @@ export default function Home() {
             >
               📋 Phiếu Khách Hàng
             </button>
+            <button 
+              className={`tab-btn ${activeTab === "sop" ? "active" : ""}`}
+              onClick={() => setActiveTab("sop")}
+              style={{ fontSize: "0.95rem" }}
+            >
+              🎓 Quy Trình Tư Vấn (SOP)
+            </button>
           </div>
 
           {/* Active Tab Panel */}
@@ -76,6 +84,7 @@ export default function Home() {
             {activeTab === "classifier" && <ScalpClassifier />}
             {activeTab === "catalog" && <ProductCatalog />}
             {activeTab === "report" && <CampaignReport />}
+            {activeTab === "sop" && <SopConsulting />}
           </div>
 
         </div>

@@ -407,6 +407,26 @@ export default function ScalpClassifier() {
                   ))}
                 </div>
 
+                {/* Ranh giới y tế - Ngưỡng chuyển tuyến */}
+                <div style={{
+                  border: "2px solid var(--lush-red)",
+                  background: "#fdf2f2",
+                  padding: "16px",
+                  color: "#9b1c1c",
+                  fontSize: "0.85rem",
+                  marginTop: "8px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px"
+                }}>
+                  <div style={{ fontWeight: "800", display: "flex", alignItems: "center", gap: "6px", textTransform: "uppercase" }}>
+                    ⚠️ NGƯỠNG CHUYỂN TUYẾN Y KHOA (DISCLAIMER)
+                  </div>
+                  <p style={{ lineHeight: "1.4", margin: 0 }}>
+                    Kết quả phân tích trên mang tính chất gợi ý routine mỹ phẩm LUSH hỗ trợ chăm sóc da đầu lành mạnh. Nếu dưới máy soi quan sát thấy da đầu khách có biểu hiện viêm loét chảy dịch, mụn mủ nhiễm trùng nặng, nấm tróc vảy mảng lớn chảy máu, hoặc rụng tóc loang lổ tạo mảng hói trơn láng, nhân viên <strong>tuyệt đối không được chẩn đoán y khoa</strong> và cần khuyên khách hàng đến khám trực tiếp tại bác sĩ da liễu.
+                  </p>
+                </div>
+
               </div>
             ) : (
               <div style={{
@@ -449,57 +469,100 @@ export default function ScalpClassifier() {
         {/* Row 2: Scalp Classifications */}
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <h3 style={{ fontSize: "1.3rem", display: "flex", alignItems: "center", gap: "10px" }}>
-            <span>👤</span> Phân Loại Da Đầu Phổ Biến & Giải Pháp LUSH
+            <span>👤</span> Phân Loại Da Đầu Phổ Biến & Chỉ Số Đối Chiếu Dưới Máy Soi
           </h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "24px" }}>
             
+            {/* Normal Scalp */}
+            <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", borderLeft: "8px solid var(--lush-green)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span className="lush-tag dark">DA THƯỜNG / CÂN BẰNG</span>
+                <span style={{ fontSize: "1.5rem" }}>🌿</span>
+              </div>
+              <div style={{ position: "relative", height: "140px", border: "1px solid var(--lush-gray-medium)", overflow: "hidden", margin: "4px 0" }}>
+                <Image
+                  src="/scalp_normal.png"
+                  alt="Da đầu thường"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <div style={{ fontSize: "0.85rem", color: "#444", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <p><strong>Triệu chứng:</strong> Bề mặt ẩm mượt tự nhiên, tóc tơi phồng, không ngứa rát hay bong vảy.</p>
+                <div style={{ background: "#f9f9f9", padding: "8px", border: "1px solid #eee", fontSize: "0.8rem" }}>
+                  <strong style={{ display: "block", marginBottom: "4px", color: "#000" }}>🔍 CHỈ SỐ SOI DA ĐẦU:</strong>
+                  • <strong>Bã nhờn:</strong> Cân bằng, phễu nang tóc sạch, không đọng bã nhờn cứng.<br/>
+                  • <strong>Tế bào chết:</strong> Rất ít hoặc không có vảy sừng chết bong tróc.<br/>
+                  • <strong>Mật độ nang:</strong> Cao, mỗi nang chứa từ 2 - 3 sợi tóc dày khỏe.<br/>
+                  • <strong>Mức độ viêm đỏ:</strong> Da đầu có màu hồng nhạt/trắng sáng khỏe, không đỏ mạch máu.
+                </div>
+              </div>
+              <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
+                <strong style={{ color: "var(--lush-green)", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
+                Gội mật ong <strong>Fairly Traded Honey</strong> và massage mặt nạ đất sét bạc hà <strong>Roots</strong> hàng tuần để duy trì độ ẩm tự nhiên của da đầu.
+              </div>
+            </div>
+
             {/* Dry Scalp */}
             <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", borderLeft: "8px solid #c0392b" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span className="lush-tag dark">DA KHÔ</span>
+                <span className="lush-tag dark">DA KHÔ / THIẾU ẨM</span>
                 <span style={{ fontSize: "1.5rem" }}>🍂</span>
               </div>
               <div style={{ position: "relative", height: "140px", border: "1px solid var(--lush-gray-medium)", overflow: "hidden", margin: "4px 0" }}>
                 <Image
                   src="/scalp_dry.png"
-                  alt="Da đầu khô minh họa"
+                  alt="Da đầu khô"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   style={{ objectFit: "cover" }}
                 />
               </div>
-              <div style={{ fontSize: "0.85rem", color: "#444" }}>
-                <p><strong>Triệu chứng:</strong> Căng chặt da đầu, khó chịu, bong tróc vảy khô mảng lớn. Sợi tóc thường khô xơ và dễ chẻ ngọn.</p>
-                <p style={{ marginTop: "4px" }}><strong>Nguyên nhân:</strong> Thiếu dầu tự nhiên để duy trì độ ẩm cần thiết cho lớp màng bảo vệ da đầu.</p>
+              <div style={{ fontSize: "0.85rem", color: "#444", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <p><strong>Triệu chứng:</strong> Căng chặt da đầu, ngứa khô châm chích, sợi tóc mảnh yếu dễ xơ rối và chẻ ngọn.</p>
+                <div style={{ background: "#f9f9f9", padding: "8px", border: "1px solid #eee", fontSize: "0.8rem" }}>
+                  <strong style={{ display: "block", marginBottom: "4px", color: "#000" }}>🔍 CHỈ SỐ SOI DA ĐẦU:</strong>
+                  • <strong>Bã nhờn:</strong> Không có dầu thừa, tuyến bã nhờn hoạt động kém, bề mặt da ráp.<br/>
+                  • <strong>Tế bào chết:</strong> Vảy sừng mỏng, khô màu trắng li ti phủ rải rác trên bề mặt da đầu.<br/>
+                  • <strong>Mật độ nang:</strong> Nang tóc bình thường nhưng sợi tóc mảnh, thân tóc khô mất nước.<br/>
+                  • <strong>Mức độ viêm đỏ:</strong> Nền da đầu hơi xỉn màu hoặc khô nhăn, không đỏ.
+                </div>
               </div>
               <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
                 <strong style={{ color: "var(--lush-red)", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
-                Cấp ẩm sâu và nuôi dưỡng biểu bì. Sử dụng sáp dưỡng chuyên sâu <strong>SuperBalm</strong> trước khi gội và dầu gội dưỡng ẩm mật ong <strong>Fairly Traded Honey</strong>.
+                Cấp béo tự nhiên bằng sáp dưỡng <strong>SuperBalm</strong> trước gội 20 phút, dùng dầu gội mật ong <strong>Fairly Traded Honey</strong> và dầu xả siêu dưỡng ẩm <strong>Candy Rain</strong>.
               </div>
             </div>
 
             {/* Oily Scalp */}
-            <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", borderLeft: "8px solid var(--lush-green)" }}>
+            <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", borderLeft: "8px solid #2980b9" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span className="lush-tag dark">DA DẦU</span>
+                <span className="lush-tag dark">DA DẦU / BẾT DÍNH</span>
                 <span style={{ fontSize: "1.5rem" }}>💧</span>
               </div>
               <div style={{ position: "relative", height: "140px", border: "1px solid var(--lush-gray-medium)", overflow: "hidden", margin: "4px 0" }}>
                 <Image
                   src="/scalp_oily.png"
-                  alt="Da đầu dầu minh họa"
+                  alt="Da đầu dầu"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   style={{ objectFit: "cover" }}
                 />
               </div>
-              <div style={{ fontSize: "0.85rem", color: "#444" }}>
-                <p><strong>Triệu chứng:</strong> Tóc nặng bết, xẹp sát da đầu, nhanh đổ dầu nhờn chỉ sau 1 ngày gội. Lỗ chân lông dễ bít tắc.</p>
-                <p style={{ marginTop: "4px" }}><strong>Nguyên nhân:</strong> Tuyến bã nhờn dưới da đầu hoạt động quá mức do nội tiết hoặc môi trường.</p>
+              <div style={{ fontSize: "0.85rem", color: "#444", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <p><strong>Triệu chứng:</strong> Tóc xẹp bết sát da đầu chỉ sau vài tiếng gội, bết dính dầu, lỗ chân lông dễ lên mụn viêm.</p>
+                <div style={{ background: "#f9f9f9", padding: "8px", border: "1px solid #eee", fontSize: "0.8rem" }}>
+                  <strong style={{ display: "block", marginBottom: "4px", color: "#000" }}>🔍 CHỈ SỐ SOI DA ĐẦU:</strong>
+                  • <strong>Bã nhờn:</strong> Bã nhờn ướt nhầy phủ bề mặt da đầu, tích tụ cục bã nhờn vàng bao quanh phễu nang tóc.<br/>
+                  • <strong>Tế bào chết:</strong> Bám bết thành từng mảng ẩm, không bong ra mà kết dính với dầu thừa.<br/>
+                  • <strong>Mật độ nang:</strong> Bị b bịt tắc nghẽn, cản trở sự hô hấp của nang tóc, gây rụng chân tóc.<br/>
+                  • <strong>Mức độ viêm đỏ:</strong> Có đốm đỏ viêm nhẹ quanh vùng cổ nang tóc do vi khuẩn tích tụ.
+                </div>
               </div>
               <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
-                <strong style={{ color: "var(--lush-green)", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
-                Làm sạch sâu bã nhờn, kiềm dầu nhẹ và tẩy tế bào chết da đầu. Sử dụng mặt nạ da đầu bạc hà <strong>Roots</strong> và dầu gội muối biển <strong>Big</strong> tạo phồng chân tóc.
+                <strong style={{ color: "#2980b9", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
+                Kiềm dầu bằng mặt nạ da đầu bạc hà <strong>Roots</strong>, làm sạch sâu bằng dầu gội muối biển <strong>Big</strong> hoặc gội chứa enzym đu đủ <strong>Rehab</strong>.
               </div>
             </div>
 
@@ -512,22 +575,153 @@ export default function ScalpClassifier() {
               <div style={{ position: "relative", height: "140px", border: "1px solid var(--lush-gray-medium)", overflow: "hidden", margin: "4px 0" }}>
                 <Image
                   src="/scalp_combination.png"
-                  alt="Da đầu hỗn hợp minh họa"
+                  alt="Da đầu hỗn hợp"
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   style={{ objectFit: "cover" }}
                 />
               </div>
-              <div style={{ fontSize: "0.85rem", color: "#444" }}>
-                <p><strong>Triệu chứng:</strong> Tình trạng da đầu thay đổi thất thường theo mùa. Thường bị đổ dầu vùng đỉnh đầu (vùng chữ T) nhưng lại bị khô căng hoặc nhạy cảm ở vùng hai bên thái dương và sau gáy.</p>
-                <p style={{ marginTop: "4px" }}><strong>Nguyên nhân:</strong> Sự phân bổ hoạt động tuyến bã nhờn không đồng đều ở các khu vực trên da đầu.</p>
+              <div style={{ fontSize: "0.85rem", color: "#444", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <p><strong>Triệu chứng:</strong> Bết dầu ở đỉnh đầu (vùng chữ T) nhưng hai bên thái dương và gáy lại khô ráp, căng hoặc ngứa nhẹ.</p>
+                <div style={{ background: "#f9f9f9", padding: "8px", border: "1px solid #eee", fontSize: "0.8rem" }}>
+                  <strong style={{ display: "block", marginBottom: "4px", color: "#000" }}>🔍 CHỈ SỐ SOI DA ĐẦU:</strong>
+                  • <strong>Bã nhờn:</strong> Tuyến bã nhờn hoạt động quá mức ở đỉnh đầu, trong khi vùng bên cạnh rất khô.<br/>
+                  • <strong>Tế bào chết:</strong> Bong tróc vảy khô tập trung ở vùng gáy và thái dương.<br/>
+                  • <strong>Mật độ nang:</strong> Nang đỉnh đầu bít tắc bã nhờn, nang hai bên có thân tóc khô mảnh.<br/>
+                  • <strong>Mức độ viêm đỏ:</strong> Da đầu đỏ nhẹ hoặc nhạy cảm tại những khu vực bị khô căng thiếu lipid.
+                </div>
               </div>
               <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
                 <strong style={{ color: "var(--lush-gold)", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
-                Chăm sóc phân vùng chuyên biệt. Làm sạch dầu đỉnh đầu bằng <strong>Roots</strong>, gội cân bằng dịu nhẹ bằng <strong>Fairly Traded Honey</strong> and chỉ dùng dầu xả <strong>Veganese</strong> ở phần đuôi tóc.
+                Chăm sóc đa vùng: Thoa <strong>Roots</strong> lên vùng đỉnh đầu nhiều dầu, gội dưỡng ẩm dịu nhẹ <strong>Fairly Traded Honey</strong> và chỉ dùng dầu xả mỏng nhẹ ở ngọn tóc.
               </div>
             </div>
 
+            {/* Dandruff & Flaky Scalp */}
+            <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", borderLeft: "8px solid #8e44ad" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span className="lush-tag dark" style={{ background: "#8e44ad", borderColor: "#8e44ad" }}>GÀU VÀ BONG TRÓC MẢNG</span>
+                <span style={{ fontSize: "1.5rem" }}>❄️</span>
+              </div>
+              <div style={{ position: "relative", height: "140px", border: "1px solid var(--lush-gray-medium)", overflow: "hidden", margin: "4px 0" }}>
+                <Image
+                  src="/scalp_dandruff.png"
+                  alt="Da đầu gàu"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <div style={{ fontSize: "0.85rem", color: "#444", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <p><strong>Triệu chứng:</strong> Gàu vảy trắng/vàng rơi nhiều trên vai áo, ngứa da đầu ngột ngạt dữ dội, hay gãi trầy xước da.</p>
+                <div style={{ background: "#f9f9f9", padding: "8px", border: "1px solid #eee", fontSize: "0.8rem" }}>
+                  <strong style={{ display: "block", marginBottom: "4px", color: "#000" }}>🔍 CHỈ SỐ SOI DA ĐẦU:</strong>
+                  • <strong>Bã nhờn:</strong> Bã nhờn tích tụ nhiều bám dính chặt cùng tế bào sừng.<br/>
+                  • <strong>Tế bào chết:</strong> Các mảng sừng chết bong thành vảy lớn xếp chồng lên nhau bịt kín lỗ chân lông.<br/>
+                  • <strong>Mật độ nang:</strong> Chân tóc bị bịt kín, đôi khi phát hiện mụn gàu hoặc vết trầy đỏ do ngứa gãi.<br/>
+                  • <strong>Mức độ viêm đỏ:</strong> Đỏ ửng xung quanh vùng bong vảy gàu (dấu hiệu nấm Malassezia bùng phát).
+                </div>
+              </div>
+              <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
+                <strong style={{ color: "#8e44ad", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
+                Làm sạch vảy gàu và làm dịu da đầu bằng sáp dưỡng <strong>SuperBalm</strong> trước khi gội đầu bằng bánh dầu gội kháng nấm đặc trị <strong>Soak and Float</strong>.
+              </div>
+            </div>
+
+            {/* Sensitive Scalp */}
+            <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", borderLeft: "8px solid #e67e22" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span className="lush-tag dark" style={{ background: "#e67e22", borderColor: "#e67e22" }}>DA NHẠY CẢM & DỄ KÍCH ỨNG</span>
+                <span style={{ fontSize: "1.5rem" }}>🚨</span>
+              </div>
+              <div style={{ position: "relative", height: "140px", border: "1px solid var(--lush-gray-medium)", overflow: "hidden", margin: "4px 0" }}>
+                <Image
+                  src="/scalp_sensitive.png"
+                  alt="Da đầu nhạy cảm"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <div style={{ fontSize: "0.85rem", color: "#444", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <p><strong>Triệu chứng:</strong> Cảm giác châm chích rát nhẹ khi đi gió, đổi dầu gội, nổi sẩn ngứa đỏ hoặc xót rát khi sấy nóng.</p>
+                <div style={{ background: "#f9f9f9", padding: "8px", border: "1px solid #eee", fontSize: "0.8rem" }}>
+                  <strong style={{ display: "block", marginBottom: "4px", color: "#000" }}>🔍 CHỈ SỐ SOI DA ĐẦU:</strong>
+                  • <strong>Bã nhờn:</strong> Rất ít, màng lipid bảo vệ da đầu bị bào mòn mỏng yếu.<br/>
+                  • <strong>Tế bào chết:</strong> Có thể bong tế bào chết dạng cám nhẹ do bề mặt da khô yếu kích ứng.<br/>
+                  • <strong>Mật độ nang:</strong> Sợi tóc mỏng mảnh, dễ rụng chân tóc do nang bị tổn thương.<br/>
+                  • <strong>Mức độ viêm đỏ:</strong> Nổi các mao mạch máu nhỏ li ti, các vệt hoặc mảng da đỏ loang lổ.
+                </div>
+              </div>
+              <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
+                <strong style={{ color: "#e67e22", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
+                Hạn chế dùng hóa chất mạnh. Phục hồi màng da bằng sáp dưỡng <strong>SuperBalm</strong>, gội cực kỳ dịu nhẹ bằng mật ong nguyên chất <strong>Fairly Traded Honey</strong>.
+              </div>
+            </div>
+
+            {/* Hair Loss Scalp */}
+            <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", borderLeft: "8px solid #7f8c8d" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span className="lush-tag dark" style={{ background: "#7f8c8d", borderColor: "#7f8c8d" }}>DA ĐẦU YẾU & RỤNG TÓC</span>
+                <span style={{ fontSize: "1.5rem" }}>📉</span>
+              </div>
+              <div style={{ position: "relative", height: "140px", border: "1px solid var(--lush-gray-medium)", overflow: "hidden", margin: "4px 0" }}>
+                <Image
+                  src="/scalp_loss.png"
+                  alt="Da đầu rụng tóc"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
+              <div style={{ fontSize: "0.85rem", color: "#444", display: "flex", flexDirection: "column", gap: "6px" }}>
+                <p><strong>Triệu chứng:</strong> Tóc rụng trên 100 sợi mỗi ngày khi gội hoặc chải, mật độ tóc thưa mỏng nhìn rõ da đầu vùng đỉnh.</p>
+                <div style={{ background: "#f9f9f9", padding: "8px", border: "1px solid #eee", fontSize: "0.8rem" }}>
+                  <strong style={{ display: "block", marginBottom: "4px", color: "#000" }}>🔍 CHỈ SỐ SOI DA ĐẦU:</strong>
+                  • <strong>Bã nhờn:</strong> Có thể tắc nghẽn bã sừng cứng (sebaceous plug) cản trở nang tóc mới phát triển.<br/>
+                  • <strong>Tế bào chết:</strong> Bã sừng kết dính lâu ngày gây teo lỗ nang tóc.<br/>
+                  • <strong>Mật độ nang:</strong> Cực kỳ thấp, phát hiện nhiều nang tóc rỗng (chỉ có chân không có ngọn) hoặc nang chỉ có 1 sợi tóc mảnh yếu.<br/>
+                  • <strong>Mức độ viêm đỏ:</strong> Nền da đầu xỉn màu, tuần hoàn máu dưới nang kém.
+                </div>
+              </div>
+              <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
+                <strong style={{ color: "#7f8c8d", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
+                Massage kích thích tuần hoàn máu bằng <strong>Roots</strong>, kích hoạt nang tóc bằng bánh dầu gội quế đinh hương bạc hà <strong>New Shampoo Bar</strong>.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* MEDICAL BOUNDARY SECTION */}
+        <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "16px", border: "3px solid var(--lush-red)", boxShadow: "6px 6px 0 var(--lush-red)", background: "#fffefe", marginTop: "16px" }}>
+          <h3 style={{ fontSize: "1.3rem", color: "var(--lush-red)", display: "flex", alignItems: "center", gap: "10px", margin: 0 }}>
+            <span>🛑</span> Ranh Giới Tư Vấn & Ngưỡng Chuyển Tuyến Y Khoa Da Liễu
+          </h3>
+          <p style={{ fontSize: "0.95rem", lineHeight: "1.6", color: "#222", margin: 0 }}>
+            Đối với hoạt động soi da đầu tại workshop LUSH, nhân viên tư vấn bắt buộc phải tuân thủ nghiêm ngặt ranh giới y khoa để bảo vệ sức khỏe khách hàng cũng như uy tín thương hiệu LUSH Việt Nam.
+          </p>
+          
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", marginTop: "8px" }} className="grid-split">
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <strong style={{ color: "#c0392b", fontSize: "0.9rem", textTransform: "uppercase" }}>⚠️ Các Dấu Hiệu Viêm Nặng (Ngưỡng Chuyển Tuyến):</strong>
+              <ul style={{ fontSize: "0.85rem", paddingLeft: "20px", display: "flex", flexDirection: "column", gap: "8px", color: "#333" }}>
+                <li><strong>Nhiễm trùng nang tóc:</strong> Có các nốt mụn mủ đầu trắng sưng to, lan rộng nhiều vùng da đầu.</li>
+                <li><strong>Viêm da tiết bã nặng / Vẩy nến:</strong> Các mảng vảy sừng dày cộp màu xám đục bong tróc chảy máu khi gãi, kèm rỉ dịch vàng.</li>
+                <li><strong>Nấm da đầu ăn sâu:</strong> Da đầu bị loang lổ mất tóc, tróc vảy mủ, ngứa ngáy điên cuồng kèm mùi hôi đặc trưng.</li>
+                <li><strong>Rụng tóc bệnh lý:</strong> Tóc rụng thành từng mảng loang tròn hoàn toàn nhẵn bóng (Alopecia areata) hoặc rụng kèm sẹo da đầu.</li>
+              </ul>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px", background: "#fbfcfc", padding: "16px", border: "1px solid var(--lush-gray-medium)" }}>
+              <strong style={{ color: "var(--lush-black)", fontSize: "0.9rem", textTransform: "uppercase" }}>📋 Hướng Dẫn Talk Track Khuyên Khách Khám Da Liễu:</strong>
+              <p style={{ fontSize: "0.85rem", fontStyle: "italic", color: "#444", lineHeight: "1.5", margin: 0 }}>
+                "Dạ chị ơi, qua hình ảnh soi da đầu vùng sau gáy/đỉnh đầu của chị, em thấy đang xuất hiện các vùng viêm sưng và có dấu hiệu rỉ mụn nước/nấm loang lổ. Đây là tình trạng biểu bì bị tổn thương sâu và có khả năng là dấu hiệu viêm da lý do bệnh lý. Vì LUSH là mỹ phẩm thảo mộc tự nhiên chỉ hỗ trợ chăm sóc da lành mạnh, để đảm bảo an toàn tuyệt đối cho sức khỏe của chị, em khuyên chân thành chị nên đến gặp trực tiếp bác sĩ da liễu khám để nhận chỉ định điều trị y khoa phù hợp nhất chị nhé!"
+              </p>
+              <div style={{ fontSize: "0.8rem", color: "#c0392b", fontWeight: "700", marginTop: "4px" }}>
+                🚫 Tuyệt đối KHÔNG tự chẩn đoán tên bệnh y khoa (VD: 'Chị bị nấm Malassezia rồi', 'Đây là chàm khô da đầu') và KHÔNG cam kết dùng sản phẩm LUSH sẽ khỏi bệnh y khoa!
+              </div>
+            </div>
           </div>
         </div>
 

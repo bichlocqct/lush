@@ -50,7 +50,7 @@ export async function POST(request) {
     const body = await request.json();
     
     // Simple validation
-    const { customerName, store, date, symptoms, routine, purchased, feedback, staffName } = body;
+    const { customerName, store, date, symptoms, routine, purchased, feedback, staffName, consentNghiDinh13 } = body;
     if (!customerName || !store || !date) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
@@ -65,7 +65,8 @@ export async function POST(request) {
       routine: routine || '',
       purchased: !!purchased,
       feedback: feedback || '',
-      staffName: staffName || ''
+      staffName: staffName || '',
+      consentNghiDinh13: !!consentNghiDinh13
     };
 
     const fileContent = fs.readFileSync(dataFilePath, 'utf8');
