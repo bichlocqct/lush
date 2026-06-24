@@ -54,6 +54,14 @@ export default function ProductCatalog() {
       usage: "1. Ủ Roots 15 phút mỗi tuần để thanh lọc da đầu.\n2. Gội sạch bằng Fairly Traded Honey dưỡng ẩm tự nhiên.\n3. Dùng dầu xả American Cream bôi thân tóc giữ nếp mượt mà thơm hương vani ngọt ngào.",
       allergyWarning: "Hầu như không có cảnh báo đặc biệt, sản phẩm rất dịu nhẹ lành tính.",
       patchTest: "Không bắt buộc patch test, trừ phi khách có tiền sử dị ứng với phấn hoa/mật ong nguyên chất."
+    },
+    {
+      condition: "Chất Tóc Khô & Hư Tổn Nặng",
+      icon: "🌾",
+      routine: "Tofu / Combo Super Milk (Dầu gội) → Power / Valkyrie (Dầu xả đạm) → Super Milk (Xịt dưỡng)",
+      usage: "1. Gội bằng kem gội Tofu để bổ sung đạm phục hồi hoặc combo Dầu gội & Dầu xả Super Milk để cấp ẩm làm mềm sâu.\n2. Thoa dầu xả Power hoặc Valkyrie từ thân đến ngọn tóc, vuốt nhẹ gỡ rối, ủ 3-5 phút rồi xả sạch.\n3. Xịt sữa dưỡng Super Milk khi tóc còn ẩm rồi sấy mát để bảo vệ biểu bì tóc.",
+      allergyWarning: "Tofu và Valkyrie chứa lượng protein hữu cơ dồi dào, cần lưu ý đối với khách hàng nhạy cảm với các thành phần từ đậu nành/lúa mì.",
+      patchTest: "Thoa một lớp mỏng Tofu hoặc Valkyrie sau tai khách trong 10 phút trước khi sử dụng."
     }
   ];
 
