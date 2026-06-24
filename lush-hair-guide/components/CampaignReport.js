@@ -221,6 +221,21 @@ export default function CampaignReport() {
   const totalRoutines = reports.filter(r => r.routine && r.routine.trim() !== "").length;
   const totalPurchased = reports.filter(r => r.purchased === true || r.purchased === "true" || r.purchased === "yes").length;
 
+  const storeStats = storesList.map(storeName => {
+    const storeReports = reports.filter(r => r.store === storeName);
+    const customers = storeReports.length;
+    const routines = storeReports.filter(r => r.routine && r.routine.trim() !== "").length;
+    const purchased = storeReports.filter(r => r.purchased === true || r.purchased === "true" || r.purchased === "yes").length;
+    const purchaseRate = customers > 0 ? Math.round((purchased / customers) * 100) : 0;
+    return {
+      name: storeName,
+      customers,
+      routines,
+      purchased,
+      purchaseRate
+    };
+  }).sort((a, b) => b.customers - a.customers);
+
   return (
     <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
       
@@ -262,6 +277,60 @@ export default function CampaignReport() {
           </span>
         </div>
 
+      </div>
+
+      {/* Store Statistics Table */}
+      <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", background: "#ffffff" }}>
+        <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase", borderBottom: "2px solid #000", paddingBottom: "8px", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
+          <span>📊</span> Báo Cáo Hiệu Suất Theo Từng Cửa Hàng
+        </h3>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "500px" }}>
+            <thead>
+              <tr style={{ borderBottom: "2px solid #000", textAlign: "left" }}>
+                <th style={{ padding: "10px 8px", fontSize: "0.8rem", fontWeight: "800", textTransform: "uppercase" }}>Cửa Hàng</th>
+                <th style={{ padding: "10px 8px", fontSize: "0.8rem", fontWeight: "800", textTransform: "uppercase", textAlign: "center" }}>Khách Tham Gia</th>
+                <th style={{ padding: "10px 8px", fontSize: "0.8rem", fontWeight: "800", textTransform: "uppercase", textAlign: "center" }}>Routine Tư Vấn</th>
+                <th style={{ padding: "10px 8px", fontSize: "0.8rem", fontWeight: "800", textTransform: "uppercase", textAlign: "center" }}>Khách Đã Mua</th>
+                <th style={{ padding: "10px 8px", fontSize: "0.8rem", fontWeight: "800", textTransform: "uppercase", textAlign: "right" }}>Tỷ Lệ Mua Hàng</th>
+              </tr>
+            </thead>
+            <tbody>
+              {storeStats.map((stat, idx) => (
+                <tr 
+                  key={stat.name} 
+                  style={{ 
+                    borderBottom: "1px solid var(--lush-gray-medium)", 
+                    background: stat.customers > 0 ? "rgba(0,0,0,0.01)" : "transparent",
+                    transition: "background 0.2s"
+                  }}
+                >
+                  <td style={{ padding: "12px 8px", fontSize: "0.85rem", fontWeight: "700" }}>
+                    {stat.name}
+                  </td>
+                  <td style={{ padding: "12px 8px", fontSize: "0.9rem", fontWeight: "600", textAlign: "center" }}>
+                    {stat.customers}
+                  </td>
+                  <td style={{ padding: "12px 8px", fontSize: "0.9rem", color: "#555", textAlign: "center" }}>
+                    {stat.routines}
+                  </td>
+                  <td style={{ padding: "12px 8px", fontSize: "0.9rem", color: "var(--lush-green)", fontWeight: "600", textAlign: "center" }}>
+                    {stat.purchased}
+                  </td>
+                  <td style={{ padding: "12px 8px", fontSize: "0.9rem", fontWeight: "700", textAlign: "right" }}>
+                    {stat.customers > 0 ? (
+                      <span className="lush-tag green" style={{ fontSize: "0.7rem", padding: "2px 6px" }}>
+                        {stat.purchaseRate}%
+                      </span>
+                    ) : (
+                      <span style={{ color: "#aaa", fontSize: "0.85rem" }}>0%</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: "32px", alignItems: "start", marginTop: "16px" }}>
