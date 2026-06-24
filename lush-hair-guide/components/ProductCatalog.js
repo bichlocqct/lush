@@ -293,7 +293,8 @@ export default function ProductCatalog() {
           </div>
 
           {/* Lookup Table */}
-          <div style={{ overflowX: "auto", border: "2px solid #000", boxShadow: "6px 6px 0px #000" }}>
+          {/* Lookup Table - Desktop View */}
+          <div className="desktop-only-table" style={{ border: "2px solid #000", boxShadow: "6px 6px 0px #000" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "900px", background: "#ffffff", textAlign: "left", fontSize: "0.9rem" }}>
               <thead>
                 <tr style={{ background: "#000", color: "#fff", borderBottom: "2px solid #000" }}>
@@ -335,6 +336,41 @@ export default function ProductCatalog() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Lookup Table - Mobile View */}
+          <div className="mobile-only-cards" style={{ display: "none", flexDirection: "column", gap: "20px" }}>
+            {lookupTable.map((item, idx) => (
+              <div key={idx} className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "14px", borderLeft: "8px solid var(--lush-black)" }}>
+                <div style={{ display: "flex", gap: "8px", alignItems: "center", borderBottom: "1px solid var(--lush-gray-medium)", paddingBottom: "10px" }}>
+                  <span style={{ fontSize: "1.3rem" }}>{item.icon}</span>
+                  <h4 style={{ margin: 0, fontSize: "0.95rem", fontWeight: "800", textTransform: "uppercase", fontFamily: "var(--font-sans)" }}>{item.condition}</h4>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                  <strong style={{ fontSize: "0.85rem" }}>Routine Đề Xuất:</strong>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "4px" }}>
+                    {item.routine.split(" → ").map((prod, pIdx) => (
+                      <div key={pIdx} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <span style={{ fontSize: "0.7rem", background: "#000", color: "#fff", width: "16px", height: "16px", borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: "bold" }}>{pIdx + 1}</span>
+                        <span className="lush-tag green" style={{ fontSize: "0.75rem", padding: "2px 6px" }}>{prod}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ fontSize: "0.85rem", color: "#333", marginTop: "4px" }}>
+                  <strong style={{ display: "block", marginBottom: "4px" }}>Cách dùng phối hợp:</strong>
+                  <p style={{ whiteSpace: "pre-line", lineHeight: "1.5", margin: 0 }}>{item.usage}</p>
+                </div>
+                <div style={{ borderTop: "1px dashed var(--lush-gray-medium)", paddingTop: "10px", marginTop: "4px", fontSize: "0.8rem" }}>
+                  <div style={{ color: "#c0392b", fontWeight: "700", marginBottom: "6px" }}>
+                    ⚠️ {item.allergyWarning}
+                  </div>
+                  <div style={{ background: "var(--lush-gold-light)", borderLeft: "3px solid var(--lush-gold)", padding: "8px", color: "#6b4a1b", fontSize: "0.75rem" }}>
+                    🧪 <strong>Patch Test:</strong> {item.patchTest}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ) : (

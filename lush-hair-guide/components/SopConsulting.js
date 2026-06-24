@@ -136,7 +136,7 @@ export default function SopConsulting() {
       <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
         
         {activeSubTab === "flow" && (
-          <div className="fade-in grid-split" style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "32px" }}>
+          <div className="fade-in grid-split-classifier">
             
             {/* Steps Stepper */}
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -267,7 +267,7 @@ export default function SopConsulting() {
         )}
 
         {activeSubTab === "specs" && (
-          <div className="fade-in grid-split" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px" }}>
+          <div className="fade-in grid-split">
             
             {/* Session Specs */}
             <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>

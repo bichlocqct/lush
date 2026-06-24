@@ -274,7 +274,7 @@ export default function CampaignReport() {
       </div>
 
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: "32px", alignItems: "start", marginTop: "16px" }}>
+      <div className="grid-split-report" style={{ marginTop: "16px" }}>
         
         {/* Left Column: Input Form */}
         <form onSubmit={handleSubmit} className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -296,7 +296,7 @@ export default function CampaignReport() {
           </div>
 
           {/* Store & Date */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
               <label style={{ fontSize: "0.85rem", fontWeight: "700", textTransform: "uppercase" }}>Cửa hàng *</label>
               <select 

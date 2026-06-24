@@ -500,7 +500,7 @@ export default function ScalpClassifier() {
           <h3 style={{ fontSize: "1.3rem", display: "flex", alignItems: "center", gap: "10px" }}>
             <span>👤</span> Phân Loại Da Đầu Phổ Biến & Chỉ Số Đối Chiếu Dưới Máy Soi
           </h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
             
             {/* Normal Scalp */}
             <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "12px", borderLeft: "8px solid var(--lush-green)" }}>
@@ -762,7 +762,7 @@ export default function ScalpClassifier() {
             Đối với hoạt động soi da đầu tại workshop LUSH, nhân viên tư vấn bắt buộc phải tuân thủ nghiêm ngặt ranh giới y khoa để bảo vệ sức khỏe khách hàng cũng như uy tín thương hiệu LUSH Việt Nam.
           </p>
           
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", marginTop: "8px" }} className="grid-split">
+          <div className="grid-split" style={{ marginTop: "8px" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               <strong style={{ color: "#c0392b", fontSize: "0.9rem", textTransform: "uppercase" }}>⚠️ Các Dấu Hiệu Viêm Nặng (Ngưỡng Chuyển Tuyến):</strong>
               <ul style={{ fontSize: "0.85rem", paddingLeft: "20px", display: "flex", flexDirection: "column", gap: "8px", color: "#333" }}>

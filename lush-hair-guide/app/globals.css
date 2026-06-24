@@ -338,3 +338,31 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Mobile-only and Desktop-only displays */
+.desktop-only-table {
+  display: block;
+}
+.mobile-only-cards {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only-table {
+    display: none !important;
+  }
+  .mobile-only-cards {
+    display: flex !important;
+  }
+  
+  /* Make search inputs and selector buttons look full-width on small screens */
+  .mobile-full-width {
+    width: 100% !important;
+  }
+  
+  /* Make tabs buttons scroll smoothly on mobile */
+  .tabs-scroll .tab-btn {
+    font-size: 0.8rem !important;
+    padding: 10px 12px !important;
+  }
+}
+
