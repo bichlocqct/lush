@@ -8,7 +8,7 @@ export default function SopConsulting() {
   const sopSteps = [
     {
       step: "Bước 1",
-      title: "Đón Khách & Phá Băng (Greeting & Connection)",
+      title: "Chào mời khách hàng (Greeting & Connection)",
       time: "Thực hiện: 0 - 2 phút",
       objective: "Tạo ấn tượng ban đầu nồng hậu, phá bỏ khoảng cách giúp khách hàng cảm thấy thoải mái và tin tưởng.",
       actions: [
@@ -282,7 +282,7 @@ export default function SopConsulting() {
               <div style={{ fontSize: "0.85rem", color: "#444", borderTop: "1px dashed var(--lush-gray-medium)", paddingTop: "12px" }}>
                 <strong>Phân bổ thời gian lý tưởng:</strong>
                 <ul style={{ paddingLeft: "20px", marginTop: "6px", display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <li>Đón khách & Hỏi han nhu cầu: <strong>3 - 5 phút</strong></li>
+                  <li>Chào mời khách hàng & Hỏi han nhu cầu: <strong>3 - 5 phút</strong></li>
                   <li>Soi da đầu & Đọc kết quả màn hình: <strong>5 - 7 phút</strong></li>
                   <li>Tư vấn routine & Trải nghiệm chất sản phẩm: <strong>5 phút</strong></li>
                   <li>Chốt đơn hàng & Ghi phiếu khách: <strong>3 phút</strong></li>
