@@ -245,6 +245,96 @@ export default function ProductCatalog() {
       desc: "Dầu gội kích thích mọc tóc bán chạy nhất (best-seller) của LUSH. Sự kết hợp giữa wasabi, củ cải ngựa và tinh chất caffeine giúp đánh thức nang tóc, thúc đẩy tuần hoàn da đầu, cùng với muối biển kiềm dầu hiệu quả và tạo độ phồng bồng bềnh.",
       tip: "Lựa chọn số 1 cho da đầu đổ dầu nhiều, bết tóc nhanh, tóc mỏng thưa, yếu rụng cần kích thích mọc.",
       usage: "Lấy một lượng nhỏ xoa đều để tạo bọt, massage kỹ lên da đầu để cảm nhận cảm giác mát lạnh sảng khoái của bạc hà và wasabi, sau đó xả sạch."
+    },
+    {
+      name: "Marilyn",
+      category: "treatment",
+      type: "Mặt Nạ Ủ Tóc Trước Gội",
+      ingredients: "Dịch truyền hoa cúc la mã + chanh tươi + dầu olive + nghệ tây",
+      desc: "Mặt nạ ủ tóc trước gội giúp dưỡng tóc mềm mượt, tăng độ bóng khỏe tự nhiên, đặc biệt làm sáng màu tóc tông sáng và phục hồi lớp biểu bì.",
+      tip: "Dành cho tóc thường đến tóc dầu, tóc xỉn màu cần tăng độ bóng tự nhiên.",
+      usage: "Thoa đều lên tóc khô trước khi gội 20 phút, tập trung từ thân đến ngọn tóc, sau đó gội sạch."
+    },
+    {
+      name: "H'Suan Wen Hua",
+      category: "treatment",
+      type: "Mặt Nạ Ủ Tóc Phục Hồi Chuyên Sâu",
+      ingredients: "Trứng tươi hữu cơ + chuối tươi + quả bơ + dầu olive + giấm balsamic",
+      desc: "Mặt nạ ủ siêu dinh dưỡng giàu protein tự nhiên giúp sửa chữa cấu trúc sợi tóc khô xơ hư tổn do hóa chất, phục hồi độ đàn hồi và độ bóng khỏe vượt trội.",
+      tip: "Đặc trị cho tóc tẩy, nhuộm, hư tổn nặng và chẻ ngọn.",
+      usage: "Thoa đều lên tóc khô trước khi gội 20 phút từ gốc đến ngọn, massage nhẹ nhàng rồi gội sạch."
+    },
+    {
+      name: "Ginger Shampoo",
+      category: "shampoo",
+      type: "Dầu Gội Làm Sạch Gàu",
+      ingredients: "Nước cất gừng tươi + dầu jojoba + nước chanh tươi",
+      desc: "Làm sạch da đầu, loại bỏ gàu ngứa, kích thích nang tóc hoạt động khỏe mạnh từ tinh chất gừng làm ấm da đầu.",
+      tip: "Dành cho da đầu gàu, ngứa ngáy và chân tóc yếu rụng.",
+      usage: "Lấy lượng vừa đủ gội nhẹ nhàng da đầu, massage 2-3 phút để hoạt chất thẩm thấu rồi xả sạch."
+    },
+    {
+      name: "Banana Co-wash",
+      category: "shampoo",
+      type: "Kem Gội Cấp Ẩm (Co-wash)",
+      ingredients: "Chuối tươi chín + sữa hạnh nhân + chất làm sạch dịu nhẹ từ dừa",
+      desc: "Sản phẩm gội xả 2-trong-1 (Co-wash) nhẹ nhàng làm sạch mà không làm mất đi lớp màng ẩm tự nhiên, cực kỳ giàu độ dưỡng từ chuối tươi giúp làm mềm mượt da đầu khô ngứa.",
+      tip: "Lý tưởng cho da đầu khô căng, tóc khô xơ khó chải.",
+      usage: "Làm ướt tóc, xoa nhẹ bánh co-wash lên da đầu và tóc để tạo kem dưỡng gội, massage kỹ rồi xả sạch."
+    },
+    {
+      name: "Daddy-O",
+      category: "shampoo",
+      type: "Dầu Gội Làm Sáng Tóc & Khử Vàng",
+      ingredients: "Nước chanh tươi + dịch truyền chanh + chiết xuất rong biển răng cưa + dầu dừa",
+      desc: "Dầu gội màu tím đặc biệt của LUSH giúp khử vàng cho tóc tẩy nhuộm sáng màu, đồng thời nuôi dưỡng sợi tóc tơi phồng lấp lánh và lưu hương violet quyến rũ.",
+      tip: "Dành cho tóc tẩy, nhuộm sáng, tóc bạc hoặc tóc xỉn màu cần làm bóng sáng.",
+      usage: "Gội tạo bọt nhẹ nhàng da đầu và thân tóc, xả sạch nhanh."
+    },
+    {
+      name: "Retread",
+      category: "conditioner",
+      type: "Dầu Xả Phục Hồi Chuyên Sâu",
+      ingredients: "Sữa đậu nành + dầu hạt dưa lưới + sữa chua + dầu jojoba",
+      desc: "Dầu xả phục hồi cực kỳ đậm đặc giúp bổ sung chất béo và dưỡng ẩm sâu cho mái tóc khô xơ chẻ ngọn và giòn dễ đứt gãy.",
+      tip: "Dành cho tóc tẩy nhuộm, tóc hư tổn nặng cần hồi phục độ đàn hồi.",
+      usage: "Thoa lên thân và ngọn tóc ẩm sau gội, để 3-5 phút xả sạch."
+    },
+    {
+      name: "Sea Spray",
+      category: "leavein",
+      type: "Xịt Tạo Phồng & Tạo Kiểu",
+      ingredients: "Muối biển thô + tinh dầu bưởi chùm + tinh dầu cam",
+      desc: "Xịt dưỡng tạo kiểu muối biển mang lại độ phồng tự nhiên như vừa đi biển, giúp giữ nếp nhẹ nhàng và tạo hiệu ứng tóc tơi phồng bóng mượt.",
+      tip: "Dành cho tóc xẹp, tóc mỏng cần tạo phồng và giữ nếp tự nhiên.",
+      usage: "Xịt đều lên tóc ẩm hoặc khô, dùng tay bóp nhẹ để tạo sóng tóc tự nhiên và sấy tạo phồng."
+    },
+    {
+      name: "Infra Wig",
+      category: "leavein",
+      type: "Gel Tạo Kiểu Cân Bằng",
+      ingredients: "Gel nha đam + sáp candelilla + dầu thầu dầu",
+      desc: "Gel tạo kiểu tóc mềm mại tự nhiên, giữ nếp vừa phải và tăng độ bóng mượt cho sợi tóc mà không làm khô cứng tóc, bảo vệ tóc khi tạo kiểu bằng nhiệt.",
+      tip: "Thích hợp cho mọi loại tóc cần giữ nếp nhẹ, đặc biệt là tóc tẩy nhuộm khô xơ.",
+      usage: "Lấy lượng nhỏ vuốt lên tóc ẩm hoặc tóc khô trước khi sấy hoặc tạo kiểu."
+    },
+    {
+      name: "Sticky Dates",
+      category: "leavein",
+      type: "Lotion Dưỡng Tóc (Leave-in)",
+      ingredients: "Quả chà là hữu cơ + dầu argan + bơ hạt mỡ",
+      desc: "Lotion siêu dưỡng ẩm mang hương thơm ngọt ngào của quả chà là và caramen, khóa ẩm tức thì cho tóc khô xơ và giữ hương quyến rũ.",
+      tip: "Dành cho tóc khô căng, xơ xác cần cấp ẩm và làm mềm mượt.",
+      usage: "Thoa một lượng nhỏ lên đuôi tóc ẩm hoặc khô, không cần xả lại."
+    },
+    {
+      name: "Dirty",
+      category: "leavein",
+      type: "Sáp Tạo Kiểu Tóc (Styling Cream)",
+      ingredients: "Sáp candelilla + bơ ca cao + dầu dừa + tinh dầu bạc hà",
+      desc: "Kem sáp tạo kiểu giữ nếp trung bình giúp tạo hình tóc tự nhiên, giữ độ ẩm cho tóc mà không bết dính.",
+      tip: "Dành cho mọi loại tóc cần tạo kiểu giữ nếp nhẹ và tự nhiên.",
+      usage: "Xoa một ít sáp vào lòng bàn tay rồi vuốt tạo kiểu trên tóc."
     }
   ];
 

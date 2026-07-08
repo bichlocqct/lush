@@ -4,6 +4,102 @@ import { useState } from "react";
 export default function SopConsulting() {
   const [activeSubTab, setActiveSubTab] = useState("flow");
   const [activeStep, setActiveStep] = useState(0);
+  const [activeArtStep, setActiveArtStep] = useState(0);
+  const [activeCase, setActiveCase] = useState(0);
+
+  const artSteps = [
+    {
+      step: "BƯỚC 1",
+      title: "Nhóm câu hỏi tiếp cận",
+      subtitle: "Khởi đầu cuộc trò chuyện bằng sự kết nối",
+      desc: "Sử dụng các câu hỏi mở để khách hàng thoải mái chia sẻ về cảm xúc và thói quen hiện tại đối với mái tóc của họ.",
+      questions: [
+        "Điều bạn thích nhất về mái tóc là gì? Hiện tại bạn thấy tóc cần bổ sung điều gì nhất?",
+        "Một ngày tóc đẹp với bạn trông như thế nào?",
+        "Quy trình chăm sóc tóc hiện tại của bạn là gì?",
+        "Tình trạng da đầu của bạn hiện tại thế nào?",
+        "Bạn đã từng thử sản phẩm tóc nào của Lush chưa? Bạn thích điều gì ở chúng?"
+      ]
+    },
+    {
+      step: "BƯỚC 2",
+      title: "Khai thác chuyên sâu",
+      subtitle: "Đi sâu vào chi tiết kỹ thuật và lối sống",
+      desc: "Tìm hiểu các yếu tố tác động trực tiếp đến sức khỏe mái tóc để đưa ra nhận định chính xác hơn.",
+      questions: [
+        "Bạn gội đầu bao nhiêu lần/tuần? Vì sao? (do tập gym hay mong muốn cá nhân)",
+        "Tóc bạn thường khô nhanh như thế nào sau khi gội? (Câu hỏi này giúp xác định độ xốp và sức khỏe của sợi tóc)",
+        "Bạn có dùng dụng cụ tạo kiểu bằng nhiệt không? (uốn, duỗi, bấm,..)",
+        "Dạng/ Hình dáng/ Độ xoăn tự nhiên của tóc bạn là gì?"
+      ]
+    },
+    {
+      step: "BƯỚC 3",
+      title: "Phân tích & Tư vấn",
+      subtitle: "LOVE, WANT & NEED",
+      desc: "Nhấn mạnh kỹ năng QUAN SÁT để tìm ra 'NEED'. Khách hàng thường không biết mình thực sự cần gì; người tư vấn phải quan sát tình trạng tóc và da đầu trong lúc trò chuyện/test tóc để tìm ra giải pháp chuyên gia.",
+      concepts: [
+        { label: "LOVE", desc: "Những gì khách hàng hài lòng" },
+        { label: "WANT", desc: "Những gì khách mong muốn đạt được" },
+        { label: "NEED", desc: "Những gì tóc thực sự cần" }
+      ]
+    },
+    {
+      step: "BƯỚC 4",
+      title: "Đề xuất quy trình hoàn hảo",
+      subtitle: "Luôn đề xuất quy trình đầy đủ 4 nhóm sản phẩm",
+      desc: "Việc kết hợp đủ 4 bước giúp các sản phẩm hoạt động hài hòa, thể hiện sự chuyên nghiệp của tư vấn viên và đảm bảo kết quả tốt nhất cho khách hàng.",
+      categories: [
+        { name: "Treatment/Mask", desc: "Đặc trị và nuôi dưỡng sâu cho các vấn đề của tóc" },
+        { name: "Shampoo", desc: "Làm sạch tóc và da đầu dựa trên nhu cầu cụ thể" },
+        { name: "Conditioner", desc: "Cấp ẩm, làm mềm và bảo vệ sợi tóc" },
+        { name: "Dưỡng/Tạo kiểu", desc: "Bảo vệ tóc khỏi tác động môi trường/nhiệt" }
+      ]
+    }
+  ];
+
+  const hairCases = [
+    {
+      title: "CASE 1: Tóc nhờn nhiều không có độ phồng",
+      objective: "cần làm sạch sâu và tăng độ phồng từ bạc hà, enzym trái cây, muối và dưỡng ẩm nhẹ nhàng giúp tóc mềm mượt nhưng không bị nặng tóc",
+      products: {
+        treatment: ["Roots", "Marilyn"],
+        shampoo: ["Wasabi Shan Kui", "Rehab", "Ginger Shampoo", "Big"],
+        conditioner: ["Happy Happy Joy Joy", "Veganese", "American Cream"],
+        styling: ["Super Milk", "Sea Spray"]
+      }
+    },
+    {
+      title: "CASE 2: Tóc tẩy nhuộm/ hóa chất nhiều, khô, dễ đứt gãy, không có độ bóng",
+      objective: "cần phục hồi giúp sợi tóc chắc khỏe và đàn hồi hơn từ lúa mì thủy phân, nước đậu gà, tofu, dầu olive, tăng thêm độ bóng nhờ enzym trái cây và henna",
+      products: {
+        treatment: ["Roots", "H'Suan Wen Hua", "Superbalm"],
+        shampoo: ["Tofu", "Super Milk", "Fairly Traded Honey"],
+        conditioner: ["Valkyrie", "Power", "Retread"],
+        styling: ["Renee's Shea Soufflé", "Infra Wig"]
+      }
+    },
+    {
+      title: "CASE 3: Da đầu khô căng, đi kèm ngứa, mẫn đỏ và bong tróc theo mảng lớn",
+      objective: "cần làm dịu mẫn đỏ và ngứa nhờ cây bách xù, oải hương, hoa hồng, yến mạch, mật ong và cấp ẩm nhẹ nhàng để da đầu và tóc đủ ẩm từ các loại dầu olive, jojoba, bơ quả bơ, hạnh nhân.",
+      products: {
+        treatment: ["Superbalm", "Jasmine and Henna"],
+        shampoo: ["Fairly Traded Honey", "Banana Co-wash", "Soak and Float"],
+        conditioner: ["Glory", "Candy Rain"],
+        styling: ["Super Milk", "Sticky Dates"]
+      }
+    },
+    {
+      title: "CASE 4: Tóc khỏe không gặp vấn đề gì đặc biệt",
+      objective: "cần duy trì sức khỏe da đầu và độ bóng, khỏe của sợi tóc từ các thành phần như hương thảo, bạc hà, quế, enzym trái cây, dầu olive,..",
+      products: {
+        treatment: ["Roots", "Jasmine and Henna"],
+        shampoo: ["Rehab", "Big", "Daddy-O"],
+        conditioner: ["Veganese", "Valkyrie", "Super Milk"],
+        styling: ["Super Milk", "Sticky Dates", "Dirty"]
+      }
+    }
+  ];
 
   const sopSteps = [
     {
@@ -130,6 +226,18 @@ export default function SopConsulting() {
           onClick={() => setActiveSubTab("specs")}
         >
           3. Thời Lượng & Đặt Lịch
+        </button>
+        <button 
+          className={`tab-btn ${activeSubTab === "art" ? "active" : ""}`}
+          onClick={() => setActiveSubTab("art")}
+        >
+          4. Nghệ Thuật Tư Vấn
+        </button>
+        <button 
+          className={`tab-btn ${activeSubTab === "cases" ? "active" : ""}`}
+          onClick={() => setActiveSubTab("cases")}
+        >
+          5. 4 Case Thực Tế
         </button>
       </div>
 
@@ -323,6 +431,323 @@ export default function SopConsulting() {
               </div>
             </div>
 
+          </div>
+        )}
+
+        {/* --- Tab 4: Nghệ Thuật Tư Vấn --- */}
+        {activeSubTab === "art" && (
+          <div className="fade-in grid-split-classifier">
+            {/* Steps Left Stepper */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase" }}>Các Bước Trong Quy Trình:</h3>
+              {artSteps.map((stepData, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setActiveArtStep(idx)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "16px",
+                    padding: "16px",
+                    border: activeArtStep === idx ? "2px solid #000000" : "1px solid #e5e5e5",
+                    background: activeArtStep === idx ? "#000000" : "#ffffff",
+                    color: activeArtStep === idx ? "#ffffff" : "#000000",
+                    cursor: "pointer",
+                    transition: "var(--transition-smooth)"
+                  }}
+                >
+                  <div style={{
+                    width: "28px",
+                    height: "28px",
+                    borderRadius: "50%",
+                    background: activeArtStep === idx ? "#ffffff" : "#000000",
+                    color: activeArtStep === idx ? "#000000" : "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: "bold",
+                    fontSize: "13px"
+                  }}>
+                    {idx + 1}
+                  </div>
+                  <div style={{ fontWeight: "700", textTransform: "uppercase", fontSize: "0.8rem", letterSpacing: "0.5px" }}>
+                    {stepData.step}: {stepData.title.split(" (")[0]}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Step Detail Card */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "16px", minHeight: "380px" }}>
+                <div>
+                  <span className="lush-tag dark">{artSteps[activeArtStep].step}</span>
+                </div>
+                
+                <h3 style={{ fontSize: "1.3rem", marginTop: "4px" }}>{artSteps[activeArtStep].title}</h3>
+                <h4 className="sub-title" style={{ color: "var(--lush-green)", fontSize: "0.8rem", letterSpacing: "1px", fontWeight: "bold" }}>
+                  {artSteps[activeArtStep].subtitle}
+                </h4>
+                
+                <p style={{ fontSize: "0.9rem", color: "#555", lineHeight: "1.5" }}>{artSteps[activeArtStep].desc}</p>
+                
+                <div style={{ borderTop: "1px dashed var(--lush-gray-medium)", paddingTop: "16px", marginTop: "8px" }}>
+                  {/* Step 1 & 2 content: Questions list */}
+                  {(activeArtStep === 0 || activeArtStep === 1) && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      <strong style={{ fontSize: "0.95rem" }}>Các câu hỏi gợi ý:</strong>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                        {artSteps[activeArtStep].questions.map((q, qIdx) => (
+                          <div key={qIdx} style={{ 
+                            padding: "12px 16px", 
+                            background: "var(--lush-gray-light)", 
+                            border: "1px solid var(--lush-gray-medium)",
+                            borderRadius: "4px",
+                            fontSize: "0.85rem",
+                            fontWeight: "500",
+                            lineHeight: "1.4"
+                          }}>
+                            <strong>{qIdx + 1}.</strong> {q}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Step 3 content: LOVE WANT NEED circles */}
+                  {activeArtStep === 2 && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-around", gap: "16px", textAlign: "center", flexWrap: "wrap" }}>
+                        
+                        {/* LOVE */}
+                        <div style={{ 
+                          display: "flex", 
+                          flexDirection: "column", 
+                          alignItems: "center", 
+                          justifyContent: "center",
+                          padding: "16px",
+                          borderRadius: "50%",
+                          width: "120px",
+                          height: "120px",
+                          background: "#e67e22",
+                          color: "#ffffff",
+                          boxShadow: "0 4px 10px rgba(230, 126, 34, 0.3)",
+                          border: "2px solid #000"
+                        }}>
+                          <strong style={{ fontSize: "1.1rem", letterSpacing: "1px" }}>LOVE</strong>
+                          <p style={{ fontSize: "0.75rem", marginTop: "6px", fontWeight: "500" }}>Những gì khách hài lòng</p>
+                        </div>
+
+                        {/* WANT */}
+                        <div style={{ 
+                          display: "flex", 
+                          flexDirection: "column", 
+                          alignItems: "center", 
+                          justifyContent: "center",
+                          padding: "16px",
+                          borderRadius: "50%",
+                          width: "120px",
+                          height: "120px",
+                          background: "#27ae60",
+                          color: "#ffffff",
+                          boxShadow: "0 4px 10px rgba(39, 174, 96, 0.3)",
+                          border: "2px solid #000"
+                        }}>
+                          <strong style={{ fontSize: "1.1rem", letterSpacing: "1px" }}>WANT</strong>
+                          <p style={{ fontSize: "0.75rem", marginTop: "6px", fontWeight: "500" }}>Những gì khách mong muốn</p>
+                        </div>
+
+                        {/* NEED */}
+                        <div style={{ 
+                          display: "flex", 
+                          flexDirection: "column", 
+                          alignItems: "center", 
+                          justifyContent: "center",
+                          padding: "16px",
+                          borderRadius: "50%",
+                          width: "120px",
+                          height: "120px",
+                          background: "#2c3e50",
+                          color: "#ffffff",
+                          boxShadow: "0 4px 10px rgba(44, 62, 80, 0.3)",
+                          border: "2px solid #000"
+                        }}>
+                          <strong style={{ fontSize: "1.1rem", letterSpacing: "1px" }}>NEED</strong>
+                          <p style={{ fontSize: "0.75rem", marginTop: "6px", fontWeight: "500" }}>Những gì tóc thực sự cần</p>
+                        </div>
+
+                      </div>
+
+                      <div style={{ 
+                        background: "var(--lush-gold-light)", 
+                        borderLeft: "4px solid var(--lush-gold)",
+                        padding: "12px 16px",
+                        fontSize: "0.85rem",
+                        color: "#555",
+                        marginTop: "20px"
+                      }}>
+                        <strong>💡 KỸ NĂNG QUAN SÁT ĐỂ TÌM RA "NEED":</strong>
+                        <p style={{ marginTop: "4px", margin: 0, fontStyle: "italic" }}>
+                          Khách hàng thường không biết mình thực sự cần gì; người tư vấn phải quan sát tình trạng tóc và da đầu trong lúc trò chuyện/test tóc để tìm ra giải pháp chuyên gia.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Step 4 content: 4 Product Groups */}
+                  {activeArtStep === 3 && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "16px" }}>
+                        {artSteps[3].categories.map((cat, cIdx) => (
+                          <div key={cIdx} style={{ 
+                            border: "2px solid #000000", 
+                            padding: "16px", 
+                            background: "#ffffff",
+                            boxShadow: "4px 4px 0px #000000",
+                            borderRadius: "4px"
+                          }}>
+                            <h4 style={{ fontSize: "0.95rem", color: "var(--lush-black)", marginBottom: "6px", fontFamily: "var(--font-sans)" }}>
+                              🔸 {cat.name}
+                            </h4>
+                            <p style={{ fontSize: "0.8rem", color: "#666", lineHeight: "1.4", margin: 0 }}>
+                              {cat.desc}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div style={{ 
+                        background: "var(--lush-green-light)", 
+                        borderLeft: "4px solid var(--lush-green)",
+                        padding: "12px 16px",
+                        fontSize: "0.85rem",
+                        color: "#333",
+                        marginTop: "10px"
+                      }}>
+                        <strong>🌿 QUY TẮC ĐỀ XUẤT ROUTINE:</strong>
+                        <p style={{ marginTop: "4px", margin: 0 }}>
+                          Việc kết hợp đủ 4 bước giúp các sản phẩm hoạt động hài hòa, thể hiện sự chuyên nghiệp của tư vấn viên và đảm bảo kết quả tốt nhất cho khách hàng.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* --- Tab 5: 4 Case Tư Vấn Thực Tế --- */}
+        {activeSubTab === "cases" && (
+          <div className="fade-in grid-split-classifier">
+            {/* Case list selector */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase" }}>Chọn Case Tư Vấn:</h3>
+              {hairCases.map((caseItem, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setActiveCase(idx)}
+                  style={{
+                    padding: "16px",
+                    border: activeCase === idx ? "2px solid #000000" : "1px solid #e5e5e5",
+                    background: activeCase === idx ? "#000000" : "#ffffff",
+                    color: activeCase === idx ? "#ffffff" : "#000000",
+                    cursor: "pointer",
+                    transition: "var(--transition-smooth)",
+                    fontSize: "0.85rem",
+                    fontWeight: "800"
+                  }}
+                >
+                  {caseItem.title.split(":")[0]}
+                </div>
+              ))}
+            </div>
+
+            {/* Case Detail card */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              <div className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+                <h3 style={{ fontSize: "1.3rem", color: "var(--lush-black)" }}>
+                  {hairCases[activeCase].title}
+                </h3>
+                
+                {/* Objective */}
+                <div style={{ 
+                  background: "var(--lush-green-light)", 
+                  borderLeft: "4px solid var(--lush-green)",
+                  padding: "16px",
+                  fontSize: "0.85rem",
+                  color: "#333",
+                  lineHeight: "1.5"
+                }}>
+                  <strong style={{ color: "var(--lush-green)", textTransform: "uppercase", fontSize: "0.75rem", display: "block", marginBottom: "4px" }}>
+                    🎯 MỤC ĐÍCH TƯ VẤN:
+                  </strong>
+                  {hairCases[activeCase].objective}
+                </div>
+
+                {/* 4 product groups grid */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "20px", marginTop: "10px" }}>
+                  
+                  {/* Treatment */}
+                  <div style={{ border: "1px solid var(--lush-gray-medium)", padding: "16px", borderRadius: "4px" }}>
+                    <strong style={{ fontSize: "0.8rem", textTransform: "uppercase", color: "#666", display: "block", marginBottom: "10px" }}>
+                      🧴 Treatment/Mask
+                    </strong>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                      {hairCases[activeCase].products.treatment.map((prod, pIdx) => (
+                        <span key={pIdx} className="lush-tag green" style={{ padding: "4px 8px", fontSize: "0.8rem" }}>
+                          {prod}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Shampoo */}
+                  <div style={{ border: "1px solid var(--lush-gray-medium)", padding: "16px", borderRadius: "4px" }}>
+                    <strong style={{ fontSize: "0.8rem", textTransform: "uppercase", color: "#666", display: "block", marginBottom: "10px" }}>
+                      🧼 Shampoo
+                    </strong>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                      {hairCases[activeCase].products.shampoo.map((prod, pIdx) => (
+                        <span key={pIdx} className="lush-tag gold" style={{ padding: "4px 8px", fontSize: "0.8rem", border: "1px solid var(--lush-gold)", background: "var(--lush-gold-light)", color: "#8a6a00" }}>
+                          {prod}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Conditioner */}
+                  <div style={{ border: "1px solid var(--lush-gray-medium)", padding: "16px", borderRadius: "4px" }}>
+                    <strong style={{ fontSize: "0.8rem", textTransform: "uppercase", color: "#666", display: "block", marginBottom: "10px" }}>
+                      🧴 Conditioner
+                    </strong>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                      {hairCases[activeCase].products.conditioner.map((prod, pIdx) => (
+                        <span key={pIdx} className="lush-tag green" style={{ padding: "4px 8px", fontSize: "0.8rem" }}>
+                          {prod}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Styling */}
+                  <div style={{ border: "1px solid var(--lush-gray-medium)", padding: "16px", borderRadius: "4px" }}>
+                    <strong style={{ fontSize: "0.8rem", textTransform: "uppercase", color: "#666", display: "block", marginBottom: "10px" }}>
+                      ✨ Dưỡng / Tạo kiểu
+                    </strong>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                      {hairCases[activeCase].products.styling.map((prod, pIdx) => (
+                        <span key={pIdx} className="lush-tag dark" style={{ padding: "4px 8px", fontSize: "0.8rem" }}>
+                          {prod}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
           </div>
         )}
 
