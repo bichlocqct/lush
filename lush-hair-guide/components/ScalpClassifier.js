@@ -529,7 +529,7 @@ export default function ScalpClassifier() {
               </div>
               <div style={{ marginTop: "8px", paddingTop: "8px", borderTop: "1px solid var(--lush-gray-medium)", fontSize: "0.85rem" }}>
                 <strong style={{ color: "var(--lush-green)", display: "block", marginBottom: "4px" }}>💡 GIẢI PHÁP TỪ LUSH:</strong>
-                Gội mật ong <strong>Fairly Traded Honey</strong> và massage mặt nạ đất sét bạc hà <strong>Roots</strong> hàng tuần để duy trì độ ẩm tự nhiên của da đầu.
+                Gội mật ong <strong>Fairly Traded Honey</strong> và mặt nạ da đầu <strong>Roots</strong> hàng tuần để duy trì độ ẩm tự nhiên của da đầu.
               </div>
             </div>
 
