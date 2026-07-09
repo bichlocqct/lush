@@ -19,6 +19,83 @@ export default function CampaignReport() {
   const [staffName, setStaffName] = useState("");
   const [consentNghiDinh13, setConsentNghiDinh13] = useState(false);
 
+  // Auto-save & editing states
+  const [currentReportId, setCurrentReportId] = useState(null);
+  const [saveStatus, setSaveStatus] = useState("idle"); // "idle", "saving", "saved", "error"
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Auto-save logic
+  useEffect(() => {
+    // Only auto-save if customer name is filled and consent is checked
+    if (!customerName.trim() || !consentNghiDinh13) {
+      setSaveStatus("idle");
+      return;
+    }
+
+    // Determine if we need to generate a new ID
+    let reportId = currentReportId;
+    if (!reportId) {
+      reportId = "rep_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+      setCurrentReportId(reportId);
+    }
+
+    const payload = {
+      id: reportId,
+      customerName,
+      customerPhone,
+      store,
+      date,
+      symptoms,
+      routine,
+      purchased,
+      feedback,
+      staffName,
+      consentNghiDinh13
+    };
+
+    setSaveStatus("saving");
+
+    const delayDebounceFn = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/reports", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          setSaveStatus("saved");
+          // Refresh list quietly to reflect updates
+          const fetchRes = await fetch("/api/reports");
+          if (fetchRes.ok) {
+            const apiReports = await fetchRes.json();
+            apiReports.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+            setReports(apiReports);
+            localStorage.setItem("lush_campaign_reports", JSON.stringify(apiReports));
+          }
+        } else {
+          throw new Error("API error");
+        }
+      } catch (err) {
+        console.error("Auto-save failed:", err);
+        setSaveStatus("error");
+      }
+    }, 1000); // Debounce for 1 second
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [
+    customerName,
+    customerPhone,
+    store,
+    date,
+    symptoms,
+    routine,
+    purchased,
+    feedback,
+    staffName,
+    consentNghiDinh13
+  ]);
+
   const storesList = [
     "Lush Saigon Center",
     "Lush Vincom Đồng Khởi",
@@ -141,7 +218,9 @@ export default function CampaignReport() {
     }
 
     setSubmitting(true);
+    const reportId = currentReportId || "rep_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
     const newReport = {
+      id: reportId,
       customerName,
       customerPhone,
       store,
@@ -170,10 +249,13 @@ export default function CampaignReport() {
         setPurchased(true);
         setFeedback("");
         setConsentNghiDinh13(false);
+        setCurrentReportId(null);
+        setIsEditing(false);
+        setSaveStatus("idle");
         
         // Reload list from server, which will also update cache
         await fetchReports();
-        alert("Lưu phiếu thông tin khách hàng thành công!");
+        alert(isEditing ? "Cập nhật phiếu khách hàng thành công!" : "Lưu phiếu thông tin khách hàng thành công!");
       } else {
         throw new Error("Failed to save report to server");
       }
@@ -181,7 +263,7 @@ export default function CampaignReport() {
       console.error("Error saving report, using local fallback:", err);
       // Save locally with isOffline: true
       const offlineReport = {
-        id: "offline_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+        id: reportId,
         createdAt: new Date().toISOString(),
         isOffline: true,
         ...newReport
@@ -189,7 +271,14 @@ export default function CampaignReport() {
       
       const localReportsStr = localStorage.getItem("lush_campaign_reports");
       const localReports = localReportsStr ? JSON.parse(localReportsStr) : [];
-      localReports.push(offlineReport);
+      
+      const existingIdx = localReports.findIndex(r => r.id === reportId);
+      if (existingIdx >= 0) {
+        localReports[existingIdx] = offlineReport;
+      } else {
+        localReports.push(offlineReport);
+      }
+      
       localStorage.setItem("lush_campaign_reports", JSON.stringify(localReports));
 
       setCustomerName("");
@@ -199,11 +288,36 @@ export default function CampaignReport() {
       setPurchased(true);
       setFeedback("");
       setConsentNghiDinh13(false);
+      setCurrentReportId(null);
+      setIsEditing(false);
+      setSaveStatus("idle");
       
       await fetchReports();
       alert("Lưu phiếu thành công! (Lưu cục bộ trên trình duyệt do lỗi mạng)");
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleStartEdit = (report) => {
+    setCurrentReportId(report.id);
+    setCustomerName(report.customerName || "");
+    setCustomerPhone(report.customerPhone || "");
+    setStore(report.store || "Lush Saigon Center");
+    setDate(report.date || new Date().toISOString().split("T")[0]);
+    setSymptoms(report.symptoms || []);
+    setRoutine(report.routine || "");
+    setPurchased(report.purchased === true || report.purchased === "true" || report.purchased === "yes");
+    setFeedback(report.feedback || "");
+    setStaffName(report.staffName || "");
+    setConsentNghiDinh13(report.consentNghiDinh13 || false);
+    setIsEditing(true);
+    setSaveStatus("saved");
+    
+    // Scroll to form smoothly
+    const formElement = document.querySelector("form");
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -298,9 +412,30 @@ export default function CampaignReport() {
         
         {/* Left Column: Input Form */}
         <form onSubmit={handleSubmit} className="lush-card" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase", borderBottom: "2px solid #000", paddingBottom: "8px" }}>
-            📝 Tạo Phiếu Khách Hàng Mới
-          </h3>
+          <div style={{ borderBottom: "2px solid #000", paddingBottom: "8px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ fontSize: "1.1rem", textTransform: "uppercase", margin: 0 }}>
+              {isEditing ? "✏️ Chỉnh Sửa Phiếu" : "📝 Tạo Phiếu Mới"}
+            </h3>
+            
+            {/* Auto-save Status Indicator */}
+            {customerName.trim() && consentNghiDinh13 && (
+              <span style={{ 
+                fontSize: "0.75rem", 
+                fontWeight: "700",
+                padding: "2px 8px", 
+                borderRadius: "2px",
+                background: saveStatus === "saving" ? "#fff3e0" : saveStatus === "saved" ? "#e8f5e9" : saveStatus === "error" ? "#ffebee" : "#f5f5f5",
+                color: saveStatus === "saving" ? "#e65100" : saveStatus === "saved" ? "var(--lush-green)" : saveStatus === "error" ? "#c62828" : "#666",
+                border: "1px solid",
+                borderColor: saveStatus === "saving" ? "#ffe0b2" : saveStatus === "saved" ? "var(--lush-green)" : saveStatus === "error" ? "#ffcdd2" : "#ccc",
+              }}>
+                {saveStatus === "saving" && "⏳ Đang lưu..."}
+                {saveStatus === "saved" && "✅ Đã lưu Supabase"}
+                {saveStatus === "error" && "⚠️ Lỗi lưu, thử lại..."}
+                {saveStatus === "idle" && "⏳ Đang chờ..."}
+              </span>
+            )}
+          </div>
 
           {/* Customer Name & Phone */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
@@ -465,14 +600,37 @@ export default function CampaignReport() {
             </label>
           </div>
 
-          <button 
-            type="submit" 
-            className="lush-btn" 
-            disabled={submitting} 
-            style={{ width: "100%", marginTop: "4px" }}
-          >
-            {submitting ? "Đang lưu thông tin..." : "Lưu Phiếu Khách Hàng"}
-          </button>
+          <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
+            <button 
+              type="submit" 
+              className="lush-btn" 
+              disabled={submitting} 
+              style={{ flex: 1 }}
+            >
+              {submitting ? "Đang lưu..." : isEditing ? "Hoàn Thành Chỉnh Sửa" : "Lưu Phiếu Khách Hàng"}
+            </button>
+            {isEditing && (
+              <button 
+                type="button" 
+                className="lush-btn" 
+                style={{ background: "#666", borderColor: "#666" }}
+                onClick={() => {
+                  setCustomerName("");
+                  setCustomerPhone("");
+                  setSymptoms([]);
+                  setRoutine("");
+                  setPurchased(true);
+                  setFeedback("");
+                  setConsentNghiDinh13(false);
+                  setCurrentReportId(null);
+                  setIsEditing(false);
+                  setSaveStatus("idle");
+                }}
+              >
+                Hủy / Tạo Mới
+              </button>
+            )}
+          </div>
           
           <span style={{ fontSize: "0.75rem", color: "#666", textAlign: "center", display: "block", marginTop: "6px", fontStyle: "italic", lineHeight: "1.3" }}>
             ⚠️ Tuyên bố miễn trừ trách nhiệm (Disclaimer): Hoạt động này là tư vấn mỹ phẩm chăm sóc da đầu & tóc, không có giá trị thay thế khám bệnh hoặc chẩn đoán y tế.
@@ -513,9 +671,35 @@ export default function CampaignReport() {
                         👤 {report.customerName || report.staffName || "Khách hàng ẩn danh"}
                       </h4>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <span style={{ fontSize: "0.8rem", color: "#666", fontWeight: "700" }}>{report.date}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{ fontSize: "0.8rem", color: "#666", fontWeight: "700", marginRight: "4px" }}>{report.date}</span>
+                      
+                      {/* Edit Button */}
                       <button 
+                        type="button"
+                        onClick={() => handleStartEdit(report)}
+                        title="Chỉnh sửa phiếu thông tin"
+                        style={{
+                          background: "none",
+                          border: "none",
+                          cursor: "pointer",
+                          fontSize: "1rem",
+                          padding: "2px 4px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          opacity: 0.6,
+                          transition: "opacity 0.2s"
+                        }}
+                        onMouseEnter={(e) => e.target.style.opacity = 1}
+                        onMouseLeave={(e) => e.target.style.opacity = 0.6}
+                      >
+                        ✏️
+                      </button>
+
+                      {/* Delete Button */}
+                      <button 
+                        type="button"
                         onClick={() => handleDelete(report.id)}
                         title="Xóa phiếu thông tin"
                         style={{
@@ -756,6 +940,24 @@ export default function CampaignReport() {
                           </span>
                           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <span style={{ fontSize: "0.8rem", color: "#666" }}>{report.date}</span>
+                            
+                            {/* Edit Button inside Store Details */}
+                            <button 
+                              type="button"
+                              onClick={() => handleStartEdit(report)}
+                              title="Chỉnh sửa phiếu thông tin"
+                              style={{
+                                background: "none",
+                                border: "none",
+                                cursor: "pointer",
+                                fontSize: "0.85rem",
+                                display: "inline-flex",
+                                alignItems: "center"
+                              }}
+                            >
+                              ✏️
+                            </button>
+
                             <span 
                               className={`lush-tag ${report.purchased === true || report.purchased === "true" || report.purchased === "yes" ? "green" : "dark"}`}
                               style={{ fontSize: "0.65rem", padding: "2px 6px", fontWeight: "700" }}

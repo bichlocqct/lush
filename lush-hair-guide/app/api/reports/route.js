@@ -107,14 +107,17 @@ export async function POST(request) {
     const body = await request.json();
     
     // Simple validation
-    const { customerName, customerPhone, store, date, symptoms, routine, purchased, feedback, staffName, consentNghiDinh13 } = body;
+    const { id, customerName, customerPhone, store, date, symptoms, routine, purchased, feedback, staffName, consentNghiDinh13 } = body;
     if (!customerName || !store || !date) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    const reportId = id || Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+    const createdAt = body.createdAt || new Date().toISOString();
+
     const newReport = {
-      id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
-      createdAt: new Date().toISOString(),
+      id: reportId,
+      createdAt,
       customerName,
       customerPhone: customerPhone || '',
       store,
@@ -133,6 +136,17 @@ export async function POST(request) {
         INSERT INTO public.reports (
           id, created_at, customer_name, customer_phone, store, date, symptoms, routine, purchased, feedback, staff_name, consent_nghi_dinh_13
         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+        ON CONFLICT (id) DO UPDATE SET
+          customer_name = EXCLUDED.customer_name,
+          customer_phone = EXCLUDED.customer_phone,
+          store = EXCLUDED.store,
+          date = EXCLUDED.date,
+          symptoms = EXCLUDED.symptoms,
+          routine = EXCLUDED.routine,
+          purchased = EXCLUDED.purchased,
+          feedback = EXCLUDED.feedback,
+          staff_name = EXCLUDED.staff_name,
+          consent_nghi_dinh_13 = EXCLUDED.consent_nghi_dinh_13
         RETURNING *
       `;
       const values = [
@@ -156,7 +170,7 @@ export async function POST(request) {
       const dbPayload = mapToSnake(newReport);
       const { data, error } = await supabase
         .from('reports')
-        .insert([dbPayload])
+        .upsert([dbPayload])
         .select()
         .single();
 
@@ -168,7 +182,13 @@ export async function POST(request) {
       ensureDatabase();
       const fileContent = fs.readFileSync(dataFilePath, 'utf8');
       const reports = JSON.parse(fileContent);
-      reports.push(newReport);
+      
+      const existingIdx = reports.findIndex(r => r.id === reportId);
+      if (existingIdx >= 0) {
+        reports[existingIdx] = newReport;
+      } else {
+        reports.push(newReport);
+      }
       
       fs.writeFileSync(dataFilePath, JSON.stringify(reports, null, 2));
       
