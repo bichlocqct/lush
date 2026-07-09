@@ -10,16 +10,16 @@ export default function ProductCatalog() {
     {
       condition: "Da Đầu Dầu & Bết Dính",
       icon: "💧",
-      routine: "Roots (Ủ da đầu) → Rehab / Big / Wasabi Shan Kui (Dầu gội) → Veganese (Dầu xả mỏng nhẹ)",
-      usage: "1. Thoa Roots lên da đầu khô vùng đỉnh trước gội 15 phút, massage nhẹ.\n2. Gội sạch toàn bộ da đầu bằng Rehab, Big hoặc dầu gội kiềm dầu kích thích mọc tóc Wasabi Shan Kui.\n3. Dùng Veganese xả nhẹ ngọn tóc, tránh tuyệt đối thoa sát da đầu dầu.",
+      routine: "Roots / Marilyn (Ủ tóc) → Rehab / Big / Wasabi / Seanik / New / Ginger (Dầu gội) → Veganese / Happy Happy / American Cream (Dầu xả)",
+      usage: "1. Thoa Roots lên da đầu khô hoặc Marilyn lên tóc trước khi gội 15-20 phút.\n2. Gội sạch bằng các dòng kiềm dầu/tạo phồng như Rehab, Big, Wasabi Shan Kui, Ginger hoặc bánh gội Seanik, New.\n3. Thoa dầu xả Veganese, Happy Happy Joy Joy hoặc American Cream vào ngọn tóc và xả sạch.",
       allergyWarning: "Roots chứa lượng bạc hà đậm đặc tạo cảm giác mát lạnh mạnh. Hạn chế dùng khi da đầu đang trầy xước.",
       patchTest: "Thoa một lớp mỏng Roots sau tai khách trong 10 phút để kiểm tra độ kích ứng do bạc hà mát lạnh."
     },
     {
       condition: "Da Đầu Khô & Thiếu Ẩm",
       icon: "🍂",
-      routine: "SuperBalm (Sáp dưỡng) → Fairly Traded Honey (Dầu gội) → Candy Rain (Dầu xả phục hồi)",
-      usage: "1. Chấm sáp SuperBalm lên các điểm da đầu khô ráp 20 phút trước gội.\n2. Tạo bọt thật kỹ với dầu gội Fairly Traded Honey (chứa 50% mật ong), tránh gội nước quá nóng.\n3. Thoa dầu xả Candy Rain ở thân & đuôi tóc, ủ 3 phút rồi xả sạch.",
+      routine: "SuperBalm / Jasmine and Henna (Dưỡng/Ủ) → Fairly Traded Honey / Banana Co-wash / Coconut Rice Cake / Super Milk Shampoo / Soak and Float (Dầu gội) → Candy Rain / Glory (Dầu xả)",
+      usage: "1. Chấm sáp SuperBalm lên các điểm khô ráp hoặc ủ Jasmine and Henna 20 phút trước gội.\n2. Tạo bọt thật kỹ với các dầu gội ẩm như Fairly Traded Honey, Banana Co-wash, Coconut Rice Cake, Super Milk hoặc Soak & Float.\n3. Thoa dầu xả Candy Rain hoặc Glory lên thân & đuôi tóc, xả sạch sau 3-5 phút.",
       allergyWarning: "Candy Rain cực kỳ đậm đặc dưỡng chất béo, nếu thoa quá nhiều sát chân tóc có thể gây nặng đầu đối với tóc mỏng.",
       patchTest: "Thấm dầu xả Candy Rain pha loãng lên cổ tay khách trong 15 phút trước khi sử dụng."
     },
@@ -50,16 +50,16 @@ export default function ProductCatalog() {
     {
       condition: "Da Đầu Thường / Cân Bằng",
       icon: "🌿",
-      routine: "Roots (Nuôi dưỡng) → Fairly Traded Honey (Dầu gội) → American Cream (Dầu xả lưu hương)",
-      usage: "1. Ủ Roots 15 phút mỗi tuần để thanh lọc da đầu.\n2. Gội sạch bằng Fairly Traded Honey dưỡng ẩm tự nhiên.\n3. Dùng dầu xả American Cream bôi thân tóc giữ nếp mượt mà thơm hương vani ngọt ngào.",
+      routine: "Roots / Jasmine and Henna (Ủ tóc) → Rehab / Big / Daddy-O / New Shampoo Bar (Dầu gội) → Veganese / Valkyrie / Super Milk / American Cream (Dầu xả)",
+      usage: "1. Ủ Roots hoặc Jasmine and Henna 15 phút trước gội để củng cố sức khỏe chân tóc.\n2. Gội sạch bằng Rehab, Big, Daddy-O hoặc bánh gội New.\n3. Xả mượt bằng Veganese, Valkyrie, Super Milk hoặc American Cream.",
       allergyWarning: "Hầu như không có cảnh báo đặc biệt, sản phẩm rất dịu nhẹ lành tính.",
       patchTest: "Không bắt buộc patch test, trừ phi khách có tiền sử dị ứng với phấn hoa/mật ong nguyên chất."
     },
     {
       condition: "Chất Tóc Khô & Hư Tổn Nặng",
       icon: "🌾",
-      routine: "Tofu / Combo Super Milk (Dầu gội) → Power / Valkyrie (Dầu xả đạm) → Super Milk (Xịt dưỡng)",
-      usage: "1. Gội bằng kem gội Tofu để bổ sung đạm phục hồi hoặc combo Dầu gội & Dầu xả Super Milk để cấp ẩm làm mềm sâu.\n2. Thoa dầu xả Power hoặc Valkyrie từ thân đến ngọn tóc, vuốt nhẹ gỡ rối, ủ 3-5 phút rồi xả sạch.\n3. Xịt sữa dưỡng Super Milk khi tóc còn ẩm rồi sấy mát để bảo vệ biểu bì tóc.",
+      routine: "Tofu / Super Milk Shampoo / Fairly Traded Honey / Jason & Argan / Honey I Washed / Coconut Rice (Dầu gội) → Power / Valkyrie / Retread (Dầu xả) → Super Milk (Xịt dưỡng)",
+      usage: "1. Gội bằng kem gội Tofu, Super Milk Shampoo, Fairly Traded Honey hoặc các bánh gội dưỡng như Jason And The Argan Oil, Honey I Washed My Hair, Coconut Rice Cake.\n2. Thoa dầu xả Power, Valkyrie hoặc Retread từ thân đến ngọn tóc, vuốt nhẹ gỡ rối, ủ 3-5 phút rồi xả sạch.\n3. Xịt sữa dưỡng Super Milk khi tóc còn ẩm rồi sấy mát để bảo vệ biểu bì tóc.",
       allergyWarning: "Tofu và Valkyrie chứa lượng protein hữu cơ dồi dào, cần lưu ý đối với khách hàng nhạy cảm với các thành phần từ đậu nành/lúa mì.",
       patchTest: "Thoa một lớp mỏng Tofu hoặc Valkyrie sau tai khách trong 10 phút trước khi sử dụng."
     }
@@ -335,6 +335,42 @@ export default function ProductCatalog() {
       desc: "Kem sáp tạo kiểu giữ nếp trung bình giúp tạo hình tóc tự nhiên, giữ độ ẩm cho tóc mà không bết dính.",
       tip: "Dành cho mọi loại tóc cần tạo kiểu giữ nếp nhẹ và tự nhiên.",
       usage: "Xoa một ít sáp vào lòng bàn tay rồi vuốt tạo kiểu trên tóc."
+    },
+    {
+      name: "Seanik",
+      category: "shampoo",
+      type: "Dầu Gội Bánh (Shampoo Bar)",
+      ingredients: "Rong biển Nori + muối biển + tinh dầu chanh + tinh dầu hoa nhài",
+      desc: "Dầu gội bánh chứa rong biển và muối biển giúp làm sạch sâu, kiềm dầu hiệu quả, tạo độ phồng tối đa cho chân tóc và làm bóng mượt sợi tóc.",
+      tip: "Dành cho da đầu dầu, tóc xẹp lép thiếu độ phồng.",
+      usage: "Lướt bánh gội ẩm lên tóc ướt vài lần để tạo bọt, massage nhẹ nhàng da đầu rồi xả sạch."
+    },
+    {
+      name: "Jason And The Argan Oil",
+      category: "shampoo",
+      type: "Dầu Gội Bánh (Shampoo Bar)",
+      ingredients: "Dầu argan + tinh dầu hoa hồng tinh khiết + glycerin",
+      desc: "Bánh gội dưỡng ẩm và phục hồi chuyên sâu chứa dầu argan và tinh chất hoa hồng, giúp tái tạo sợi tóc hư tổn, tăng cường độ bóng khỏe và đàn hồi.",
+      tip: "Dành cho tóc tẩy nhuộm, tóc khô xơ hư tổn cần phục hồi độ bóng mượt.",
+      usage: "Xoa bánh gội ẩm lên tóc để tạo bọt, massage nhẹ nhàng da đầu và thân tóc, xả sạch."
+    },
+    {
+      name: "Honey I Washed My Hair",
+      category: "shampoo",
+      type: "Dầu Gội Bánh (Shampoo Bar)",
+      ingredients: "Mật ong Fair Trade + tinh dầu cam ngọt + tinh dầu cam bergamot",
+      desc: "Bánh gội dưỡng ẩm ngọt ngào chứa mật ong nguyên chất giúp làm mềm mượt tóc, dưỡng da đầu ẩm mịn và lưu lại hương thơm mật ong caramen ấm áp.",
+      tip: "Dành cho mọi loại tóc, đặc biệt là tóc khô xơ cần bổ sung độ ẩm nhẹ nhàng.",
+      usage: "Lướt bánh gội ẩm lên tóc vài lần, tạo bọt mịn và massage da đầu, sau đó xả sạch."
+    },
+    {
+      name: "Coconut Rice Cake",
+      category: "shampoo",
+      type: "Dầu Gội Bánh (Shampoo Bar)",
+      ingredients: "Nước cốt dừa + kem dừa + gạo trắng + lecithin đậu nành",
+      desc: "Bánh gội siêu dưỡng ẩm và phục hồi chứa cốt dừa và gạo, giúp làm dịu da đầu khô ngứa, phục hồi các sợi tóc khô xơ hư tổn do hóa chất.",
+      tip: "Dành cho da đầu khô căng, tóc hư tổn và tóc tẩy nhuộm cần cấp ẩm sâu.",
+      usage: "Tạo bọt bánh gội ẩm trực tiếp trên tay hoặc tóc, massage nhẹ nhàng da đầu rồi xả sạch."
     }
   ];
 

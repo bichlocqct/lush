@@ -64,7 +64,7 @@ export default function SopConsulting() {
       objective: "cần làm sạch sâu và tăng độ phồng từ bạc hà, enzym trái cây, muối và dưỡng ẩm nhẹ nhàng giúp tóc mềm mượt nhưng không bị nặng tóc",
       products: {
         treatment: ["Roots", "Marilyn"],
-        shampoo: ["Wasabi Shan Kui", "Rehab", "Ginger Shampoo", "Big"],
+        shampoo: ["Wasabi Shan Kui", "Rehab", "New Shampoo Bar", "Seanik", "Ginger Shampoo", "Big"],
         conditioner: ["Happy Happy Joy Joy", "Veganese", "American Cream"],
         styling: ["Super Milk", "Sea Spray"]
       }
@@ -74,7 +74,7 @@ export default function SopConsulting() {
       objective: "cần phục hồi giúp sợi tóc chắc khỏe và đàn hồi hơn từ lúa mì thủy phân, nước đậu gà, tofu, dầu olive, tăng thêm độ bóng nhờ enzym trái cây và henna",
       products: {
         treatment: ["Roots", "H'Suan Wen Hua", "Superbalm"],
-        shampoo: ["Tofu", "Super Milk", "Fairly Traded Honey"],
+        shampoo: ["Jason And The Argan Oil", "Honey I Washed My Hair", "Coconut Rice Cake", "Tofu", "Super Milk Shampoo", "Fairly Traded Honey"],
         conditioner: ["Valkyrie", "Power", "Retread"],
         styling: ["Renee's Shea Soufflé", "Infra Wig"]
       }
@@ -84,7 +84,7 @@ export default function SopConsulting() {
       objective: "cần làm dịu mẫn đỏ và ngứa nhờ cây bách xù, oải hương, hoa hồng, yến mạch, mật ong và cấp ẩm nhẹ nhàng để da đầu và tóc đủ ẩm từ các loại dầu olive, jojoba, bơ quả bơ, hạnh nhân.",
       products: {
         treatment: ["Superbalm", "Jasmine and Henna"],
-        shampoo: ["Fairly Traded Honey", "Banana Co-wash", "Soak and Float"],
+        shampoo: ["Fairly Traded Honey", "Super Milk Shampoo", "Banana Co-wash", "Soak and Float", "Coconut Rice Cake"],
         conditioner: ["Glory", "Candy Rain"],
         styling: ["Super Milk", "Sticky Dates"]
       }
@@ -94,7 +94,7 @@ export default function SopConsulting() {
       objective: "cần duy trì sức khỏe da đầu và độ bóng, khỏe của sợi tóc từ các thành phần như hương thảo, bạc hà, quế, enzym trái cây, dầu olive,..",
       products: {
         treatment: ["Roots", "Jasmine and Henna"],
-        shampoo: ["Rehab", "Big", "Daddy-O"],
+        shampoo: ["Rehab", "Big", "Daddy-O", "New Shampoo Bar"],
         conditioner: ["Veganese", "Valkyrie", "Super Milk"],
         styling: ["Super Milk", "Sticky Dates", "Dirty"]
       }

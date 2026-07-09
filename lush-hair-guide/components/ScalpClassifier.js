@@ -144,8 +144,8 @@ export default function ScalpClassifier() {
           },
           {
             step: "Bước 2: Shampoo",
-            name: "Rehab / Big / Wasabi Shan Kui",
-            desc: "Dầu gội Rehab hoặc Big giúp làm sạch sâu kiềm dầu, tẩy tế bào chết chân tóc. Hoặc dùng Wasabi Shan Kui (best-seller kiềm dầu & kích thích mọc tóc cực tốt).",
+            name: "Rehab / Big / Wasabi Shan Kui / Seanik / Ginger / New",
+            desc: "Dầu gội Rehab, Big, Wasabi Shan Kui, Ginger hoặc các bánh gội Seanik, New giúp làm sạch bã nhờn, kiềm dầu và tạo độ phồng bồng bềnh chân tóc.",
             usage: "Lấy một lượng vừa đủ, gội kỹ phần chân tóc để làm sạch dầu bã nhờn, massage da đầu nhẹ nhàng."
           },
           {
@@ -198,8 +198,8 @@ export default function ScalpClassifier() {
           },
           {
             step: "Bước 2: Shampoo",
-            name: "Fairly Traded Honey",
-            desc: "Dầu gội dưỡng ẩm cực đỉnh của LUSH, giữ độ ẩm tự nhiên không bị rửa trôi.",
+            name: "Fairly Traded Honey / Banana Co-wash / Coconut Rice Cake / Super Milk Shampoo",
+            desc: "Các dòng dầu gội/kem gội dưỡng ẩm sâu như Fairly Traded Honey mật ong, Banana Co-wash chuối tươi, Coconut Rice Cake cốt dừa hoặc Super Milk Shampoo.",
             usage: "Massage nhẹ chân tóc, tránh dùng nước quá nóng khi gội đầu làm mất thêm dầu tự nhiên."
           },
           {
@@ -246,8 +246,8 @@ export default function ScalpClassifier() {
         routine: [
           {
             step: "Bước 1: Lựa chọn Dầu gội",
-            name: "Tofu hoặc Combo Gội & Xả Super Milk",
-            desc: "Dầu gội kem chứa 20% đậu hũ non giàu protein thực vật để tái thiết cấu trúc hoặc sử dụng combo Gội & Xả Super Milk giúp cấp ẩm làm mềm sâu.",
+            name: "Tofu / Super Milk Shampoo / Jason & Argan / Honey I Washed My Hair / Coconut Rice Cake",
+            desc: "Kem gội đạm phục hồi cấu trúc Tofu, dầu gội ẩm mượt Super Milk Shampoo hoặc các bánh gội dưỡng sâu như Jason And The Argan Oil, Honey I Washed My Hair, Coconut Rice Cake.",
             usage: "Gội nhẹ nhàng chân và thân tóc với lượng nhỏ bọt, làm sạch nhẹ nhàng không làm khô tóc."
           },
           {
